@@ -19,26 +19,27 @@
   <meta name="author" content="GaewdFyy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Android设备的刷机&amp;救砖前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作首先打开 设置 - 我的设备 - 全部参数连续点击7次“ MIUI版本 ”">
+    <meta name="description" content="目录 Android设备的刷机&amp;救砖 前言 准备工作    Android设备的刷机&amp;救砖前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作首先打开">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android设备的刷机&amp;救砖">
+<meta property="og:title" content="Android设备的刷机和救砖">
 <meta property="og:url" content="https://gaewdfyy.github.io/2025/02/22/shuaji/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android设备的刷机&amp;救砖前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作首先打开 设置 - 我的设备 - 全部参数连续点击7次“ MIUI版本 ”">
+<meta property="og:description" content="目录 Android设备的刷机&amp;救砖 前言 准备工作    Android设备的刷机&amp;救砖前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作首先打开">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gaewdfyy.github.io/img/zhuangtai.jpg">
-<meta property="og:image" content="https://gaewdfyy.github.io/img/xiazai.jpg">
+<meta property="og:image" content="https://upload.cc/i1/2025/03/09/CNgDkO.jpg">
+<meta property="og:image" content="https://upload.cc/i1/2025/03/09/0ReQ8P.jpg">
 <meta property="article:published_time" content="2025-02-21T19:52:02.000Z">
-<meta property="article:modified_time" content="2025-03-08T18:27:55.121Z">
+<meta property="article:modified_time" content="2025-03-09T02:50:41.978Z">
 <meta property="article:author" content="GaewdFyy">
+<meta property="article:tag" content="玩机">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gaewdfyy.github.io/img/zhuangtai.jpg">
+<meta name="twitter:image" content="https://upload.cc/i1/2025/03/09/CNgDkO.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Android设备的刷机&amp;救砖 - Hexo</title>
+  <title>Android设备的刷机和救砖 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -76,7 +77,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"gaewdfyy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"•","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"gaewdfyy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -104,7 +105,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>GaewdFyy&#39;Blog</strong>
+      <strong>GaewdFyy的小破站</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -183,8 +184,20 @@
           
             <li class="nav-item">
               <a class="nav-link" href="/message/" target="_self">
-                <i class="iconfont icon-pen"></i>
+                <i class="iconfont icon-speakernotes"></i>
                 <span>留言板</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/update/" target="_self">
+                <i class="iconfont icon-pen"></i>
+                <span>更新日志</span>
               </a>
             </li>
           
@@ -218,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Android设备的刷机&amp;救砖"></span>
+            <span id="subtitle" data-typed-text="Android设备的刷机和救砖"></span>
           
         </div>
 
@@ -241,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          286 字
+          303 字
         
       </span>
     
@@ -298,12 +311,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Android设备的刷机&amp;救砖</h1>
+            <h1 id="seo-header">Android设备的刷机和救砖</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2025-03-09T02:27:55+08:00
+                    本文最后更新于 2025-03-09T10:50:41+08:00
                   
                   
 
@@ -313,10 +326,17 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Android设备的刷机-救砖"><a href="#Android设备的刷机-救砖" class="headerlink" title="Android设备的刷机&amp;救砖"></a>Android设备的刷机&amp;救砖</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次“ <strong>MIUI版本</strong> ” 开启开发者模式</p>
+                <h1><span id="目录">目录</span></h1><ul>
+<li><a href="#android%E8%AE%BE%E5%A4%87%E7%9A%84%E5%88%B7%E6%9C%BA-%E6%95%91%E7%A0%96">Android设备的刷机&amp;救砖</a><ul>
+<li><a href="#%E5%89%8D%E8%A8%80-1">前言</a></li>
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C-1">准备工作</a></li>
+</ul>
+</li>
+</ul>
+<h1><span id="android设备的刷机amp救砖">Android设备的刷机&amp;救砖</span></h1><h2><span id="前言">前言</span></h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示</p>
+<h2><span id="准备工作">准备工作</span></h2><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次“ <strong>MIUI版本</strong> ” 开启开发者模式</p>
 <p>然后回到<strong>设置</strong>，点击 <strong>更多设置</strong> - <strong>开发者选项</strong><br>打开“ <strong>OEM解锁</strong> ”<br>然后点击“ <strong>设备解锁状态</strong> ” 点击下方“ <strong>绑定账号和设备</strong> ” </p>
-<p><img src="/img/zhuangtai.jpg" srcset="/img/loading.gif" lazyload alt="设备解锁状态"></p>
+<p><img src="https://upload.cc/i1/2025/03/09/CNgDkO.jpg" srcset="/img/loading.gif" lazyload alt="设备解锁状态"></p>
 <div class="note note-warning">
             <p>需要插入SIM卡并且开启移动数据</p>
           </div>
@@ -324,7 +344,7 @@
 <p>然后等待<strong>168个小时</strong>（7天）</p>
 <p>因为要借助到电脑刷机，所以电脑端也需要配置环境啦<br>我们要使用<a target="_blank" rel="noopener" href="https://developer.android.com/tools/adb?hl=zh-cn">Android调试桥</a><br>（简称ADB）来实现安卓与计算机之间的通信</p>
 <p>点击<a target="_blank" rel="noopener" href="https://developer.android.com/tools/releases/platform-tools?hl=zh-cn">这里</a> 来跳转至下载页面</p>
-<p><img src="/img/xiazai.jpg" srcset="/img/loading.gif" lazyload alt="选择合适的版本"></p>
+<p><img src="https://upload.cc/i1/2025/03/09/0ReQ8P.jpg" srcset="/img/loading.gif" lazyload alt="选择合适的版本"></p>
 <p><strong>注意：请选择适合您的操作系统的文件</strong></p>
 <p><em>如果存在页面无法加载&#x2F;下载速度慢的情况，可以到文章附件查看</em></p>
 <p><em>待更新</em></p>
@@ -337,6 +357,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%8E%A9%E6%9C%BA/" class="print-no-link">#玩机</a>
+      
+    </div>
+  
 </div>
 
 
@@ -345,7 +372,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Android设备的刷机&amp;救砖</div>
+      <div>Android设备的刷机和救砖</div>
       <div>https://gaewdfyy.github.io/2025/02/22/shuaji/</div>
     </div>
     <div class="license-meta">
@@ -390,9 +417,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/03/01/hello-world/" title="Hello World">
+                      <a href="/2025/03/01/m3u8/" title="流媒体测试">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hello World</span>
+                        <span class="hidden-mobile">流媒体测试</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -537,7 +564,9 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+      
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>仅显示文字</title> <style> .text { margin: 20px; /* 设置外边距 */ padding: 10px; /* 设置内边距 */ font-size: 14px; /* 设置字体大小 */ color: #fcba03; /* 设置字体颜色 */ } </style> </head> <body> <div class="text">您能在茫茫万维网中发现本Blog，这是我的荣幸！可以的话，请留下一个脚印再走吧！</div> </body> </html>
+<a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
   
   

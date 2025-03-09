@@ -4,39 +4,59 @@
   
   
   <entry>
+    <title>Hello World</title>
+    <link href="/2025/03/09/hello-world/"/>
+    <url>/2025/03/09/hello-world/</url>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3><span id="run-server">Run server</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3><span id="generate-static-files">Generate static files</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>流媒体测试</title>
     <link href="/2025/03/01/m3u8/"/>
     <url>/2025/03/01/m3u8/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1 id="只是作为测试"><a href="#只是作为测试" class="headerlink" title="只是作为测试"></a>只是作为测试</h1><h3 id="播放器1"><a href="#播放器1" class="headerlink" title="播放器1"></a>播放器1</h3><div>  <video-js id="videojs-id-7d7ed9db-b735-49d2-a163-bb76d113ca84"     class="vjs-default-skin vjs-16-9"     controls     preload="auto"     width="100%"     height="350px">    <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application&#x2F;x-mpegURL">  </video-js>      <script>    const videojsid7d7ed9dbb73549d2a163bb76d113ca84 = videojs('videojs-id-7d7ed9db-b735-49d2-a163-bb76d113ca84', {      html5: {        hls: {          overrideNative: true        }      }    });  </script>  </div> <h3 id="播放器2"><a href="#播放器2" class="headerlink" title="播放器2"></a>播放器2</h3><video id="video-id" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">    <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application/vnd.apple.mpegurl">    您的浏览器不支持 HTML5 视频播放器。</video><h3 id="播放器3"><a href="#播放器3" class="headerlink" title="播放器3"></a>播放器3</h3><div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">    <video id="video" controls loop="false" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"></video></div><script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script><script>    var video = document.getElementById('video');    if (Hls.isSupported()) {        var hls = new Hls();        hls.loadSource('/m3u8/1/cloud_20250302_0103380.m3u8');        hls.attachMedia(video);        hls.on(Hls.Events.MANIFEST_PARSED, function () {});    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {        video.src = '/m3u8/1/cloud_20250302_0103380.m3u8';        video.addEventListener('loadedmetadata', function () {});    }</script><h3 id="播放器4"><a href="#播放器4" class="headerlink" title="播放器4"></a>播放器4</h3><video id="my-video" class="video-js vjs-default-skin" controls>  <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application/x-mpegURL"></video>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1><span id="只是作为测试">只是作为测试</span></h1><h3><span id="播放器1">播放器1</span></h3><div>  <video-js id="videojs-id-749b5fa0-7b53-44ea-975e-0c870f2d5ef8" class="vjs-default-skin vjs-16-9" controls preload="auto" width="100%" height="350px">    <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application&#x2F;x-mpegURL">  </video-js>      <script>    const videojsid749b5fa07b5344ea975e0c870f2d5ef8 = videojs('videojs-id-749b5fa0-7b53-44ea-975e-0c870f2d5ef8', {      html5: {        hls: {          overrideNative: true        }      }    });  </script>  </div> <h3><span id="播放器2">播放器2</span></h3><video id="video-id" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">    <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application/vnd.apple.mpegurl">    您的浏览器不支持 HTML5 视频播放器。</video><h3><span id="播放器3">播放器3</span></h3><div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">    <video id="video" controls loop="false" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"></video></div><script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script><script>    var video = document.getElementById('video');    if (Hls.isSupported()) {        var hls = new Hls();        hls.loadSource('/m3u8/1/cloud_20250302_0103380.m3u8');        hls.attachMedia(video);        hls.on(Hls.Events.MANIFEST_PARSED, function () {});    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {        video.src = '/m3u8/1/cloud_20250302_0103380.m3u8';        video.addEventListener('loadedmetadata', function () {});    }</script><h3><span id="播放器4">播放器4</span></h3><video id="my-video" class="video-js vjs-default-skin" controls>  <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application/x-mpegURL"></video>]]></content>
     
     
     
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2025/03/01/hello-world/"/>
-    <url>/2025/03/01/hello-world/</url>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
+    <tags>
+      
+      <tag>视频</tag>
+      
+      <tag>test</tag>
+      
+    </tags>
     
   </entry>
   
   
   
   <entry>
-    <title>Android设备的刷机&amp;救砖</title>
+    <title>Android设备的刷机和救砖</title>
     <link href="/2025/02/22/shuaji/"/>
     <url>/2025/02/22/shuaji/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1 id="Android设备的刷机-救砖"><a href="#Android设备的刷机-救砖" class="headerlink" title="Android设备的刷机&amp;救砖"></a>Android设备的刷机&amp;救砖</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示</p><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次“ <strong>MIUI版本</strong> ” 开启开发者模式</p><p>然后回到<strong>设置</strong>，点击 <strong>更多设置</strong> - <strong>开发者选项</strong><br>打开“ <strong>OEM解锁</strong> ”<br>然后点击“ <strong>设备解锁状态</strong> ” 点击下方“ <strong>绑定账号和设备</strong> ” </p><p><img src="/img/zhuangtai.jpg" alt="设备解锁状态"></p><div class="note note-warning">            <p>需要插入SIM卡并且开启移动数据</p>          </div><p>然后等待<strong>168个小时</strong>（7天）</p><p>因为要借助到电脑刷机，所以电脑端也需要配置环境啦<br>我们要使用<a href="https://developer.android.com/tools/adb?hl=zh-cn">Android调试桥</a><br>（简称ADB）来实现安卓与计算机之间的通信</p><p>点击<a href="https://developer.android.com/tools/releases/platform-tools?hl=zh-cn">这里</a> 来跳转至下载页面</p><p><img src="/img/xiazai.jpg" alt="选择合适的版本"></p><p><strong>注意：请选择适合您的操作系统的文件</strong></p><p><em>如果存在页面无法加载&#x2F;下载速度慢的情况，可以到文章附件查看</em></p><p><em>待更新</em></p>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1><span id="目录">目录</span></h1><ul><li><a href="#android%E8%AE%BE%E5%A4%87%E7%9A%84%E5%88%B7%E6%9C%BA-%E6%95%91%E7%A0%96">Android设备的刷机&amp;救砖</a><ul><li><a href="#%E5%89%8D%E8%A8%80-1">前言</a></li><li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C-1">准备工作</a></li></ul></li></ul><h1><span id="android设备的刷机amp救砖">Android设备的刷机&amp;救砖</span></h1><h2><span id="前言">前言</span></h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者MacOS&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示</p><h2><span id="准备工作">准备工作</span></h2><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次“ <strong>MIUI版本</strong> ” 开启开发者模式</p><p>然后回到<strong>设置</strong>，点击 <strong>更多设置</strong> - <strong>开发者选项</strong><br>打开“ <strong>OEM解锁</strong> ”<br>然后点击“ <strong>设备解锁状态</strong> ” 点击下方“ <strong>绑定账号和设备</strong> ” </p><p><img src="https://upload.cc/i1/2025/03/09/CNgDkO.jpg" alt="设备解锁状态"></p><div class="note note-warning">            <p>需要插入SIM卡并且开启移动数据</p>          </div><p>然后等待<strong>168个小时</strong>（7天）</p><p>因为要借助到电脑刷机，所以电脑端也需要配置环境啦<br>我们要使用<a href="https://developer.android.com/tools/adb?hl=zh-cn">Android调试桥</a><br>（简称ADB）来实现安卓与计算机之间的通信</p><p>点击<a href="https://developer.android.com/tools/releases/platform-tools?hl=zh-cn">这里</a> 来跳转至下载页面</p><p><img src="https://upload.cc/i1/2025/03/09/0ReQ8P.jpg" alt="选择合适的版本"></p><p><strong>注意：请选择适合您的操作系统的文件</strong></p><p><em>如果存在页面无法加载&#x2F;下载速度慢的情况，可以到文章附件查看</em></p><p><em>待更新</em></p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>玩机</tag>
+      
+    </tags>
     
   </entry>
   
@@ -47,9 +67,17 @@
     <link href="/2025/01/23/test/"/>
     <url>/2025/01/23/test/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script>        <div id="aplayer-oNSAJtfC" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-oNSAJtfC"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Chipi Chipi Chapa Chapa",              author: "Noisy Radio",              url: "/music/01.FLAC",              pic: "",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p><strong>163music</strong></p>    <div id="aplayer-qRcftOlE" class="aplayer aplayer-tag-marker meting-tag-marker"         data-id="12364425120" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"    ></div>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script>        <div id="aplayer-JjcECOsV" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-JjcECOsV"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Chipi Chipi Chapa Chapa",              author: "Noisy Radio",              url: "/music/01.FLAC",              pic: "",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p><strong>163music</strong></p>    <div id="aplayer-ufFLmosU" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="12364425120" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>test</tag>
+      
+      <tag>音乐</tag>
+      
+    </tags>
     
   </entry>
   
