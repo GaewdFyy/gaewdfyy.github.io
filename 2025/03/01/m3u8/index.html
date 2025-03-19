@@ -19,12 +19,12 @@
   <meta name="author" content="GaewdFyy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="只是作为测试播放器1                        const videojsid44d020031bd84a65bd97e4f35dc644ae &#x3D; videojs(&#39;videojs-id-44d02003-1bd8-4a65-bd97-e4f35dc644ae&#39;, {       html5: {         hls: {           overrideNative:">
+    <meta name="description" content="只是作为测试播放器1                        const videojsid8e6eb04911fa40c38e900c529e110b6b &#x3D; videojs(&#39;videojs-id-8e6eb049-11fa-40c3-8e90-0c529e110b6b&#39;, {       html5: {         hls: {           overrideNative:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="流媒体测试">
 <meta property="og:url" content="https://gaewdfyy.github.io/2025/03/01/m3u8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="只是作为测试播放器1                        const videojsid44d020031bd84a65bd97e4f35dc644ae &#x3D; videojs(&#39;videojs-id-44d02003-1bd8-4a65-bd97-e4f35dc644ae&#39;, {       html5: {         hls: {           overrideNative:">
+<meta property="og:description" content="只是作为测试播放器1                        const videojsid8e6eb04911fa40c38e900c529e110b6b &#x3D; videojs(&#39;videojs-id-8e6eb049-11fa-40c3-8e90-0c529e110b6b&#39;, {       html5: {         hls: {           overrideNative:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-01T14:30:55.000Z">
 <meta property="article:modified_time" content="2025-03-14T15:25:43.918Z">
@@ -103,7 +103,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>GaewdFyy的小破站</strong>
+      <strong>GaewdFyyの部落格</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -207,7 +207,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="iconfont icon-slack-full"></i>
+                <i class="iconfont icon-switch-fill"></i>
                 <span>娱乐</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -217,7 +217,7 @@
                   
                   <a class="dropdown-item" href="/play/" target="_self">
                     
-                    <span>Furry随机图</span>
+                    <span>Furry随机图片</span>
                   </a>
                 
               </div>
@@ -247,7 +247,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://bing.img.run/uhd.php') no-repeat center center; background-size: cover;">
+     style="background: url('https://api.timelessq.com/bing') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -349,17 +349,12 @@
               <div class="markdown-body">
                 
                 <h1 id="只是作为测试"><a href="#只是作为测试" class="headerlink" title="只是作为测试"></a>只是作为测试</h1><h3 id="播放器1"><a href="#播放器1" class="headerlink" title="播放器1"></a>播放器1</h3><div>
-  <video-js id="videojs-id-44d02003-1bd8-4a65-bd97-e4f35dc644ae" 
-    class="vjs-default-skin vjs-16-9" 
-    controls 
-    preload="auto" 
-    width="100%" 
-    height="350px">
+  <video-js id="videojs-id-8e6eb049-11fa-40c3-8e90-0c529e110b6b" class="vjs-default-skin vjs-16-9" controls preload="auto" width="100%" height="350px">
     <source src="/m3u8/1/cloud_20250302_0103380.m3u8" type="application&#x2F;x-mpegURL">
   </video-js>
     
   <script>
-    const videojsid44d020031bd84a65bd97e4f35dc644ae = videojs('videojs-id-44d02003-1bd8-4a65-bd97-e4f35dc644ae', {
+    const videojsid8e6eb04911fa40c38e900c529e110b6b = videojs('videojs-id-8e6eb049-11fa-40c3-8e90-0c529e110b6b', {
       html5: {
         hls: {
           overrideNative: true
@@ -502,27 +497,29 @@
   
     <article id="comments" lazyload>
       
-  <div id="twikoo"></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#comments', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
-        var options = Object.assign(
-          {"envId":"fluid","region":"ap-shanghai","path":"window.location.pathname"},
-          {
-            el: '#twikoo',
-            path: 'window.location.pathname',
-            onCommentLoaded: function() {
-              Fluid.utils.listenDOMLoaded(function() {
-                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
-                Fluid.plugins.imageCaption(imgSelector);
-                Fluid.plugins.fancyBox(imgSelector);
-              });
-            }
-          }
-        )
-        twikoo.init(options)
-      });
-    });
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'gaewdfyy/gaewdfyy.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
   </script>
   <noscript>Please enable JavaScript to view the comments</noscript>
 
@@ -624,7 +621,7 @@
   
     <div class="footer-content">
       
-<!DOCTYPE html> <html lang="zh"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>仅显示文字</title> <style> .text { margin: 20px; /* 设置外边距 */ padding: 10px; /* 设置内边距 */ font-size: 14px; /* 设置字体大小 */ color: #fcba03; /* 设置字体颜色 */ } .link { color: #FF6100; /* 设置链接字体颜色为蓝色 */ text-decoration: underline; /* 添加下划线 */ } </style> </head> <body> <div class="text">您能在茫茫万维网中发现本Blog，这是我的荣幸！可以的话，请留下一个脚印再走吧！🤗👉<a href="https://x.com/furgaewdfyy" class="link" target="_blank">求关注</a></div> </body> </html>
+<!DOCTYPE html> <html lang="zh"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>仅显示文字</title> <style> .text { margin: 20px; /* 设置外边距 */ padding: 10px; /* 设置内边距 */ font-size: 14px; /* 设置字体大小 */ color: #fcba03; /* 设置字体颜色 */ } .link { color: #FF6100; /* 设置链接字体颜色为蓝色 */ text-decoration: underline; /* 添加下划线 */ } </style> </head> <body> <div class="text">Nice to meet you! 🤗👉<a href="https://x.com/furgaewdfyy" class="link" target="_blank">求关注</a></div> </body> </html>
 
 <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>

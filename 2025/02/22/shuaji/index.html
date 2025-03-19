@@ -19,17 +19,16 @@
   <meta name="author" content="GaewdFyy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Android设备的刷机&amp;救砖前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者Mac&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发">
+    <meta name="description" content="前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者Mac&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作解锁准备首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发者模式 然后回到设置  点击">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android设备的刷机和救砖">
 <meta property="og:url" content="https://gaewdfyy.github.io/2025/02/22/shuaji/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android设备的刷机&amp;救砖前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者Mac&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发">
+<meta property="og:description" content="前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者Mac&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示 准备工作解锁准备首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发者模式 然后回到设置  点击">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg">
-<meta property="og:image" content="https://pic1.imgdb.cn/item/67cd0d2e066befcec6e19393.jpg">
 <meta property="article:published_time" content="2025-02-21T19:52:02.000Z">
-<meta property="article:modified_time" content="2025-03-14T15:34:17.148Z">
+<meta property="article:modified_time" content="2025-03-19T15:47:42.734Z">
 <meta property="article:author" content="GaewdFyy">
 <meta property="article:tag" content="玩机">
 <meta name="twitter:card" content="summary_large_image">
@@ -105,7 +104,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>GaewdFyy的小破站</strong>
+      <strong>GaewdFyyの部落格</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -209,7 +208,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="iconfont icon-slack-full"></i>
+                <i class="iconfont icon-switch-fill"></i>
                 <span>娱乐</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -219,7 +218,7 @@
                   
                   <a class="dropdown-item" href="/play/" target="_self">
                     
-                    <span>Furry随机图</span>
+                    <span>Furry随机图片</span>
                   </a>
                 
               </div>
@@ -249,7 +248,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://bing.img.run/uhd.php') no-repeat center center; background-size: cover;">
+     style="background: url('https://api.timelessq.com/bing') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -278,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          289 字
+          283 字
         
       </span>
     
@@ -340,7 +339,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2025-03-14T23:34:17+08:00
+                    本文最后更新于 2025-03-19T23:47:42+08:00
                   
                   
 
@@ -350,21 +349,21 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Android设备的刷机-救砖"><a href="#Android设备的刷机-救砖" class="headerlink" title="Android设备的刷机&amp;救砖"></a>Android设备的刷机&amp;救砖</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者Mac&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次 <strong>MIUI版本</strong>  开启开发者模式</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，或者Mac&#x2F;Linux，以及可以解锁bootloader的Android设备，下面我将以Windows 7 和 Redmi 9A来进行演示</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="解锁准备"><a href="#解锁准备" class="headerlink" title="解锁准备"></a>解锁准备</h3><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次 <strong>MIUI版本</strong>  开启开发者模式</p>
 <p>然后回到<strong>设置</strong>  点击 <strong>更多设置</strong> - <strong>开发者选项</strong><br>打开 <strong>OEM解锁</strong><br>然后点击 <strong>设备解锁状态</strong>  点击下方 <strong>绑定账号和设备</strong>  </p>
-<p><img src="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg" srcset="/img/loading.gif" lazyload alt="设备解锁状态"></p>
+<img src="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg" srcset="/img/loading.gif" lazyload alt="设备解锁状态" style="width: 60%; height: auto;">
+
+
 <div class="note note-warning">
             <p>需要插入SIM卡并且开启移动数据</p>
           </div>
 
 <p>然后等待<strong>168个小时</strong>（7天）</p>
-<p>因为要借助到电脑刷机，所以电脑端也需要配置环境</p>
-<p>我们要使用<a target="_blank" rel="noopener" href="https://developer.android.com/tools/adb?hl=zh-cn">Android调试桥</a><br>（简称ADB）来实现安卓与计算机之间的通信</p>
-<p>点击<a target="_blank" rel="noopener" href="https://developer.android.com/tools/releases/platform-tools?hl=zh-cn">这里</a> 来跳转至官方下载页面</p>
-<p><img src="https://pic1.imgdb.cn/item/67cd0d2e066befcec6e19393.jpg" srcset="/img/loading.gif" lazyload alt="选择合适的版本"></p>
-<p><strong>注意：请选择适合您的操作系统的文件</strong></p>
-<p>如果遇到页面无法打开&#x2F;下载速度慢的情况，可以点<a target="_blank" rel="noopener" href="https://www.123912.com/s/DDeHjv-XNTCd">这里</a> 获取国内下载通道</p>
+<h3 id="驱动安装"><a href="#驱动安装" class="headerlink" title="驱动安装"></a>驱动安装</h3><p>因为要借助到电脑刷机，所以电脑端也需要配置环境</p>
+<p>在Windows 8.1及以上的系统中通常会自带Android驱动<br>但是之前的版本不会有，所以我们需要安装驱动</p>
+<p>我们可以借助官方小米刷机工具：<a target="_blank" rel="noopener" href="https://xiaomirom.com/download-xiaomi-flash-tool-miflash/">MiFlash</a>进行驱动的安装，同时 在接下来的<strong>刷机</strong>步骤中也会用到这个工具</p>
+<p><a target="_blank" rel="noopener" href="https://cdn.alsgp0.fds.api.mi-img.com/micomm/MiFlash2020-3-14-0.rar">下载链接</a></p>
 <p><em>待更新</em></p>
 
                 
@@ -461,27 +460,29 @@
   
     <article id="comments" lazyload>
       
-  <div id="twikoo"></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#comments', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
-        var options = Object.assign(
-          {"envId":"fluid","region":"ap-shanghai","path":"window.location.pathname"},
-          {
-            el: '#twikoo',
-            path: 'window.location.pathname',
-            onCommentLoaded: function() {
-              Fluid.utils.listenDOMLoaded(function() {
-                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
-                Fluid.plugins.imageCaption(imgSelector);
-                Fluid.plugins.fancyBox(imgSelector);
-              });
-            }
-          }
-        )
-        twikoo.init(options)
-      });
-    });
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'gaewdfyy/gaewdfyy.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
   </script>
   <noscript>Please enable JavaScript to view the comments</noscript>
 
@@ -583,7 +584,7 @@
   
     <div class="footer-content">
       
-<!DOCTYPE html> <html lang="zh"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>仅显示文字</title> <style> .text { margin: 20px; /* 设置外边距 */ padding: 10px; /* 设置内边距 */ font-size: 14px; /* 设置字体大小 */ color: #fcba03; /* 设置字体颜色 */ } .link { color: #FF6100; /* 设置链接字体颜色为蓝色 */ text-decoration: underline; /* 添加下划线 */ } </style> </head> <body> <div class="text">您能在茫茫万维网中发现本Blog，这是我的荣幸！可以的话，请留下一个脚印再走吧！🤗👉<a href="https://x.com/furgaewdfyy" class="link" target="_blank">求关注</a></div> </body> </html>
+<!DOCTYPE html> <html lang="zh"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>仅显示文字</title> <style> .text { margin: 20px; /* 设置外边距 */ padding: 10px; /* 设置内边距 */ font-size: 14px; /* 设置字体大小 */ color: #fcba03; /* 设置字体颜色 */ } .link { color: #FF6100; /* 设置链接字体颜色为蓝色 */ text-decoration: underline; /* 添加下划线 */ } </style> </head> <body> <div class="text">Nice to meet you! 🤗👉<a href="https://x.com/furgaewdfyy" class="link" target="_blank">求关注</a></div> </body> </html>
 
 <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
