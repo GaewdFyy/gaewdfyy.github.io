@@ -430,20 +430,20 @@ sup > a::before,
   -o-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
-@supports (-webkit-backdrop-filter: blur(7px)) or (backdrop-filter: blur(7px)) {
+@supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
   .navbar .dropdown-collapse,
   .top-nav-collapse,
   .navbar-col-show {
-    background: rgba(255,255,255,0.7);
-    -webkit-backdrop-filter: blur(7px);
-    backdrop-filter: blur(7px);
+    background: rgba(0,0,0,0.4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 }
-@supports not ((-webkit-backdrop-filter: blur(7px)) or (backdrop-filter: blur(7px))) {
+@supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
   .navbar .dropdown-collapse,
   .top-nav-collapse,
   .navbar-col-show {
-    background: #fff;
+    background: #000;
   }
 }
 @media (max-width: 767px) {
@@ -846,8 +846,8 @@ i.iconfont {
 }
 :root {
   --color-mode: "light";
-  --body-bg-color: #eee;
-  --board-bg-color: #fff;
+  --body-bg-color: #CED3D9;
+  --board-bg-color: #ffffff;
   --text-color: #3c4858;
   --sec-text-color: #718096;
   --post-text-color: #2c3e50;
@@ -856,7 +856,7 @@ i.iconfont {
   --link-hover-color: #c79816;
   --link-hover-bg-color: #f8f9fa;
   --line-color: #eaecef;
-  --navbar-bg-color: #ffffff;
+  --navbar-bg-color: #00000000;
   --navbar-text-color: #fcba03;
   --subtitle-color: #d0d0d0;
   --scrollbar-color: #c4c6c9;
@@ -883,7 +883,7 @@ i.iconfont {
     --link-hover-color: #c79816;
     --link-hover-bg-color: #364151;
     --line-color: #435266;
-    --navbar-bg-color: #000000;
+    --navbar-bg-color: #00000000;
     --navbar-text-color: #fcba03;
     --subtitle-color: #fff;
     --scrollbar-color: #687582;
@@ -900,16 +900,16 @@ i.iconfont {
     filter: brightness(0.9);
     transition: filter 0.2s ease-in-out;
   }
-  @supports (-webkit-backdrop-filter: blur(7px)) or (backdrop-filter: blur(7px)) {
+  @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
     :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
     :root:not([data-user-color-scheme]) .top-nav-collapse,
     :root:not([data-user-color-scheme]) .navbar-col-show {
-      background: rgba(0,0,0,0.7);
-      -webkit-backdrop-filter: blur(7px);
-      backdrop-filter: blur(7px);
+      background: rgba(0,0,0,0.4);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
   }
-  @supports not ((-webkit-backdrop-filter: blur(7px)) or (backdrop-filter: blur(7px))) {
+  @supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
     :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
     :root:not([data-user-color-scheme]) .top-nav-collapse,
     :root:not([data-user-color-scheme]) .navbar-col-show {
@@ -937,7 +937,7 @@ i.iconfont {
     --link-hover-color: #c79816;
     --link-hover-bg-color: #364151;
     --line-color: #435266;
-    --navbar-bg-color: #000000;
+    --navbar-bg-color: #00000000;
     --navbar-text-color: #fcba03;
     --subtitle-color: #fff;
     --scrollbar-color: #687582;
@@ -954,16 +954,16 @@ i.iconfont {
     filter: brightness(0.9);
     transition: filter 0.2s ease-in-out;
   }
-  @supports (-webkit-backdrop-filter: blur(7px)) or (backdrop-filter: blur(7px)) {
+  @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
     [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
     [data-user-color-scheme="dark"] .top-nav-collapse,
     [data-user-color-scheme="dark"] .navbar-col-show {
-      background: rgba(0,0,0,0.7);
-      -webkit-backdrop-filter: blur(7px);
-      backdrop-filter: blur(7px);
+      background: rgba(0,0,0,0.4);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
   }
-  @supports not ((-webkit-backdrop-filter: blur(7px)) or (backdrop-filter: blur(7px))) {
+  @supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
     [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
     [data-user-color-scheme="dark"] .top-nav-collapse,
     [data-user-color-scheme="dark"] .navbar-col-show {
