@@ -19,19 +19,20 @@
   <meta name="author" content="GaewdFyy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，以及可以解锁bootloader的手机，因为大多数手机厂商在解锁Bootloader都是有很大差别的，所以下面我将以红米9A来进行演示，与其他厂商并不通用 准备工作解锁前设置首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发者模式 然后回到设置">
+    <meta name="description" content="我要告诉你的——前言本文章会教你如何解锁Bootloader，刷机，获取Root权限，救砖等操作在开始之前，请你确保有一台可以解锁Bootloader以及可以刷机的手机，和一台Windows 7及以上的电脑。话不多说，拿起你的手机开始吧！ 准备工作解锁前设置首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发者模式 然后回到设置  点击 更多设置 - 开发者选项打开 O">
 <meta property="og:type" content="article">
 <meta property="og:title" content="超详细的Android手机刷机指南！">
 <meta property="og:url" content="https://gaewdfyy.github.io/2025/02/22/shuaji/index.html">
 <meta property="og:site_name" content="GaewdFyy &#39;Blog">
-<meta property="og:description" content="前言本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，以及可以解锁bootloader的手机，因为大多数手机厂商在解锁Bootloader都是有很大差别的，所以下面我将以红米9A来进行演示，与其他厂商并不通用 准备工作解锁前设置首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发者模式 然后回到设置">
+<meta property="og:description" content="我要告诉你的——前言本文章会教你如何解锁Bootloader，刷机，获取Root权限，救砖等操作在开始之前，请你确保有一台可以解锁Bootloader以及可以刷机的手机，和一台Windows 7及以上的电脑。话不多说，拿起你的手机开始吧！ 准备工作解锁前设置首先打开 设置 - 我的设备 - 全部参数连续点击7次 MIUI版本  开启开发者模式 然后回到设置  点击 更多设置 - 开发者选项打开 O">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg">
 <meta property="og:image" content="https://pic1.imgdb.cn/item/6813618e58cb8da5c8d62904.png">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/681a0e4d58cb8da5c8e0c7bd.jpg">
 <meta property="og:image" content="https://pic1.imgdb.cn/item/6813627458cb8da5c8d6298c.png">
 <meta property="og:image" content="https://pic1.imgdb.cn/item/6813ad0358cb8da5c8d643fe.png">
 <meta property="article:published_time" content="2025-02-21T19:52:02.000Z">
-<meta property="article:modified_time" content="2025-05-05T07:45:47.012Z">
+<meta property="article:modified_time" content="2025-05-14T13:34:30.218Z">
 <meta property="article:author" content="GaewdFyy">
 <meta property="article:tag" content="玩机">
 <meta name="twitter:card" content="summary_large_image">
@@ -79,7 +80,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"gaewdfyy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"gaewdfyy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -342,7 +343,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2025-05-05T15:45:47+08:00
+                    本文最后更新于 2025-05-14T21:34:30+08:00
                   
                   
 
@@ -352,7 +353,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章会从最基本的解bootloader锁开始讲解，在实践前，请确保你有一台可以正常使用Windows 7及以上的电脑，以及可以解锁bootloader的手机，因为大多数手机厂商在解锁Bootloader都是有很大差别的，所以下面我将以红米9A来进行演示，与其他厂商并不通用</p>
+                <h2 id="我要告诉你的——前言"><a href="#我要告诉你的——前言" class="headerlink" title="我要告诉你的——前言"></a>我要告诉你的——前言</h2><p>本文章会教你如何解锁Bootloader，刷机，获取Root权限，救砖等操作<br>在开始之前，请你确保有一台可以解锁Bootloader以及可以刷机的手机，和一台Windows 7及以上的电脑。<br>话不多说，拿起你的手机开始吧！</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="解锁前设置"><a href="#解锁前设置" class="headerlink" title="解锁前设置"></a>解锁前设置</h3><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次 <strong>MIUI版本</strong>  开启开发者模式</p>
 <p>然后回到<strong>设置</strong>  点击 <strong>更多设置</strong> - <strong>开发者选项</strong><br>打开 <strong>OEM解锁</strong><br>然后点击 <strong>设备解锁状态</strong>  点击下方 <strong>绑定账号和设备</strong>  </p>
 <img src="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg" srcset="/img/loading.gif" lazyload alt="设备解锁状态" style="width: 60%; height: auto;">
@@ -378,10 +379,10 @@
 </ul>
 <p>如果你有一台多余的手机，可以下载类似于“一键换机”的App，将需要备份数据的手机作为旧手机，将对应的数据资料存在对应的新手机上，如要恢复，反向操作就行了</p>
 <h3 id="驱动安装"><a href="#驱动安装" class="headerlink" title="驱动安装"></a>驱动安装</h3><p>因为要借助到电脑刷机，所以电脑端也需要配置环境</p>
-<p>在Windows 8.1及以上的系统中通常会自带Android驱动<br>但是之前的版本不会有，所以我们需要安装驱动</p>
+<p>在Windows 8及以上的系统中通常会自带Android驱动<br>但是之前的版本不会有，所以我们需要安装驱动</p>
 <p>我们可以借助官方小米刷机工具：<a target="_blank" rel="noopener" href="https://xiaomirom.com/download-xiaomi-flash-tool-miflash/">MiFlash</a>进行驱动的安装，同时 在接下来的<strong>刷机</strong>步骤中也会用到这个工具</p>
 <p><a target="_blank" rel="noopener" href="https://cdn.alsgp0.fds.api.mi-img.com/micomm/MiFlash2020-3-14-0.rar">下载链接</a></p>
-<p>将下载的压缩包解压至一个文件夹，目录放在自己可以找到的位置（如桌面），然后双击运行“ <strong>XiaoMiFlash.exe</strong> ” 然后会先弹出“ <strong>请安装驱动</strong> ”窗口，点击<strong>安装</strong>即可安装驱动。</p>
+<p>将下载的压缩包解压至一个文件夹，目录放在自己可以找到的位置（如桌面），然后双击运行 <strong>XiaoMiFlash.exe</strong> 然后会先弹出 <strong>请安装驱动</strong> 窗口，点击<strong>安装</strong>即可安装驱动。</p>
 <p><img src="https://pic1.imgdb.cn/item/6813618e58cb8da5c8d62904.png" srcset="/img/loading.gif" lazyload alt="MiFlash"></p>
 <h2 id="解锁Bootloader"><a href="#解锁Bootloader" class="headerlink" title="解锁Bootloader"></a>解锁Bootloader</h2><p>解锁bootloader（简称BL锁）是进行刷机、Root等操作的前提，所以解锁Bootloader是很重要的。<br>因为个大手机厂商对手机BL锁的解锁有着种种限制，所以想要解锁BL锁是比较困难的，以小米手机为例，最近的小米14、小米14 Pro、小米15等出厂都搭载了自家的澎湃OS（Xioami Hyper OS)<br>这些手机要解锁需要以下步骤：</p>
 <ul>
@@ -390,21 +391,28 @@
 <li>分数为90分及以上进行解锁申请</li>
 <li>解锁申请审核通过后即可解锁</li>
 </ul>
-<p>可以看出其解锁步骤非常的繁琐和困难，所以要想解锁BL锁，建议挑选老款机型。只需要按照上面的 <strong>解锁准备</strong> 步骤</p>
+<p>可以看出其解锁步骤非常的繁琐和困难，所以要想解锁BL锁，建议挑选搭载了MIUI的机型。只需要按照上面的 <strong>解锁准备</strong> 步骤</p>
 <p>除了小米，还有哪些手机品牌是比较好解BL锁的呢？</p>
 <ul>
 <li>国内厂商：一加、魅族、真我</li>
 <li>国外厂商：三星、摩托摩拉、联想、Nothing、Google Pixel</li>
 </ul>
-<p>下面开始对小米&#x2F;红米手机旧机型BL锁解锁的教程</p>
+<p>下面开始对小米&#x2F;红米 手机BL锁解锁的教程</p>
 <p>首先在电脑上下载官方提供的解锁工具</p>
 <p><a target="_blank" rel="noopener" href="https://www.miui.com/unlock">官方网站</a>   &#x2F;&#x2F;        <a target="_blank" rel="noopener" href="https://cdn.cnbj1.fds.api.mi-img.com/flash-tool/miflash_unlock_7.6.727.43.zip">下载链接</a></p>
 <p>下载后将此压缩包解压至一个文件夹，放在你可以找到的地方，然后打开里面的<strong>miflash_unlock.exe</strong><br>然后在弹出的窗口中登录自己的小米账号</p>
-<p>然后先把手机关机，再同时按住<strong>音量减键</strong>和<strong>电源键</strong>，然后手机就会进入至Fastboot模式，屏幕上会出现“<strong>fastboot</strong>”字样</p>
+<p>然后先把手机关机，再同时按住<strong>音量减键</strong>和<strong>电源键</strong>，然后手机就会进入至Fastboot模式，屏幕上会出现“<strong>FASTBOOT</strong>”字样</p>
+<img src="https://pic1.imgdb.cn/item/681a0e4d58cb8da5c8e0c7bd.jpg" srcset="/img/loading.gif" lazyload alt="*较新机型可能显示的是一个橙色字体的FASTBOOT" style="width: 60%; height: auto;">
+
+<div class="note note-warning">
+            <p>较新机型可能显示的是一个橙色字体的FASTBOOT</p>
+          </div>
+
 <p>再使用数据线连接电脑，解锁工具会显示“<strong>已连接设备</strong>”</p>
 <p><img src="https://pic1.imgdb.cn/item/6813627458cb8da5c8d6298c.png" srcset="/img/loading.gif" lazyload alt="小米手机解锁工具"></p>
 <p>点击下方的<strong>解锁</strong>按钮，再经过一系列的确认，你应该能顺利地解锁BL锁！</p>
 <p><img src="https://pic1.imgdb.cn/item/6813ad0358cb8da5c8d643fe.png" srcset="/img/loading.gif" lazyload alt="解锁成功"></p>
+<h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>###先了解一下！<br>刷机，就是</p>
 <p><em>待更新</em></p>
 
                 
@@ -475,9 +483,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/03/01/m3u8/" title="流媒体测试">
+                      <a href="/2025/03/14/hello-world/" title="Hello World">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">流媒体测试</span>
+                        <span class="hidden-mobile">Hello World</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -626,6 +634,7 @@
     <div class="footer-content">
       
 <div>Powered by GitHub Pages</div>
+<div> 我们的GitHub <a target="_blank" rel="noopener" href="https://github.com/GaewdFyy/gaewdfyy.github.io">仓库链接</a> </div>
 
 <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
