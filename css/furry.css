@@ -5,9 +5,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 20px;
   margin: 40px auto;
-  padding: 16px; /* 减小 padding，调整桌面端间距为 16px */
+  padding: 16px; /* 控制左右边距为 16px */
   border-radius: 24px;
   max-width: 1200px;
   background: linear-gradient(135deg, #f5e0a6, #fff5d1, #f0f8ff);
@@ -28,9 +27,10 @@
   color: #2c3e50;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(6px);
-  border-radius: 12px;
+  border-radius: 12px 0 0 12px; /* 左圆角，右无圆角以贴合图片 */
   padding: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: none; /* 移除右边框，与图片无缝连接 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   line-height: 1.6;
   font-size: 16px;
@@ -47,9 +47,11 @@
   width: 100%;
   max-width: 100%; /* 确保图片不超过容器 */
   height: auto;
-  border-radius: 16px;
+  border-radius: 0 12px 12px 0; /* 右圆角，左无圆角以贴合文字 */
   background: rgba(255, 255, 255, 0.7); /* 与文字区域背景一致 */
-  backdrop-filter: blur(6px); /* 添加毛玻璃效果，与文字区域一致 */
+  backdrop-filter: blur(6px); /* 毛玻璃效果 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: none; /* 移除左边框，与文字无缝连接 */
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -64,8 +66,8 @@
   .furry-container {
     flex-direction: column;
     margin: 20px 10px;
-    padding: 12px; /* 移动端 padding 减小为 12px */
-    gap: 15px;
+    padding: 12px; /* 移动端 padding 为 12px */
+    gap: 15px; /* 移动端保留间距，文字与图片之间有 15px */
   }
   
   .furry-img {
@@ -78,10 +80,19 @@
     min-width: 100%;
     padding: 12px;
     font-size: 14px;
+    border-radius: 12px; /* 移动端恢复完整圆角 */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 恢复完整边框 */
+  }
+  
+  .furry-img img {
+    border-radius: 12px; /* 移动端恢复完整圆角 */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 恢复完整边框 */
   }
 }
 
 @media (max-width: 480px) {
+  .furry-container LCD
+
   .furry-container {
     margin: 10px 5px;
     padding: 10px;
@@ -91,10 +102,12 @@
   .furry-text {
     padding: 10px;
     border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   
   .furry-img img {
     border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -109,6 +122,7 @@
     background: rgba(255, 255, 255, 0.1);
     color: #ecf0f1;
     border-color: rgba(255, 255, 255, 0.2);
+    border-right: none; /* 桌面端无缝连接 */
   }
   
   .furry-text h1,
@@ -123,7 +137,8 @@
   
   .furry-img img {
     background: rgba(255, 255, 255, 0.1); /* 与深色模式文字区域背景一致 */
-    backdrop-filter: blur(6px); /* 保持毛玻璃效果 */
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(6px);
+    border-color: rgba(255, 255, 255, 0.2);
+    border-left: none; /* 桌面端无缝连接 */
   }
 }
