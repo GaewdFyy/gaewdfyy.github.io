@@ -32,6 +32,8 @@
 }
 
 /* 文本区域样式 - 修复并优化 */
+<span style="font-size: 12px; font-weight: bold; background: #ffb6c1; color: #fff; padding: 4px 8px; border-radius: 8px 0 8px 0;">Furry设定档案</span>
+
 .furry-text {
   flex: 1; /* 让文本区域自适应填充剩余空间 */
   min-width: 250px; /* 最小宽度确保可读性 */
@@ -166,6 +168,7 @@
   .furry-container {
     background: linear-gradient(135deg, #2c3e50, #34495e, #3a4a5c);
     border-color: rgba(255, 255, 255, 0.2);
+    
   }
   
   .furry-text {

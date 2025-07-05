@@ -3,69 +3,128 @@ title: about
 layout: about
 ---
 
+
 # About Me
-你好！我叫Gd，也可以叫我森森。出生在河南省漯河市，生日是2011年7月18日。一位即将上初三的喜爱科技的极客小男孩~
+哈咯~ 我叫Gd，也可以叫我森森。出生在河南省漯河市，生日是2011年7月18日。一位即将上初三的喜爱科技与热爱Furry的极客小男孩~
 
 希望能在这个小小的Blog里留下属于自己的故事，分享自己所了解的、感兴趣的事物！欢迎和大家做朋友awa
 
 
-## 在这些平台找到我
-
-### 相关群组
-
+## 在这些平台上找到我
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1832207_c8i9n1ulqxr.css">
+<link rel="stylesheet" href="/css/furry-component.css">
 <div class="furry-container">
     <div class="furry-text">
-        <h2><i class="iconfont icon-telegram-fill"></i>  <a href="https://t.me/+sI1zAoPR4gplYThl">Telegram—Blog频道</a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-qq-fill"></i>  <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fh-zKonn30BGlIv_7bzEKlPMAxcga0a2&authKey=iweA8fooGtt1pOwRiucf3fz%2FmRPeLXtOYdeVHLylmZgWlDt%2F2K2zDgiLaVC56956&noverify=0&group_code=908592581">QQ粉丝群 </a></h2>
+        <div class="contact-title">相关群组</div>
+        <div class="contact-item">
+            <i class="iconfont icon-telegram-fill"></i>
+            <a href="https://t.me/+sI1zAoPR4gplYThl" target="_blank">
+                Telegram-Blog频道
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-qq-fill"></i>
+            <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fh-zKonn30BGlIv_7bzEKlPMAxcga0a2&authKey=iweA8fooGtt1pOwRiucf3fz%2FmRPeLXtOYdeVHLylmZgWlDt%2F2K2zDgiLaVC56956&noverify=0&group_code=908592581" target="_blank">
+                QQ粉丝群：908592581
+            </a>
+        </div>
     </div>
 </div>
 
-### 较活跃：
+
+----
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1832207_c8i9n1ulqxr.css">
+<link rel="stylesheet" href="/css/furry-component.css">
 <div class="furry-container">
     <div class="furry-text">
-        <h2><i class="iconfont icon-github-fill"></i> <a href="https://github.com/GaewdFyy">Github：GaewdFyy</a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-qq-fill"></i>  <a href="https://res.abeim.cn/api/qq/?qq=3426173822">QQ：3426173822 </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-twitter-fill"></i>  <a href="https://x.com/furgaewdfyy">X：@FurGaewdFyy </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><a href="https://bsky.app/profile/gdmqwqx.bsky.social">BlueSky：@gdmqwqx.bsky.social</a></h2>
-    </div>
-    <div class="furry-text">
-        <h2> <i class="iconfont icon-bilibili-fill"></i>  <a href="https://b23.tv/6AL861S">Blilbili：GaewdFyy </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-mail"></i> <a href="mailto:example@example.com">邮箱：3426173822@qq.com</a></h2>
-    </div>
-    <div class="furry-text">
-        <h2> <i class="iconfont icon-telegram-fill"></i>  <a href="https://t.me/gaewdfyy">Telegram：GaewdFyy </a></h2>
+        <div class="contact-title">较活跃</div>
+        <div class="contact-item">
+            <i class="iconfont icon-github-fill"></i>
+            <a href="https://github.com/GaewdFyy" target="_blank">
+                GaewdFyy
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-qq-fill"></i>
+            <a href="https://res.abeim.cn/api/qq/?qq=3426173822" target="_blank">
+                3426173822
+            </a>
+        </div>
+        <div class="contact-item">
+            <a href="https://bsky.app/profile/gdmqwqx.bsky.social" target="_blank">
+                BlueSky：@gdmqwqx.bsky.social
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-twitter-fill"></i>
+            <a href="https://x.com/furgaewdfyy" target="_blank">
+                @FurGaewdFyy
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-bilibili-fill"></i>
+            <a href="https://b23.tv/6AL861S" target="_blank">
+                GaewdFyy
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-mail"></i>
+            <a href="mailto:3426173822@qq.com" target="_blank">
+                3426173822@qq.com
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-telegram-fill"></i>
+            <a href="https://t.me/gaewdfyy" target="_blank">
+                GaewdFyy
+            </a>
+        </div>
     </div>
 </div>
 
-### 其他：
+----
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1832207_c8i9n1ulqxr.css">
+<link rel="stylesheet" href="/css/furry-component.css">
 <div class="furry-container">
     <div class="furry-text">
-        <h2><i class="iconfont icon-dingding-fill"></i><a href="https://n.dingtalk.com/dingding/h5-profile/outer/index.html?fr_source=13&uidCipher=gIFEUXswmVzeBd8K9SZJiw%3D%3D&cardToken=572db817b3&profile=%40kgDOrxAIoA">钉钉：GaewdFyy </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-steam"></i>  <a href="https://steamcommunity.com/profiles/76561199654977273/">Steam：GaewdFyy </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-xbox-fill"></i>  <a href="https://www.xbox.com/play/user/WHSGaewd">Xbox：WHSGaewd </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2><i class="iconfont icon-youtube-fill"></i>  <a href="https://youtube.com/@gdmqwqx?si=fEDOkBSNrA25ThYm">Youtube：GdMqwqX </a></h2>
-    </div>
-    <div class="furry-text">
-        <h2> <i class="iconfont icon-weibo-fill"></i>  <a href="http://weibo.cn/qr/userinfo?featurecode=profile_qrcode&uid=7922018683">微博：GaewdFyy </a></h2>
+        <div class="contact-title">其他</div>
+        <div class="contact-item">
+            <i class="iconfont icon-dingding-fill"></i>
+            <a href="https://n.dingtalk.com/dingding/h5-profile/outer/index.html?fr_source=13&uidCipher=gIFEUXswmVzeBd8K9SZJiw%3D%3D&cardToken=572db817b3&profile=%40kgDOrxAIoA target="_blank">
+                GaewdFyy
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-steam"></i>
+            <a href="https://steamcommunity.com/profiles/76561199654977273/" target="_blank">
+                GaewdFyy
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-xbox-fill"></i>
+            <a href="https://www.xbox.com/play/user/WHSGaewd" target="_blank">
+                WHSGaewd
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-youtube-fill"></i>
+            <a href="hhttps://youtube.com/@gdmqwqx?si=fEDOkBSNrA25ThYm" target="_blank">
+                GdMqwqX
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-weibo-fill"></i>
+            <a href="http://weibo.cn/qr/userinfo?featurecode=profile_qrcode&uid=7922018683" target="_blank">
+                GaewdFyy
+            </a>
+        </div>
     </div>
 </div>
-
 
 
 ----

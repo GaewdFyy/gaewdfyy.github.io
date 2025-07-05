@@ -24,7 +24,7 @@
 }
 
 .furry-container:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow:
     0 12px 24px rgba(0, 0, 0, 0.15),
     0 4px 8px rgba(0, 0, 0, 0.1),
@@ -32,6 +32,8 @@
 }
 
 /* 文本区域样式 - 修复并优化 */
+<span style="font-size: 12px; font-weight: bold; background: #ffb6c1; color: #fff; padding: 4px 8px; border-radius: 8px 0 8px 0;">Furry设定档案</span>
+
 .furry-text {
   flex: 1; /* 让文本区域自适应填充剩余空间 */
   min-width: 250px; /* 最小宽度确保可读性 */
@@ -164,9 +166,20 @@
 /* 可选：深色主题支持 */
 @media (prefers-color-scheme: dark) {
   .furry-container {
-    background: linear-gradient(135deg, #2c3e50, #34495e, #3a4a5c);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.furry-container:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.7),
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
   
   .furry-text {
     background: rgba(255, 255, 255, 0.1);
