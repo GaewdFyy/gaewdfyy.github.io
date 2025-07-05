@@ -1,189 +1,52 @@
-/* 主容器样式 */
+/* 自定义 CSS for Fluid 主题 */
+
+/* 容器样式 */
 .furry-container {
-  border: 1px solid rgba(255, 255, 255, 0.4);
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 20px;
   margin: 40px auto;
   padding: 24px;
-  border-radius: 100px;
-  max-width: 1500px; /* 添加最大宽度限制 */
-  
-  /* 优化的渐变背景 */
+  border-radius: 24px;
+  max-width: 1200px;
   background: linear-gradient(135deg, #f5e0a6, #fff5d1, #f0f8ff);
-  
-  /* 增强的阴影效果 */
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  
-  /* 平滑过渡效果 */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* 悬停效果 */
 .furry-container:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.15),
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-/* 文本区域样式 - 修复并优化 */
-<span style="font-size: 10px; font-weight: bold; background: #ffb6c1; color: #fff; padding: 4px 8px; border-radius: 8px 0 8px 0;">Furry设定档案</span>
-
+/* 文字区域样式 */
 .furry-text {
-  flex: 100; /* 让文本区域自适应填充剩余空间 */
-  min-width: 2000px; /* 最小宽度确保可读性 */
-  
-  /* 修复：添加分号并优化文字颜色 */
-  color: #2c3e50; /* 深蓝灰色，提高可读性 */
-  
-  /* 优化的毛玻璃效果 */
+  flex: 1;
+  min-width: 250px;
+  color: #2c3e50;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 16px;
-  
-  /* 添加边框和阴影 */
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  
-  /* 文字样式 */
   line-height: 1.6;
   font-size: 16px;
 }
 
-/* 文本标题样式 */
-.furry-text h1,
-.furry-text h2,
-.furry-text h3 {
-  color: #34495e;
-  margin-top: 0;
-  margin-bottom: 0px;
-  font-weight: 600;
-}
-
-/* 文本段落样式 */
-.furry-text p {
-  margin-bottom: 12px;
-  color: #5a6c7d;
-}
-
-/* 图片容器样式 - 优化 */
+/* 图片区域样式 */
 .furry-img {
-  flex: 0 0 30px;
-  max-width: 90%;
-  min-height: 2px; /* 确保最小高度 */
+  flex: 0 0 auto; /* 自适应宽度 */
+  max-width: 100%;
+  min-height: 200px;
 }
 
 .furry-img img {
   width: 100%;
-  height: auto; /* 保持图片比例 */
-  border-radius: 2px;
-  padding: 1px;
-  
-  /* 优化的渐变背景 */
-  background: linear-gradient(
-    to bottom right, 
-    rgba(255, 255, 255, 0.95), 
-    rgba(240, 248, 255, 0.8),
-    rgba(220, 240, 255, 0.3)
-  );
-  
-  /* 增强的阴影效果 */
-  box-shadow: 
-    0 4px 14px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.06);
-  
-  /* 添加过渡效果 */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.furry-img img:hover {
-  transform: scale(1.02);
-  box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.15),
-    0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .furry-container {
-    margin: 20px 10px;
-    padding: 16px;
-    gap: 15px;
-  }
-  
-  .furry-img {
-    flex: 1 1 100%;
-    min-height: 180px;
-  }
-  
-  .furry-text {
-    min-width: 100%;
-    padding: 12px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .furry-container {
-    margin: 10px 5px;
-    padding: 12px;
-    border-radius: 16px;
-  }
-  
-  .furry-text {
-    padding: 10px;
-    border-radius: 8px;
-  }
-  
-  .furry-img img {
-    border-radius: 12px;
-    padding: 8px;
-  }
-}
-
-/* 加载动画效果 */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.furry-container {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-/* 可选：深色主题支持 */
-@media (prefers-color-scheme: dark) {
-  .furry-container {
-    background: linear-gradient(135deg, #2c3e50, #34495e, #3a4a5c);
-    border-color: rgba(255, 255, 255, 0.2);
-    
-  }
-  
-  .furry-text {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ecf0f1;
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .furry-text h1,
-  .furry-text h2,
-  .furry-text h3 {
-    color: #ffffff;
-  }
-  
-  .furry-text p {
-    color: #bdc3c7;
-  }
-}
+  max-width: 100%; /* 确保图片不超过容器 */
+  height: auto;
+  border-radius: 16px;
+  padding: 0; /* 移除内边距，避免宽度溢出 */
+  background: linear-gradient(to bottom
