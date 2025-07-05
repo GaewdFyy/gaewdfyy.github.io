@@ -41,7 +41,7 @@
   flex: 0 0 auto; /* 自适应宽度 */
   max-width: 300px; /* 限制最大宽度，避免过宽 */
   min-height: 200px;
-  margin-right: 20px; /* 增加右边距，确保与容器边框有间隙 */
+  margin-right: 15px; /* 增加右边距，确保与容器边框有间隙 */
 }
 
 .furry-img img {

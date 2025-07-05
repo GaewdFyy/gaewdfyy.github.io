@@ -39,8 +39,9 @@
 /* 图片区域样式 */
 .furry-img {
   flex: 0 0 auto; /* 自适应宽度 */
-  max-width: 100%;
+  max-width: 300px; /* 限制最大宽度，避免过宽 */
   min-height: 200px;
+  margin-right: 20px; /* 增加右边距，确保与容器边框有间隙 */
 }
 
 .furry-img img {
@@ -48,7 +49,6 @@
   max-width: 100%; /* 确保图片不超过容器 */
   height: auto;
   border-radius: 16px;
-  padding: 0; /* 移除内边距，避免宽度溢出 */
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.8), rgba(220, 240, 255, 0.3));
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -70,8 +70,9 @@
   
   .furry-img {
     flex: 1 1 100%;
+    max-width: 100%; /* 移动端图片宽度占满 */
     min-height: 180px;
-    /* 无需 order: -1;，保持自然顺序（文字在上，图片在下） */
+    margin-right: 0; /* 移动端移除右边距 */
   }
   
   .furry-text {
