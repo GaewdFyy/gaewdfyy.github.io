@@ -49,4 +49,80 @@
   height: auto;
   border-radius: 16px;
   padding: 0; /* 移除内边距，避免宽度溢出 */
-  background: linear-gradient(to bottom
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.8), rgba(220, 240, 255, 0.3));
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.furry-img img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .furry-container {
+    flex-direction: column;
+    margin: 20px 10px;
+    padding: 16px;
+    gap: 15px;
+  }
+  
+  .furry-img {
+    flex: 1 1 100%;
+    min-height: 180px;
+    /* 无需 order: -1;，保持自然顺序（文字在上，图片在下） */
+  }
+  
+  .furry-text {
+    min-width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .furry-container {
+    margin: 10px 5px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+  
+  .furry-text {
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .furry-img img {
+    border-radius: 12px;
+  }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .furry-container {
+    background: linear-gradient(135deg, #2c3e50, #34495e, #3a4a5c);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .furry-text {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ecf0f1;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .furry-text h1,
+  .furry-text h2,
+  .furry-text h3 {
+    color: #ffffff;
+  }
+  
+  .furry-text p {
+    color: #bdc3c7;
+  }
+  
+  .furry-img img {
+    background: linear-gradient(to bottom right, rgba(44, 62, 80, 0.95), rgba(52, 73, 94, 0.8));
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
