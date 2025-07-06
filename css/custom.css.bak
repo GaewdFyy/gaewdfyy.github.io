@@ -45,13 +45,13 @@
   background: var(--color-bg-gradient-light);
   border: 2px solid var(--color-border-light);
   box-shadow: var(--shadow-medium), var(--shadow-inner);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background-position 0.4s ease; /* 桌面端保持炫酷动效 */
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-position 0.4s ease; /* 添加 background-position 过渡 */
   background-position: 0% 0%; /* 初始背景位置 */
 }
 
 .fursonas-container:hover {
-  transform: translateY(-4px) scale(1.02); /* 桌面端炫酷动效：上浮 + 缩放 */
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2), 0 8px 12px rgba(41, 128, 185, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 增强阴影 + 彩色光晕 */
+  transform: translateY(-4px) scale(1.02); /* 添加轻微缩放 */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2), 0 8px 12px rgba(41, 128, 185, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 增强阴影并添加彩色光晕 */
   background-position: 100% 100%; /* 背景渐变偏移 */
 }
 
@@ -102,12 +102,11 @@
   border: 1px solid var(--color-border-light);
   box-shadow: var(--shadow-light);
   object-fit: cover;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加 box-shadow 过渡 */
+  transition: transform 0.3s ease; /* 确保 transition 生效 */
 }
 
 .fursonas-img img:hover {
-  transform: scale(1.02); /* 保留原始放大效果 */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(41, 128, 185, 0.3); /* 添加阴影 + 彩色光晕 */
+  transform: scale(1.02); /* 恢复 hover 动效 */
 }
 
 /* 联系方式容器样式 */
@@ -224,10 +223,6 @@
   border-color: var(--color-border-dark);
 }
 
-[data-user-color-scheme="dark"] .fursonas-img img:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(52, 152, 219, 0.3); /* 深色模式图片 hover 阴影 */
-}
-
 [data-user-color-scheme="dark"] .contact-item {
   background: var(--color-card-bg-dark) !important;
   border-color: var(--color-border-dark);
@@ -249,7 +244,7 @@
   color: var(--color-text-dark);
 }
 
-/* 夜间模式下桌面端 hover 动效适配 */
+/* 夜间模式下 hover 动效适配 */
 [data-user-color-scheme="dark"] .fursonas-container:hover {
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3), 0 8px 12px rgba(52, 152, 219, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 深色模式彩色光晕 */
 }
@@ -274,11 +269,6 @@
     margin: var(--spacing-md) var(--spacing-sm);
     padding: calc(var(--spacing-lg) + 8px); /* 调整为 32px */
     gap: calc(var(--spacing-md) / 2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 恢复原始过渡 */
-  }
-  .fursonas-container:hover {
-    transform: translateY(-4px); /* 恢复原始 hover 动效 */
-    box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 恢复原始阴影 */
   }
   .furry-container {
     margin: var(--spacing-md) var(--spacing-sm);
@@ -312,11 +302,6 @@
   .fursonas-container {
     padding: var(--spacing-md); /* 调整为 16px */
     gap: var(--spacing-sm);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 恢复原始过渡 */
-  }
-  .fursonas-container:hover {
-    transform: translateY(-4px); /* 恢复原始 hover 动效 */
-    box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 恢复原始阴影 */
   }
   .furry-container {
     padding: 0px var(--spacing-sm) var(--spacing-sm) var(--spacing-sm); /* 全部调整为 8px，但上部为 0px */

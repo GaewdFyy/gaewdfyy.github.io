@@ -1,117 +1,232 @@
-/* Furry 组件样式 */
+/* Furry 组件样式 - 基础变量定义 */
+:root {
+  /* 颜色变量 */
+  --color-bg-gradient-light: linear-gradient(135deg, #f5e0a6, #fff5d1, #f0f8ff);
+  --color-bg-gradient-dark: linear-gradient(135deg, #1a252f, #2c3e50, #26323d);
+  --color-card-bg-light: rgba(255, 255, 255, 0.7);
+  --color-card-bg-dark: rgba(30, 39, 50, 0.6);
+  --color-text-light: #2c3e50;
+  --color-text-dark: #ecf0f1;
+  --color-link-light: #34495e;
+  --color-link-dark: #bdc3c7;
+  --color-link-hover-light: #2980b9;
+  --color-link-hover-dark: #3498db;
+  --color-border-light: rgba(255, 255, 255, 0.3);
+  --color-border-dark: rgba(255, 255, 255, 0.2);
+
+  /* 间距变量 */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+
+  /* 阴影变量 */
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 6px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  /* 字体变量 */
+  --font-size-base: 16px; /* 调整为 16px */
+  --font-size-sm: 14px; /* 移动端保持 14px */
+  --line-height: 2.2; /* 调整为 2.2 */
+}
+
+/* Furry 容器样式 */
 .furry-container {
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 20px;
-    margin: 40px auto;
-    padding: 24px;
-    border-radius: 24px;
-    max-width: 800px;
-    
-    background: linear-gradient(135deg, #f5e0a6, #fff5d1, #f0f8ff);
-    
-    box-shadow:
-        0 6px 16px rgba(0, 0, 0, 0.1),
-        0 2px 4px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin: var(--spacing-xl) auto;
+  padding: var(--spacing-lg);
+  border-radius: var(--spacing-lg);
+  max-width: 800px;
+  background: var(--color-bg-gradient-light);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-medium), var(--shadow-inner);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .furry-container:hover {
-    transform: translateY(-4px);
-    box-shadow:
-        0 12px 24px rgba(0, 0, 0, 0.15),
-        0 4px 8px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
+/* 文字区域样式 */
 .furry-text {
-    flex: 1;
-    min-width: 250px;
-    color: #2c3e50;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(6px);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    line-height: 1.6;
-    font-size: 16px;
+  flex: 1;
+  min-width: 250px;
+  color: var(--color-text-light);
+  background: var(--color-card-bg-light);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); /* Safari 支持 */
+  border-radius: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-light);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
 }
 
+/* 图片区域样式 */
+.furry-img {
+  flex: 0 0 auto;
+  max-width: 300px;
+  min-height: 200px;
+}
+
+.furry-img img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--spacing-md);
+  background: var(--color-card-bg-light);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-light);
+  object-fit: cover; /* 确保图片比例一致 */
+  transition: transform 0.3s ease;
+}
+
+.furry-img img:hover {
+  transform: scale(1.02);
+}
+
+/* 联系项样式 */
 .contact-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }
 
 .contact-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .contact-item:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--spacing-sm);
+  padding: var(--spacing-sm);
 }
 
 .contact-item i {
-    font-size: 24px;
-    margin-right: 12px;
-    width: 32px;
-    text-align: center;
-    transition: transform 0.3s ease;
+  font-size: 24px;
+  margin-right: var(--spacing-md);
+  width: 32px;
+  text-align: center;
+  transition: transform 0.3s ease;
 }
 
 .contact-item:hover i {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .contact-item a {
-    color: #34495e;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 16px;
-    transition: color 0.3s ease;
+  color: var(--color-link-light);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--font-size-base);
+  transition: color 0.3s ease;
 }
 
 .contact-item:hover a {
-    color: #2980b9;
+  color: var(--color-link-hover-light);
 }
 
-.icon-github-fill { color: #333; }
-.icon-qq-fill { color: #1296db; }
-.icon-twitter-fill { color: #1da1f2; }
-
+/* 联系标题样式 */
 .contact-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 20px;
-    text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+/* 夜间模式适配 */
+[data-user-color-scheme="dark"] .furry-container {
+  background: var(--color-bg-gradient-dark) !important;
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .furry-text {
+  background: var(--color-card-bg-dark) !important;
+  color: var(--color-text-dark);
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .furry-img img {
+  background: var(--color-card-bg-dark) !important;
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-user-color-scheme="dark"] .contact-item a {
+  color: var(--color-link-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-item:hover a {
+  color: var(--color-link-hover-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-title {
+  color: var(--color-text-dark);
+}
+
+/* 性能降级：不支持 backdrop-filter 时 */
+@supports not (backdrop-filter: blur(6px)) {
+  .furry-text,
+  .furry-img img {
+    background: rgba(255, 255, 255, 0.9);
+  }
+  [data-user-color-scheme="dark"] .furry-text,
+  [data-user-color-scheme="dark"] .furry-img img {
+    background: rgba(30, 39, 50, 0.8);
+  }
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .furry-container {
-        margin: 20px 10px;
-        padding: 16px;
-        gap: 15px;
-    }
-    
-    .furry-text {
-        min-width: 100%;
-        padding: 16px;
-        font-size: 14px;
-    }
-    
-    .contact-item {
-        padding: 10px 0;
-    }
+  .furry-container {
+    margin: var(--spacing-md) var(--spacing-sm);
+    padding: var(--spacing-sm);
+    gap: calc(var(--spacing-md) / 2);
+  }
+  .furry-text,
+  .furry-img {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .furry-text {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm); /* 保持 14px */
+  }
+  .furry-img {
+    min-height: 150px;
+  }
+  .contact-item {
+    padding: calc(var(--spacing-md) / 2) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .furry-container {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+  .furry-text {
+    padding: calc(var(--spacing-sm) / 2);
+  }
+  .contact-item {
+    padding: calc(var(--spacing-sm) / 2) 0;
+  }
+  .contact-title {
+    font-size: 20px;
+    margin-bottom: calc(var(--spacing-sm) / 2);
+  }
 }

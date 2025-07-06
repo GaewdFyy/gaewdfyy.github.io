@@ -1,6 +1,7 @@
 ---
 title: about
 layout: about
+thumbnail: /images/10.png
 ---
 
 
@@ -11,8 +12,7 @@ layout: about
 
 
 ## 在这些平台上找到我
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1832207_c8i9n1ulqxr.css">
-<link rel="stylesheet" href="/css/furry-component.css">
+
 <div class="furry-container">
     <div class="furry-text">
         <div class="contact-title">相关群组</div>
@@ -35,11 +35,10 @@ layout: about
 ----
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1832207_c8i9n1ulqxr.css">
-<link rel="stylesheet" href="/css/furry-component.css">
+
 <div class="furry-container">
     <div class="furry-text">
-        <div class="contact-title">较活跃</div>
+        <div class="contact-title">主要的</div>
         <div class="contact-item">
             <i class="iconfont icon-github-fill"></i>
             <a href="https://github.com/GaewdFyy" target="_blank">
@@ -88,8 +87,7 @@ layout: about
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1832207_c8i9n1ulqxr.css">
-<link rel="stylesheet" href="/css/furry-component.css">
+
 <div class="furry-container">
     <div class="furry-text">
         <div class="contact-title">其他</div>
@@ -134,62 +132,9 @@ layout: about
 # About My Fursonas
 
 ## 奈程NayCheng
-<style>
-  .furry-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 20px;
-    margin: 20px 0;
-  }
 
-
-<span style="font-size: 12px; font-weight: bold; background: #ffb6c1; color: #fff; padding: 4px 8px; border-radius: 8px 0 8px 0;">Furry设定档案</span>
-
-  .furry-text {
-    flex: 1;
-    min-width: 280px;
-    font-family: "Segoe UI", sans-serif;
-    line-height: 1.6;
-  }
-
-  .furry-img {
-    flex: 0 0 300px;
-    max-width: 100%;
-  }
-
-  .furry-img img {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  /* 默认亮色模式 */
-  .furry-text {
-    color: #222;
-  }
-
-  /* 暗色模式适配 */
-  @media (prefers-color-scheme: dark) {
-    .furry-text {
-      color: #ddd;
-    }
-  }
-
-  /* 移动端适配 */
-  @media (max-width: 768px) {
-    .furry-container {
-      flex-direction: column;
-      align-items: center;
-    }
-    .furry-img {
-      flex: none;
-    }
-  }
-</style>
-
-<div class="furry-container">
-  <div class="furry-text">
+<div class="fursonas-container">
+  <div class="fursonas-text">
   <p><strong>名字：</strong>奈程/NayCheng</p>
     <p><strong>年龄：</strong>16岁</p>
     <p><strong>身高：</strong>约165cm</p>
@@ -198,15 +143,10 @@ layout: about
     <p><strong>性格：</strong>温柔、腼腆、黏人治愈系</p>
     <p><strong>故事背景：</strong>奈程来自一片叫橙雾森林的梦幻之地，他能听见风的声音，用画笔记录自然的记忆。为了找回走失的朋友，他踏上了一场旅途……</p>
   </div>
-  <div class="furry-img">
+  <div class="fursonas-img">
     <img src="/img/10.png" alt="兽设图">     
   </div>
 </div>
-
-
-
-<!-- 将你的整个联系方式区域包装在这个容器中 -->
-
 
 
 ----
