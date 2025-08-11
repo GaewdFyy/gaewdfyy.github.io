@@ -6,7 +6,7 @@ thumbnail: /images/10.png
 
 
 # About Me
-哈喽~ 我叫**Gd**，也可以叫我**森森**，熟一点的人可以叫我**森宝**。出生在河南省漯河市，生日2011年7月18日。一位即将上初三的喜爱科技与热爱Furry的少年~
+哈喽~ 我叫**Gd**，也可以叫我**森森**，熟一点的人可以叫我**森宝**。出生在**河南省漯河市**，生日**2011年7月18日**。一位即将上初三的**喜爱科技与热爱Furry**的少年~
 
 希望能在这个小小的Blog里留下属于自己的故事呢，分享自己所了解的、感兴趣的事物！欢迎和大家做朋友awa
 
@@ -58,6 +58,12 @@ thumbnail: /images/10.png
         </div>
         <div class="contact-item">
             <i class="iconfont icon-twitter-fill"></i>
+            <a href="https://x.com/gaewdfyy" target="_blank">
+                @GaewdFyy
+            </a>
+        </div>
+        <div class="contact-item">
+            <i class="iconfont icon-twitter-fill"></i>
             <a href="https://x.com/furgaewdfyy" target="_blank">
                 @FurGaewdFyy
             </a>
@@ -65,7 +71,7 @@ thumbnail: /images/10.png
         <div class="contact-item">
             <i class="iconfont icon-bilibili-fill"></i>
             <a href="https://b23.tv/6AL861S" target="_blank">
-                GaewdFyy
+                奈程NayCheng
             </a>
         </div>
         <div class="contact-item">
