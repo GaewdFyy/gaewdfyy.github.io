@@ -1,0 +1,322 @@
+/* Furry 组件样式 - 基础变量定义 */
+:root {
+  /* 颜色变量 */
+  --color-bg-gradient-light: linear-gradient(135deg, #f5e0a6, #fff5d1, #f0f8ff);
+  --color-bg-gradient-dark: linear-gradient(135deg, #1a252f, #2c3e50, #26323d);
+  --color-card-bg-light: rgba(255, 255, 255, 0.7);
+  --color-card-bg-dark: rgba(30, 39, 50, 0.6);
+  --color-text-light: #2c3e50;
+  --color-text-dark: #ecf0f1;
+  --color-link-light: #34495e;
+  --color-link-dark: #bdc3c7;
+  --color-link-hover-light: #2980b9;
+  --color-link-hover-dark: #3498db;
+  --color-border-light: rgba(255, 255, 255, 0.3);
+  --color-border-dark: rgba(255, 255, 255, 0.2);
+
+  /* 间距变量 */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+
+  /* 阴影变量 */
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 6px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  /* 字体变量 */
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --line-height: 2.2; /* 默认行间距 */
+}
+
+/* Fursonas 容器样式（左文字右图片） */
+.fursonas-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin: var(--spacing-xl) auto;
+  padding: var(--spacing-lg); /* 保持 24px */
+  border-radius: var(--spacing-lg);
+  max-width: 800px;
+  background: var(--color-bg-gradient-light);
+  border: 2px solid var(--color-border-light);
+  box-shadow: var(--shadow-medium), var(--shadow-inner);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-position 0.4s ease; /* 添加 background-position 过渡 */
+  background-position: 0% 0%; /* 初始背景位置 */
+}
+
+.fursonas-container:hover {
+  transform: translateY(-4px) scale(1.02); /* 添加轻微缩放 */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2), 0 8px 12px rgba(41, 128, 185, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 增强阴影并添加彩色光晕 */
+  background-position: 100% 100%; /* 背景渐变偏移 */
+}
+
+/* 确保桌面端左文右图 */
+@media (min-width: 769px) {
+  .fursonas-container {
+    flex-wrap: nowrap; /* 防止换行 */
+  }
+  .fursonas-text {
+    flex: 1;
+    min-width: 250px; /* 确保最小宽度 */
+  }
+  .fursonas-img {
+    flex: 0 0 300px; /* 调整为 300px */
+    max-width: 300px; /* 限制最大宽度 */
+    min-height: 180px; /* 调整为 180px */
+  }
+}
+
+.fursonas-text {
+  flex: 1;
+  min-width: 250px;
+  color: var(--color-text-light);
+  background: var(--color-card-bg-light);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: var(--spacing-md);
+  padding: var(--spacing-lg); /* 保持 24px */
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-light);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.fursonas-img {
+  flex: 0 0 auto;
+  max-width: 300px; /* 调整为 300px */
+  min-height: 180px; /* 调整为 180px */
+}
+
+.fursonas-img img {
+  width: 100%;
+  height: 100%; /* 确保填满容器 */
+  border-radius: var(--spacing-md);
+  background: var(--color-card-bg-light);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-light);
+  object-fit: cover;
+  transition: transform 0.3s ease; /* 确保 transition 生效 */
+}
+
+.fursonas-img img:hover {
+  transform: scale(1.02); /* 恢复 hover 动效 */
+}
+
+/* 联系方式容器样式 */
+.furry-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin: var(--spacing-xl) auto;
+  padding: 0px var(--spacing-md) var(--spacing-md) var(--spacing-md); /* 上: 0px, 左/下/右: 16px */
+  border-radius: var(--spacing-lg);
+  max-width: 800px;
+  background: var(--color-bg-gradient-light);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-medium), var(--shadow-inner);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.furry-container:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.furry-text {
+  flex: 1;
+  min-width: 250px;
+  color: var(--color-text-light);
+  padding: var(--spacing-lg); /* 保持 24px */
+  font-size: var(--font-size-base);
+  line-height: 2.5;
+  /* 移除背景、边框和阴影 */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* 联系项样式 - 独立卡片 */
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--spacing-md);
+  background: var(--color-card-bg-light);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+}
+
+.contact-item:last-child {
+  margin-bottom: 0; /* 移除最后一个项的下边距 */
+}
+
+.contact-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-hover); /* 增强阴影 */
+  transform: scale(1.02); /* 保持放大效果 */
+}
+
+.contact-item i {
+  font-size: 24px;
+  margin-right: var(--spacing-md);
+  width: 32px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.contact-item:hover i {
+  transform: scale(1.1);
+}
+
+.contact-item a {
+  color: var(--color-link-light);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--font-size-base);
+  transition: color 0.3s ease;
+}
+
+.contact-item:hover a {
+  color: var(--color-link-hover-light);
+}
+
+/* 联系标题样式 */
+.contact-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-sm); /* 保持 8px */
+  text-align: center;
+}
+
+/* 夜间模式适配 */
+[data-user-color-scheme="dark"] .fursonas-container,
+[data-user-color-scheme="dark"] .furry-container {
+  background: var(--color-bg-gradient-dark) !important;
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .fursonas-text,
+[data-user-color-scheme="dark"] .furry-text {
+  color: var(--color-text-dark);
+}
+
+[data-user-color-scheme="dark"] .fursonas-text {
+  background: var(--color-card-bg-dark) !important;
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .fursonas-img img {
+  background: var(--color-card-bg-dark) !important;
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-item {
+  background: var(--color-card-bg-dark) !important;
+  border-color: var(--color-border-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-item:hover {
+  background: rgba(45, 55, 65, 0.9);
+}
+
+[data-user-color-scheme="dark"] .contact-item a {
+  color: var(--color-link-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-item:hover a {
+  color: var(--color-link-hover-dark);
+}
+
+[data-user-color-scheme="dark"] .contact-title {
+  color: var(--color-text-dark);
+}
+
+/* 夜间模式下 hover 动效适配 */
+[data-user-color-scheme="dark"] .fursonas-container:hover {
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3), 0 8px 12px rgba(52, 152, 219, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 深色模式彩色光晕 */
+}
+
+/* 性能降级：不支持 backdrop-filter 时 */
+@supports not (backdrop-filter: blur(6px)) {
+  .fursonas-text,
+  .fursonas-img img,
+  .contact-item {
+    background: rgba(255, 255, 255, 0.9);
+  }
+  [data-user-color-scheme="dark"] .fursonas-text,
+  [data-user-color-scheme="dark"] .fursonas-img img,
+  [data-user-color-scheme="dark"] .contact-item {
+    background: rgba(30, 39, 50, 0.8);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .fursonas-container {
+    margin: var(--spacing-md) var(--spacing-sm);
+    padding: calc(var(--spacing-lg) + 8px); /* 调整为 32px */
+    gap: calc(var(--spacing-md) / 2);
+  }
+  .furry-container {
+    margin: var(--spacing-md) var(--spacing-sm);
+    padding: 0px var(--spacing-md) var(--spacing-md) var(--spacing-md); /* 上: 0px, 左/下/右: 16px */
+    gap: calc(var(--spacing-md) / 2);
+  }
+  .fursonas-text,
+  .fursonas-img,
+  .furry-text {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .fursonas-text {
+    padding: var(--spacing-md);
+    font-size: 16px;
+  }
+  .furry-text {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+  .fursonas-img {
+    min-height: 180px; /* 调整为 180px */
+  }
+  .contact-item {
+    padding: calc(var(--spacing-md) / 2);
+    margin-bottom: calc(var(--spacing-md) / 2);
+  }
+}
+
+@media (max-width: 480px) {
+  .fursonas-container {
+    padding: var(--spacing-md); /* 调整为 16px */
+    gap: var(--spacing-sm);
+  }
+  .furry-container {
+    padding: 0px var(--spacing-sm) var(--spacing-sm) var(--spacing-sm); /* 全部调整为 8px，但上部为 0px */
+    gap: var(--spacing-sm);
+  }
+  .fursonas-text,
+  .furry-text {
+    padding: var(--spacing-md);
+  }
+  .contact-item {
+    padding: calc(var(--spacing-sm) / 2);
+    margin-bottom: calc(var(--spacing-sm) / 2);
+  }
+  .contact-title {
+    font-size: 20px;
+    margin-bottom: calc(var(--spacing-sm) / 2);
+  }
+}

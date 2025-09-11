@@ -1,0 +1,1083 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.png">
+  <link rel="icon" href="/img/ico.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#00000000">
+  <meta name="author" content="GaewdFyy">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="教程涵盖了解锁Bootloader、刷入第三方Rec、获取ROM、Root等完整流程，适合动手党进阶使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="超详细的小米手机刷机指南！">
+<meta property="og:url" content="https://gaewdfyy.github.io/2025/02/22/shuaji/index.html">
+<meta property="og:site_name" content="GaewdFyyの部落格">
+<meta property="og:description" content="教程涵盖了解锁Bootloader、刷入第三方Rec、获取ROM、Root等完整流程，适合动手党进阶使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6813618e58cb8da5c8d62904.png">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/05.png">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/681a0e4d58cb8da5c8e0c7bd.jpg">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6813627458cb8da5c8d6298c.png">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6813ad0358cb8da5c8d643fe.png">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/04.jpg">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/06.png">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/07.jpg">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/08.jpg">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/09.jpg">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/11.jpg">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/12.png">
+<meta property="article:published_time" content="2025-02-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-20T16:39:35.656Z">
+<meta property="article:author" content="GaewdFyy">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="玩机">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>超详细的小米手机刷机指南！ - GaewdFyyの部落格</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"gaewdfyy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="https://unpkg.com/video.js@6.7.1/dist/video-js.css">
+<script src="https://unpkg.com/video.js@6.7.1/dist/video.js"></script>
+<script src="https://unpkg.com/@videojs/http-streaming@0.9.0/dist/videojs-http-streaming.js"></script></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GaewdFyyの部落格</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/message/" target="_self">
+                <i class="iconfont icon-speakernotes"></i>
+                <span>留言板</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/update/" target="_self">
+                <i class="iconfont icon-code"></i>
+                <span>更新日志</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-switch-fill"></i>
+                <span>娱乐</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/play/" target="_self">
+                    
+                    <span>Furry随机图片</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.timelessq.com/bing') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="超详细的小米手机刷机指南！"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-22 00:00" pubdate>
+          2025年2月22日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">超详细的小米手机刷机指南！</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-07-21T00:39:35+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章会教你如何解锁Bootloader，刷机，获取Root权限，救砖等操作<br>在开始之前，请你确保有一台可以解锁Bootloader以及可以刷机的小米手机，和一台Windows 7及以上的电脑。<br>本文将会以Redmi 9A来演示<br>务必全部看完再操作。<br>话不多说，准备开始吧！</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="刷机前的设置"><a href="#刷机前的设置" class="headerlink" title="刷机前的设置"></a>刷机前的设置</h3><p>首先打开 <strong>设置</strong> - <strong>我的设备</strong> - <strong>全部参数</strong><br>连续点击7次 <strong>MIUI版本</strong>  开启开发者模式</p>
+<p>然后回到<strong>设置</strong>  点击 <strong>更多设置</strong> - <strong>开发者选项</strong><br>打开 <strong>OEM解锁</strong> 和<strong>USB调试</strong><br>然后点击 <strong>设备解锁状态</strong>  点击下方 <strong>绑定账号和设备</strong>  </p>
+<img src="https://pic1.imgdb.cn/item/67cd0d2f066befcec6e19394.jpg" srcset="/img/loading.gif" lazyload alt="设备解锁状态" style="width: 60%; height: auto;">
+
+
+<div class="note note-warning">
+            <p>需要插入SIM卡并且开启移动数据</p>
+          </div>
+
+<p>然后等待<strong>168个小时</strong>（7天）</p>
+<h3 id="备份数据"><a href="#备份数据" class="headerlink" title="备份数据"></a>备份数据</h3><p>众所周知，数据是无价的，所以备份数据是很重要的<br>备份数据有多种方式，其难易程度由你所刷的ROM决定</p>
+<p>以Redmi 9A为例，如果我要刷其对应的 <code>欧洲版A10 MIUI11</code> 系统<br>因为9A出厂搭载的也是MIUI系统，所以我们可以直接使用其对应的云服务进行备份，刷后再登录相同的账号进行同步就可以恢复啦！</p>
+<p>如果要刷的是第三方ROM，如类原生、以及即使要刷的ROM包含了云服务但不是本家的<br>就比较麻烦些了，需要手动进行数据备份。常见的备份项无非就是这3个：</p>
+<ol>
+<li>通讯录联系人</li>
+<li>相册照片及视频</li>
+<li>应用软件和数据</li>
+</ol>
+<hr>
+<ul>
+<li>1项优先考虑使用第三方带有备份的通讯录应用，像谷歌的通讯录，登录支持备份和同步，不一定要用自带的。其次再考虑将联系人一次导出至一个文件，再将文件移到外部存储或传到电脑上</li>
+<li>2项和1项差不多，可以使用谷歌的Google相册或其它带有备份功能的第三方相册，其次再考虑将内部存储目录下的DCIM、pictures等文件夹移到外部存储或传到电脑上</li>
+<li>应用需要将安装包进行提取，然后进行转移，数据方面，如果是像微信与QQ，可以登录对应的PC版进行备份聊天记录，而其他软件的数据在没有root的情况下估计是不保的</li>
+</ul>
+<p>如果你有一台多余的手机，可以下载类似于“一键换机”的App，将需要备份数据的手机作为旧手机，将对应的数据资料存在对应的新手机上，如要恢复，反向操作就行了</p>
+<h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><h4 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h4><p>因为要借助到电脑刷机，所以电脑端也需要配置环境</p>
+<p>在Windows 10及以上的系统中通常会自带Android驱动<br>但是之前的版本不会有，所以我们需要安装驱动</p>
+<p>我们可以借助官方小米刷机工具：<a target="_blank" rel="noopener" href="https://xiaomirom.com/download-xiaomi-flash-tool-miflash/">MiFlash</a>进行驱动的安装，同时 在接下来的<strong>刷入系统</strong>步骤中也会用到这个工具</p>
+<p><a target="_blank" rel="noopener" href="https://cdn.alsgp0.fds.api.mi-img.com/micomm/MiFlash2020-3-14-0.rar">下载链接</a></p>
+<p>将下载的压缩包解压至一个文件夹，目录放在自己可以找到的位置（如桌面），然后双击运行 <strong>XiaoMiFlash.exe</strong> 然后会先弹出 <strong>请安装驱动</strong> 窗口，点击<strong>安装</strong>即可安装驱动。</p>
+<p><img src="https://pic1.imgdb.cn/item/6813618e58cb8da5c8d62904.png" srcset="/img/loading.gif" lazyload alt="MiFlash"></p>
+<h4 id="ADB安卓调试桥"><a href="#ADB安卓调试桥" class="headerlink" title="ADB安卓调试桥"></a>ADB安卓调试桥</h4><p>直接点击<a target="_blank" rel="noopener" href="https://dl.google.com/android/repository/platform-tools-latest-windows.zip?hl=zh-cn">这里</a>下载<br>然后将下载的zip压缩包解压到一个文件夹，并打开它，你会看到一大堆文件，我们不管它，在<strong>地址栏</strong>中清空并输入<strong>cmd</strong>，然后回车</p>
+<p><img src="/img/05.png" srcset="/img/loading.gif" lazyload alt="地址栏在哪里？"></p>
+<p>你会看到一个命令提示符，若手机已经在系统中，输入<code>adb devices</code>看看有没有显示设备，若在Fastboot，输入<code>fastboot device</code>看看有没有显示设备，然后再手机弹出的窗口进行授权就OK啦</p>
+<h2 id="解锁Bootloader"><a href="#解锁Bootloader" class="headerlink" title="解锁Bootloader"></a>解锁Bootloader</h2><p>解锁bootloader（简称BL锁）是进行刷机、Root等操作的前提，所以解锁Bootloader是必须的。<br>因为各大手机厂商对手机BL锁的解锁有着种种限制，想要解锁BL锁是比较困难的，所以要想解锁BL锁，建议挑选容易解锁的品牌。</p>
+<p>有哪些手机品牌是比较好解BL锁的呢？</p>
+<ul>
+<li>国内厂商：小米、一加、魅族、真我</li>
+<li>国外厂商：三星、摩托摩拉、联想、Nothing、Google Pixel</li>
+</ul>
+<p>这里说明：小米最近的小米14、小米14 Pro、小米15等以后的新机型出厂都搭载了自家的澎湃OS（Xioami Hyper OS)，其解锁非常困难，不推荐购买，建议购买预装为MIUI的机型</p>
+<p>下面开始解BL锁</p>
+<hr>
+<p>首先在电脑上下载官方提供的解锁工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.miui.com/unlock">官方网站</a>        &#x2F;&#x2F;        <a target="_blank" rel="noopener" href="https://cdn.cnbj1.fds.api.mi-img.com/flash-tool/miflash_unlock_7.6.727.43.zip">下载链接</a></p>
+<p>下载后将此压缩包解压至一个文件夹，放在你可以找到的地方，然后打开里面的<strong>miflash_unlock.exe</strong><br>然后在弹出的窗口中登录自己的小米账号</p>
+<p>然后先把手机关机，再同时按住<strong>音量减键</strong>和<strong>电源键</strong>，然后手机就会进入Fastboot模式，屏幕上会出现“<strong>FASTBOOT</strong>”字样</p>
+<img src="https://pic1.imgdb.cn/item/681a0e4d58cb8da5c8e0c7bd.jpg" srcset="/img/loading.gif" lazyload alt="*较新机型可能显示的是一个橙色字体的FASTBOOT" style="width: 40%; height: auto;">
+
+<div class="note note-warning">
+            <p>较新的机型可能显示的是一个橙色字体的FASTBOOT</p>
+          </div>
+
+<p>再使用数据线连接电脑，解锁工具会显示“<strong>已连接设备</strong>”</p>
+<p><img src="https://pic1.imgdb.cn/item/6813627458cb8da5c8d6298c.png" srcset="/img/loading.gif" lazyload alt="小米手机解锁工具"></p>
+<p>点击下方的<strong>解锁</strong>按钮，再经过确认，你应该能顺利地解锁BL锁！</p>
+<p><img src="https://pic1.imgdb.cn/item/6813ad0358cb8da5c8d643fe.png" srcset="/img/loading.gif" lazyload alt="解锁成功"></p>
+<h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><h3 id="选择合适的刷机包"><a href="#选择合适的刷机包" class="headerlink" title="选择合适的刷机包"></a>选择合适的刷机包</h3><p>Android中，通俗的说，刷机就是把刷机包刷入到手机，实现更换系统的效果。<br>而下一步就是选择一个适合的刷机包了，要根据需求选择。<br>目前大致有两种刷机包：</p>
+<ul>
+<li>官方固件包</li>
+</ul>
+<p>官方固件包是由手机厂商提供的，它包含了手机的系统以及一些预装软件，和手机厂商的一些专属服务 <del>（和一些广告</del></p>
+<ul>
+<li>第三方定制ROM</li>
+</ul>
+<p>第三方定制ROM是由非官方的开发者&#x2F;开发团队制作的，<br>其可定制性强，并且更纯洁，稳定</p>
+<hr>
+<p>如果你想让你的手机既可以体验手机厂商的专属服务，但又想有一个没有&#x2F;少量广告或预装软件的系统，那么你可以选择官方固件包的早期版本或其他地区的版本</p>
+<p>以Redmi 9A为例<br>在<a target="_blank" rel="noopener" href="https://xiaomirom.com/">XiaomiRom.com</a>中<br>你可以找到小米手机几乎全部的刷机包<br>搜索相应的机型就可以找到所有的官方固件包，然后再对比一下手机的设备代号是否与搜索结果中的括号内容是否相同</p>
+<hr>
+<p>至于如何查找设备代号，你可以下载<strong>Device Info HW</strong>这款软件，在<strong>系统</strong>选项卡中的<strong>设备</strong>就是其设备代号啦~<br><img src="/img/04.jpg" srcset="/img/loading.gif" lazyload></p>
+<details markdown="1"><summary>小提示（点我）</summary>
+你可能会发现不同机型的设备代号是相同的，那就说明这些机型是可刷入相同的刷机包的，也就是说，找刷机包建议不要看机型，而是看设备代号，只要设备代号相对应都是可以刷入的
+</details>
+
+
+
+<p>然后根据需求自行选择不同版本的刷机包，之后会让你选择线刷包还是卡刷包，这里要如何选择后面会讲</p>
+<hr>
+<p>第三方定制ROM更适合对广告敏感的人和对可定制性要求较高的人，因为都是基于AOSP，所以常成为类原生</p>
+<p>第三方定制ROM有很多<br>以下是一些常见的ROM：</p>
+<table>
+<thead>
+<tr>
+<th>ROM名称</th>
+<th>主要特点</th>
+<th>官方网站</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LineageOS</td>
+<td>稳定、纯净、广泛设备支持、社区活跃</td>
+<td>lineageos.org</td>
+</tr>
+<tr>
+<td>Pixel Experience</td>
+<td>极致接近Pixel原生体验，包含Pixel专属功能（相机、启动器等）</td>
+<td>pixelexperience.org</td>
+</tr>
+<tr>
+<td>crDroid</td>
+<td>基于LineageOS，提供大量自定义选项，同时保持接近原生</td>
+<td>crdroid.net</td>
+</tr>
+<tr>
+<td>Evolution X</td>
+<td>旨在提供Pixel体验并高度可定制，UI和功能性优秀</td>
+<td>evolution-x.org</td>
+</tr>
+<tr>
+<td>Paranoid Android (PA)</td>
+<td>性能与功能平衡，曾以独特创新功能著称（如Pie Control）</td>
+<td>paranoidandroid.co</td>
+</tr>
+<tr>
+<td>GrapheneOS</td>
+<td>极致隐私与安全，不预装Google服务或提供沙盒化</td>
+<td>grapheneos.org</td>
+</tr>
+<tr>
+<td>CalyxOS</td>
+<td>高度注重隐私与安全，提供易用的隐私控制选项，可选择Google服务</td>
+<td>calyxos.org</td>
+</tr>
+</tbody></table>
+<hr>
+<p>你可以根据自己的需求和主要特点进行选择</p>
+<p>之后就像上面一样，搜索设备型号或设备代号进行匹配</p>
+<ul>
+<li>你可能会遇到支持设备的列表中没有你的机型，这一般是正常的，只能等等开发者做适配或找找有没有民间大神做了</li>
+<li>你可以去<strong>酷安</strong>和<a target="_blank" rel="noopener" href="https://xdaforums.com/">XDA论坛</a>中找找有没有相关的话题或使用搜索引擎帮助查找</li>
+</ul>
+<hr>
+<p>第三方ROM一般都是卡刷包，需要借助第三方Recovery，要怎么刷入请看下文</p>
+<h3 id="刷入系统"><a href="#刷入系统" class="headerlink" title="刷入系统"></a>刷入系统</h3><h4 id="线刷包"><a href="#线刷包" class="headerlink" title="线刷包"></a>线刷包</h4><p>先将下载下来的线刷包（通常是tgz格式）解压，会发现还有一个tar压缩包，解压后最终会得到一个文件夹，放到你能找到的位置</p>
+<p>然后下载上文提到的MiFlash，解压下载的zip文件，然后打开里面的<strong>Xiaomi Flash.exe</strong><br>确保驱动已经安装后点击上面的<strong>浏览</strong>，选择上一步解压后的文件夹，点击确定<br>再将手机用数据线连接电脑，并且进入Fastboot模式。<br>此时你的电脑应该会发出设备接入的声音，再点击<strong>加载设备</strong>你的手机应该会出现在其列表内。</p>
+<p>之后将软件右下角选项改为<strong>全部删除</strong>，注意一定不要选择<strong>全部删除并lock</strong>不然它还会重新给你上锁回去</p>
+<p>确保无误后点击<strong>刷机</strong>按钮<br>恭喜！现在你只需要等待几分钟就可以了<br>等跑条完毕并显示<strong>Finish</strong>你就可以将数据线拔出并长按电源键开机了，是不是非常简单呢！</p>
+<h4 id="卡刷包"><a href="#卡刷包" class="headerlink" title="卡刷包"></a>卡刷包</h4><hr>
+<p>首先需要下载一个第三方的Recovery ，比较知名的有TeamWin Recovery Project （简称TWRP）以及OrangeFox。<br>你可能会遇到支持设备的列表中没有你的机型，那么你可以尝试换另一种第三方Recovery，如果还是不行那就只能在一些刷机论坛去看看有没有民间大神做适配了</p>
+<h5 id="刷入TWRP"><a href="#刷入TWRP" class="headerlink" title="刷入TWRP"></a>刷入TWRP</h5><p>首先打开<a target="_blank" rel="noopener" href="http://twrp.me/">TWRP官网</a><br>在右上角菜单中选择<strong>Devices（设备）</strong><br>然后选择手机的制造商，再选择与设备代号相同的选项，往下翻，找到<strong>Download Links（下载链接）</strong>选择第一个选项，再往下翻，找到twrp的文件名称。<br>这里建议要选择与你手机Android版本匹配的TWRP，以名称的“_”后面的内容为准，如<br><code>twrp-3.7.1_12-1.img</code><br>则说明这个TWRP是适配与Android12的</p>
+<p>再次点击后就可以下载了</p>
+<hr>
+<p>下载的文件是一个IMG文件，首先将手机进入到Fastboot模式。<br>打开之前提到的ADB，输入下段命令</p>
+<pre><code class="hljs">fastboot flash recovery 
+</code></pre>
+<p>然后将下载的IMG文件拖入到命令窗口（前面要有一个空格）<br>然后回车等待刷入。</p>
+<p>之后输入</p>
+<pre><code class="hljs">fastboot reboot
+</code></pre>
+<p> 然后回车，立即按住手机的音量+键不要松，等待进入至TWRP界面再松手。</p>
+<p> 等待一会后你会来到一个输入密码的界面，首先点击<strong>Select Language</strong>选择<strong>Chinese（Simplified)<strong>并点击</strong>OK</strong>。再输入你手机的锁屏密码.<br> 然后会来到<strong>未修改的system分区</strong>界面，接着滑动下方的滑块即可。</p>
+<h5 id="使用TWRP刷机"><a href="#使用TWRP刷机" class="headerlink" title="使用TWRP刷机"></a>使用TWRP刷机</h5><p> 首先确保手机存储内已经有了卡刷包，如果在电脑上，可以打开资源管理器，你应该可以看到你的设备，打开进入内部存储（或者SD卡）把卡刷包复制到你可以找到的位置</p>
+<p> 然后 点击<strong>安装</strong>，找到你刚才复制的刷机包，如果复制到了SD卡，点击下面的<strong>存储位置</strong>来更改。<br> 最后滑动下面的滑块就可以开刷啦！<br> 刷完之后返回到主界面点击<strong>清除</strong>，点击<strong>格式化分区</strong>按照操作清除Data分区，最后返回点击<strong>重启</strong>选择<strong>系统</strong>就OK啦~</p>
+<h5 id="刷入OrangeFox（若上步已完成可忽略）"><a href="#刷入OrangeFox（若上步已完成可忽略）" class="headerlink" title="刷入OrangeFox（若上步已完成可忽略）"></a>刷入OrangeFox（若上步已完成可忽略）</h5><hr>
+<p>首先打开<a target="_blank" rel="noopener" href="https://orangefox.download/">Orange Fox官网（orangefox.download）</a></p>
+<p>然后直接往下翻找到你手机的设备代号或者在搜索框内查询，点击后找到<strong>最新发布（Last release）</strong>下面的<strong>下载（Download）</strong>的上方有没有如下图类似的“ <strong>Android XX encryption is not supported.</strong> ”提示</p>
+<p><img src="/img/06.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果有，请选择下面的<strong>旧版本（Older releases）</strong>的其中一个点击下载，如果没有这样的提示，直接点击“<strong>下载（Download）</strong>”即可下载，然后<br>你会得到一个zip压缩文件，解压后会看到有一个名为<strong>recovery.img</strong>的IMG文件，这个文件就是等会儿要用到的东西</p>
+<hr>
+<p>首先打开上面提到的ADB，输入下段命令</p>
+<pre><code class="hljs">fastboot flash recovery 
+</code></pre>
+<p>然后将解压出来的IMG文件拖入到命令窗口（前面要有一个空格）<br>然后回车等待刷入。</p>
+<p>之后输入</p>
+<pre><code class="hljs">fastboot reboot
+</code></pre>
+<p> 然后回车，紧接着立即按住手机的音量+键不要松，等待进入至OrangeFox界面再松手。</p>
+<p>这样就顺利地刷入了OrangeFox！</p>
+<p>随后你会来到一个输入密码的界面，输入你手机的锁屏密码，若是九宫格图案密码则每个点的位置对应着1-9（从上到下）的数字。<br>之后会出现一个下方有滑块的界面，直接滑动下面的滑块。<br>然后根据下图的图示操作来更改语言<br><img src="/img/07.jpg" srcset="/img/loading.gif" lazyload alt="如何更改语言"><br>之后原路返回就可以了</p>
+<h5 id="使用OrangeFox刷机"><a href="#使用OrangeFox刷机" class="headerlink" title="使用OrangeFox刷机"></a>使用OrangeFox刷机</h5><p>我们需要确保卡刷包已经位于手机存储内，若存到了电脑上可以通过USB数据线将卡刷包放到手机的存储内，内部存储或SD卡都是可以的，然后来到最下面 <strong>［文件］</strong> 一栏找到你的卡刷包，可以通过点按上面的箭头来更改存储器。</p>
+<hr>
+<p>找到之后点击然后滑动下方的滑块就可以直接刷入啦！<br>然后返回主界面的 <strong>［清除］</strong><br>栏选择<strong>格式化Data</strong>按照提示清除后就可以重启啦~</p>
+<h2 id="获取Root权限"><a href="#获取Root权限" class="headerlink" title="获取Root权限"></a>获取Root权限</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>Root权限，就是手机的超级管理员权限，故名思意，超级管理员权限可以做很多普通用户无法做到的事情。像是修改CPU调度、超频，修改、删除系统文件、软件等等很多都是关于系统层面的事都是借助Root权限来完成的，那么如何获取Root权限呢？最常用的方法就是安装Magisk，使用Magisk对手机的Boot镜像进行修补，在将这个修补过的Boot镜像重新刷入到手机的Boot分区，这样就完成了Root！</p>
+<h3 id="Root方法一：直接刷入Magisk（推荐）"><a href="#Root方法一：直接刷入Magisk（推荐）" class="headerlink" title="Root方法一：直接刷入Magisk（推荐）"></a>Root方法一：直接刷入Magisk（推荐）</h3><p>首先前往<a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases/">Magisk的GitHub发布页</a></p>
+<details markdown="1"><summary>推荐</summary>
+这里推荐一个第三方的Magisk管理端： [Kitsune Magisk](https://github.com/1q23lyc45/KitsuneMagisk) 
+与官方Magisk的不同之处就是可以更有效地隐藏对软件的Root，因为一些软件检测到手机获取了Root会有限制，所以更推荐安装这个Magisk管理端
+</details>
+
+
+<p>选择最新的发布版后选择其中的APK文件下载安装，然后在一个文件管理器中找到这个Apk文件，并把其文件扩展名改为 <strong>.zip</strong> </p>
+<hr>
+<p>然后将手机重启至Rec模式，选择<strong>备份</strong>选择卡，然后勾选<strong>Boot</strong>分区，滑动下方的滑块开始备份等待完成后，找到刚才重命名的zip文件（若使用TWRP请点击下方的刷入zip），选择后滑动下方滑块刷入，完成后重启手机打开Magisk管理端，会自动重启一次，然后就成功Root了！</p>
+<p><img src="/img/08.jpg" srcset="/img/loading.gif" lazyload alt="Image from 极客湾Geekerwan"></p>
+<h3 id="Root方法二：刷入已修补的Boot镜像Root"><a href="#Root方法二：刷入已修补的Boot镜像Root" class="headerlink" title="Root方法二：刷入已修补的Boot镜像Root"></a>Root方法二：刷入已修补的Boot镜像Root</h3><p>首先我们需要得到手机的Boot镜像，但是手机在开机状态下提取Boot镜像可是要root权限的呀，我们现在不就是想要root权限吗，这不就是个死循环了嘛。不过不用担心，有2种方法，我们分情况讨论。</p>
+<ul>
+<li>从刷机包获取</li>
+<li>直接提取手机目前的Boot镜像</li>
+</ul>
+<h4 id="从刷机包获取"><a href="#从刷机包获取" class="headerlink" title="从刷机包获取"></a>从刷机包获取</h4><p>首先找到你在<strong>刷入系统</strong>那一步中下载的刷机包。</p>
+<p>如果是线刷包，你应该可以在最终解压后的文件夹中找到一个<code>boot.img</code>文件，这个就是我们需要时Boot镜像。</p>
+<hr>
+<p>卡刷包还分两种情况</p>
+<ol>
+<li><p>如果是官方的卡刷包而不是第三方ROM的卡刷包，解压下来你会找到一个<code>payload.bin</code>文件，<del>我们需要用<strong>payload dumper</strong>这个工具来解包</del><br>我们将这个bin文件传到手机上，然后下载<a target="_blank" rel="noopener" href="https://mt2.cn/download/">MT管理器</a>选择<strong>本地下载</strong>然后安装。<br>打开MT管理器，找到刚才的bin文件，点击选择<strong>浏览压缩包</strong>等待解压缩后你会看到一个<code>boot.img</code>文件，将它解压出来。</p>
+</li>
+<li><p>而如果是第三方ROM一般卡刷包解压下来会直接看到有一个<code>boot.img</code>文件，解压下来到手机内即可。</p>
+</li>
+</ol>
+<h4 id="直接提取手机目前的Boot镜像"><a href="#直接提取手机目前的Boot镜像" class="headerlink" title="直接提取手机目前的Boot镜像"></a>直接提取手机目前的Boot镜像</h4><p>首先将手机进入到Rec模式，选择<strong>备份</strong>选择卡，然后勾选<strong>Boot</strong>分区，滑动下方的滑块开始备份等待完成后，将手机重启至系统，选择备份时使用的存储器，根据所使用的Rec来寻找备份文件</p>
+<blockquote>
+<p>TWRP：&#x2F;…&#x2F;TWRP&#x2F;BACKUPS&#x2F;…&#x2F;…&#x2F;boot.emmc.win<br>OrangeFox：…&#x2F;Fox&#x2F;BACKUPS&#x2F;…&#x2F;…&#x2F;boot.emmc.win</p>
+</blockquote>
+<p>将其复制到你能找到的位置并修改后缀名为 <strong>.img</strong></p>
+<h4 id="修补Boot镜像"><a href="#修补Boot镜像" class="headerlink" title="修补Boot镜像"></a>修补Boot镜像</h4><p>前往<a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases/">Magisk的GitHub发布页</a></p>
+<details markdown="1"><summary>推荐（点我）</summary>
+这里推荐一个第三方的Magisk管理端： [Kitsune Magisk](https://github.com/1q23lyc45/KitsuneMagisk) 
+与官方Magisk的不同之处就是可以更有效地隐藏对软件的Root，因为一些软件检测到手机获取了Root会有限制，所以更推荐安装这个Magisk管理端
+</details>
+
+
+<p>选择最新的发布版后选择其中的APK文件下载安装，然后打开Magisk，选择最上边的<strong>安装</strong>，然后点击<strong>选择并修补一个文件</strong>选择刚刚你所解压&#x2F;重命名下来的<strong>img</strong>文件，然后点击<strong>开始</strong>按钮，等待Magisk修补Boot镜像，修补完成后会将修补过后的boot镜像导出到Download文件夹，一般是以magisk为开头的img文件。</p>
+<h4 id="刷入修补过的Boot镜像"><a href="#刷入修补过的Boot镜像" class="headerlink" title="刷入修补过的Boot镜像"></a>刷入修补过的Boot镜像</h4><p>刷入Boot镜像有两种方法</p>
+<ol>
+<li>使用Rec刷入</li>
+<li>使用Fastboot命令刷入</li>
+</ol>
+<h5 id="使用Rec刷入"><a href="#使用Rec刷入" class="headerlink" title="使用Rec刷入"></a>使用Rec刷入</h5><p>首先将手机重启到Rec模式，选择安装，然后找到修补过的Boot镜像文件，（若使用TWRP，请在右下角点击<strong>刷入IMG文件</strong>）点击选择<strong>Boot</strong>分区，然后滑动下方的滑块等待刷入。完成后重启手机之后打开Magisk管理端会自动重启一次，这样手机就Root完成了！</p>
+<h5 id="使用Fastboot命令刷入"><a href="#使用Fastboot命令刷入" class="headerlink" title="使用Fastboot命令刷入"></a>使用Fastboot命令刷入</h5><p>首先将修补过的Boot镜像文件传到电脑上，然后将手机进入到Fastboot模式，在电脑上打开Adb命令行。<br>输入以下命令</p>
+<pre><code class="hljs">fastboot flash boot 
+</code></pre>
+<p>然后将修补过的Boot文件拖入到命令行窗口，注意前面要有一个空格，然后回车刷入，等待一会显示 <strong>［OKEY］</strong><br>之后输入</p>
+<pre><code class="hljs">fastboot reboot
+</code></pre>
+<p>即可重启手机。<br>然后打开Magisk管理端会自动重启，这样手机就Root成功了！</p>
+<p><img src="/img/09.jpg" srcset="/img/loading.gif" lazyload alt="Image from 极客湾Geekerwan"></p>
+<h2 id="救砖"><a href="#救砖" class="headerlink" title="救砖"></a>救砖</h2><p>所谓“变砖”，是指设备由于各种原因，如刷机失败，固件损坏等原因，导致无法正常启动或使用，变得像一块“砖头”一样毫无反应。而“救砖”就是通过一系列手段，将“砖头”恢复成可用的状态。比如</p>
+<ul>
+<li>Fastboot线刷救砖</li>
+<li>Rec卡刷救砖</li>
+<li>9008&#x2F;深刷 救砖</li>
+</ul>
+<p>救砖听起来比较难，实则对于刚接触刷机的萌新，确实。玩机这件事很多都是要靠经验的。所以掌握一些基本的救砖思路是很有必要的。</p>
+<hr>
+<p>拿我自己来说，我这台红米9A总共变砖了……超过7次了！其中黑砖差不多3次了…虽然听着感觉手机在解了BL&#x2F;root之后很容易变砖，其实只要不<strong>滥用Root权限</strong>，<strong>乱刷各种ROM和镜像</strong>是没有任何问题的。</p>
+<h3 id="我的救砖经验-忠告"><a href="#我的救砖经验-忠告" class="headerlink" title="我的救砖经验&amp;忠告"></a>我的救砖经验&amp;忠告</h3><h4 id="注意文件名称"><a href="#注意文件名称" class="headerlink" title="注意文件名称"></a>注意文件名称</h4><p>记得有一次，在误刷入一个文件名称已经标明了“<strong>板砖警告</strong>”的Rec镜像，手机变成黑砖了…也是很惨了，所以一定要注意这点。</p>
+<h4 id="建议不要在晚上刷机"><a href="#建议不要在晚上刷机" class="headerlink" title="建议不要在晚上刷机"></a>建议不要在晚上刷机</h4><p>Yes bro，it’s true.晚上刷机确实很可能出事。我有一次因为我突然想到我有一个东西没有备份就Rec刷机时直接长按电源键强制重启了，再刷回原来的包去备份，但是，刷不进去了（悲）只能Fastboot线刷救砖，然后因为没有清data导致变砖…总之每一步都要小心。</p>
+<h4 id="强制重启"><a href="#强制重启" class="headerlink" title="强制重启"></a>强制重启</h4><p>Rec刷机时不要强制重启，这非常重要！！！不然很容易导致系统分区丢失导致刷不进去包，或者黑砖之类的，就像上面。</p>
+<h4 id="在玩机平台浏览相关帖子"><a href="#在玩机平台浏览相关帖子" class="headerlink" title="在玩机平台浏览相关帖子"></a>在玩机平台浏览相关帖子</h4><p>在酷安、XDA论坛等玩机平台浏览相关帖子，特别是“<strong>变砖</strong>” “<strong>黑砖</strong>”等标签，如我的红米9A。在一些帖子中会提到</p>
+<p><img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="来自酷安"></p>
+<h3 id="教程？"><a href="#教程？" class="headerlink" title="教程？"></a>教程？</h3><p>其实基本的救砖很简单，既然是因为系统的软件部分出了问题，那最简单的方法就是直接重刷系统，就这么简单，但是要注意，如果是因为刷Magisk模块导致变砖，可直接在Rec的文件浏览找到 <code>/data/adb/modules/</code>并删除相关模块就可以解决。</p>
+<h3 id="黑砖"><a href="#黑砖" class="headerlink" title="黑砖"></a>黑砖</h3><p>而黑砖就不一样了，需要用更底层的刷机工具，如高通的9008串口，联发科的深度刷机模式。因为红米9A搭载的是联发科的芯片，所以使用的是深度刷机模式，简称<strong>深刷</strong> 工具使用<strong>SPflash</strong>，因为每一台机型刷机方式都不大一样，所以这里就建议新手仔细在各大玩机平台，视频平台搜索相关的视频教程之类的，一般都很详细，如果实在不行，就封存起来，等到自己实力提升了再试试。或者去某宝的远程刷机&amp;售后解决了。</p>
+<h2 id="本文结束"><a href="#本文结束" class="headerlink" title="本文结束"></a>本文结束</h2><p>码字不易，如果感觉小编讲的不错的话投喂投喂吧~</p>
+<p><img src="/img/12.png" srcset="/img/loading.gif" lazyload alt="微信赞赏码"></p>
+<p>本文完结</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/%E7%8E%A9%E6%9C%BA/" class="print-no-link">#玩机</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>超详细的小米手机刷机指南！</div>
+      <div>https://gaewdfyy.github.io/2025/02/22/shuaji/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>GaewdFyy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/03/14/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/23/test/" title="test">
+                        <span class="hidden-mobile">test</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'gaewdfyy/gaewdfyy.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<div>Hosted on GitHub Pages</div>
+<div> <i class="iconfont icon-github-fill"></i>  <a target="_blank" rel="noopener" href="https://github.com/GaewdFyy/gaewdfyy.github.io">Github仓库链接 </a> </div>
+
+<a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<div><a href="https://icp.gov.moe/?keyword=20250939" target="_blank">萌ICP备20250939号</a><div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
