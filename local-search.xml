@@ -8,7 +8,7 @@
     <link href="/2025/08/12/hexo/"/>
     <url>/2025/08/12/hexo/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>Hexo 是一个知名的快速、简洁且高效的静态博客框架，通过主题模板，就可以在几秒内生成静态网页，适合快速搭建个人博客。</p><p>许多人都会使用电脑搭建，但其实只需要一部Android手机就可以完成，优点就是可以更方便快捷地更新内容，方便备份，像我这个博客就是完全使用了手机搭建的！</p><p>本文将会使用更适合新手的<strong>ZeroTermux</strong>，用于换源且有中文，如果你能上外网的话那建议使用官方的<strong>Termux</strong>。</p><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="下载并安装ZeroTermux"><a href="#下载并安装ZeroTermux" class="headerlink" title="下载并安装ZeroTermux"></a>下载并安装<strong>ZeroTermux</strong></h2><p>首先前往专用的<a href="https://magisk.suchenqaq.club/github_file_acc?link=https://github.com/hanxinhao000/ZeroTermux/releases/latest#releases-box">GitHub下载加速网站</a>上，下拉找到发布文件，点击并选择第一个下载并安装。</p><p>恭喜，现在你已经战胜了10%的人了！</p><h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>打开<strong>ZeroTermux</strong>授权文件管理权限以及同意协议。然后从最左边向右滑，可打开侧边栏（全面屏手势用户可能更难触发），点击切换源选择清华源或北京源，然后点击确定。</p><p><em>待更新</em></p>]]></content>
     
     
     
@@ -82,7 +82,7 @@
     <link href="/2025/01/23/test/"/>
     <url>/2025/01/23/test/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-AynEQCOe" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-mNpCflzt" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div>]]></content>
     
     
     
