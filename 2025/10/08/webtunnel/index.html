@@ -19,24 +19,29 @@
   <meta name="author" content="GaewdFyy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="作为中国大陆的用户，在网络环境中访问全球互联网时常常会遇到各种限制和审查。Tor浏览器是一个强大的工具，可以帮助你保护隐私并绕过这些障碍。本文将首先介绍Tor浏览器，然后解释网桥的概念，特别是Webtunnel网桥，最后提供配置步骤。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://gaewdfyy.github.io/2025/03/14/hello-world/index.html">
+<meta property="og:title" content="如何在Tor浏览器中配置Webtunnel网桥？">
+<meta property="og:url" content="https://gaewdfyy.github.io/2025/10/08/webtunnel/index.html">
 <meta property="og:site_name" content="GaewdFyyの部落格">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="作为中国大陆的用户，在网络环境中访问全球互联网时常常会遇到各种限制和审查。Tor浏览器是一个强大的工具，可以帮助你保护隐私并绕过这些障碍。本文将首先介绍Tor浏览器，然后解释网桥的概念，特别是Webtunnel网桥，最后提供配置步骤。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-14T15:25:43.958Z">
-<meta property="article:modified_time" content="2025-03-14T15:25:43.958Z">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/13.png">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/12.png">
+<meta property="og:image" content="https://gaewdfyy.github.io/img/14.jpg">
+<meta property="article:published_time" content="2025-10-07T17:59:27.000Z">
+<meta property="article:modified_time" content="2025-10-07T20:10:55.392Z">
 <meta property="article:author" content="GaewdFyy">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="Tor">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gaewdfyy.github.io/img/13.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Hello World - GaewdFyyの部落格</title>
+  <title>如何在Tor浏览器中配置Webtunnel网桥？ - GaewdFyyの部落格</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -279,7 +284,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="如何在Tor浏览器中配置Webtunnel网桥？"></span>
           
         </div>
 
@@ -290,8 +295,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-14 23:25" pubdate>
-          2025年3月14日 晚上
+        <time datetime="2025-10-08 01:59" pubdate>
+          2025年10月8日 凌晨
         </time>
       </span>
     
@@ -302,7 +307,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          831 字
         
       </span>
     
@@ -313,7 +318,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -359,24 +364,41 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header">如何在Tor浏览器中配置Webtunnel网桥？</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-10-08T04:10:55+08:00
+                  
+                  
+
+                
+              </p>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="Tor浏览器"><a href="#Tor浏览器" class="headerlink" title="Tor浏览器"></a>Tor浏览器</h2><p><strong>Tor（The Onion Router）</strong>也就是<strong>洋葱路由</strong>，是一种匿名通信工具。它能让你上网的时候藏住自己的真实IP，保护隐私，甚至突破防火墙访问受限网站。</p>
+<p><strong>Tor浏览器（The Onion Router Browser）</strong> 是一个强大的基于开源的Tor网络的浏览器，它通过多层加密和中继节点来传输数据，每次连接都会随机选择路径，确保你的数据不易被追踪，重要的是，可以访问处在Tor网络中的<strong>暗网</strong>也就是为 <strong>.onion</strong> （顶级）域名的网站。</p>
+<p>但是在中国大陆，这里几乎没有Tor节点，因为有GFW的存在，导致无法在不使用VPN的情况下连接至Tor网络。于是就有了网桥</p>
+<h2 id="网桥"><a href="#网桥" class="headerlink" title="网桥"></a>网桥</h2><p>因为Tor的流量有很强的<strong>协议特征</strong>，很容易被封锁，这时就需要使用<strong>网桥（Bridges）</strong> 。常见的网桥类型有obfs4、meek和Snowflake等，它们通过不同的技术来隐藏Tor流量，使GFW放行，从而连接至Tor网络。但目前，由于GFW对上述三者的流量已经有了较高的识别，除非使用VPN对流量进行加密，否则也是无法连接的 <del>（那还不如直接用VPN翻呢）</del>  </p>
+<p>于是就有了Webtunnel，一种新型网桥。它将Tor流量伪装成正常的HTTPS网页访问，看起来就像在访问一个普通网站，从而翻过GFW，之后就到达在国外的Webtunnel网桥，最后连接到Tor网络。Webtunnel更难被检测和封锁，特别适合处于高审查环境的用户，比如中国大陆。</p>
+<blockquote>
+<p>不过现阶段GFW对Webtunnel的识别能力还不高，但是在以后可能还是会被封锁</p>
+</blockquote>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="安装Tor浏览器"><a href="#安装Tor浏览器" class="headerlink" title="安装Tor浏览器"></a>安装Tor浏览器</h2><p>点击<a target="_blank" rel="noopener" href="https://www.torproject.org/zh-CN/download/">这里（www.torproject.org/zh-CN/download/）</a>打开Tor浏览器的官网下载页面，下载对应的操作系统的版本，然后安装<br><img src="/img/13.png" srcset="/img/loading.gif" lazyload alt="Tor浏览器官网下载页面"></p>
+<h2 id="获取Webtunnel网桥地址"><a href="#获取Webtunnel网桥地址" class="headerlink" title="获取Webtunnel网桥地址"></a>获取Webtunnel网桥地址</h2><p>点击<a target="_blank" rel="noopener" href="https://bridges.torproject.org/options">这里（bridges.torproject.org&#x2F;options）</a>打开Tor浏览器官网网桥获取页面。先点击obfs4旁边的箭头选择<strong>webtunnel</strong> 如果你有ipv6地址的需要，在“Yes”旁边的框框点击打勾，然后点击 <strong>“Get Bridges</strong> 稍等片刻。</p>
+<p>在新页面中点击 <strong>“Copy All”</strong> 这即是webtunnel的网桥地址。</p>
+<h2 id="配置Tor浏览器"><a href="#配置Tor浏览器" class="headerlink" title="配置Tor浏览器"></a>配置Tor浏览器</h2><p>打开Tor浏览器，点击 <strong>“配置连接…”</strong> </p>
+<h3 id="桌面端这样操作："><a href="#桌面端这样操作：" class="headerlink" title="桌面端这样操作："></a>桌面端这样操作：</h3><p>在左侧  <strong>连接</strong> 一栏里点击 <strong>“更换网桥…”</strong> ，右键单击选择 <strong>粘贴</strong> ，然后点击 <strong>下一步</strong> ， <strong>连接</strong> 。你应该可以在两分钟内连接到Tor网络</p>
+<h3 id="移动端这样操作："><a href="#移动端这样操作：" class="headerlink" title="移动端这样操作："></a>移动端这样操作：</h3><p>点击 <strong>“配置连接…”</strong> 后往下滑动，选择 <strong>配置网桥</strong> ，随后将 <strong>使用网桥旁边的开关</strong> 打开，并点击 <strong>“输入已知网桥”</strong> ，长按输入框点击 <strong>粘贴</strong> 后，点击确定并返回到主页面，点击 <strong>连接</strong> 你应该可以在两分钟内连接到Tor网络</p>
+<h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><p><strong>Tor + WebTunnel</strong> 并不适合用来访问常规网站或者翻墙的首选方案。</p>
+<p>它是为隐私保护、匿名通信和访问暗网设计的，而不是为了速度和日用，看YouTube，打游戏真的不如使用VPN</p>
+<h1 id="本文结束"><a href="#本文结束" class="headerlink" title="本文结束"></a>本文结束</h1><p>码字不易，如果感觉咱写的不错的话投喂投喂吧~谢谢啦awa</p>
+<div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap"><img src="/img/12.png" srcset="/img/loading.gif" lazyload alt="微信赞赏码"></div><div class="group-image-wrap"><img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="支付宝收款码"></div></div></div>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
                 
               </div>
@@ -389,7 +411,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/hexo/" class="print-no-link">#hexo</a>
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/Tor/" class="print-no-link">#Tor</a>
       
     </div>
   
@@ -401,8 +425,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://gaewdfyy.github.io/2025/03/14/hello-world/</div>
+      <div>如何在Tor浏览器中配置Webtunnel网桥？</div>
+      <div>https://gaewdfyy.github.io/2025/10/08/webtunnel/</div>
     </div>
     <div class="license-meta">
       
@@ -414,7 +438,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月14日</div>
+          <div>2025年10月8日</div>
         </div>
       
       
@@ -458,18 +482,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/05/02/article01/" title="加密文章">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">加密文章</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/02/22/shuaji/" title="超详细的小米手机刷机指南！">
-                        <span class="hidden-mobile">超详细的小米手机刷机指南！</span>
+                      <a href="/2025/08/12/hexo/" title="完全使用Android手机来搭建并部署Hexo博客！">
+                        <span class="hidden-mobile">完全使用Android手机来搭建并部署Hexo博客！</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -690,6 +708,33 @@
   
 
 
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
 
 
   
