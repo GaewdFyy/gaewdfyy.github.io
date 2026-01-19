@@ -82,7 +82,7 @@
     <link href="/2025/01/23/test/"/>
     <url>/2025/01/23/test/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-IohpzWWA" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div><pre><code class="hljs">    &#123;% meting "13834326098" "netease" "playlist" %&#125;</code></pre>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-sigDbDpy" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div><pre><code class="hljs">    &#123;% meting "13834326098" "netease" "playlist" %&#125;</code></pre>]]></content>
     
     
     
