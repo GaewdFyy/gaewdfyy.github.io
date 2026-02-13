@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat</title>
+    
+    <!-- ChatGPT Web CSS - 资源在 source/assets/ -->
+    <link rel="stylesheet" href="<%= config.root %>assets/index.css">
+    
+    <!-- Lottie 库 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"><\/script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* 加载屏样式 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .loading-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            text-align: center;
+        }
+        
+        #lottie-container {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-text {
+            color: #fff;
+        }
+        
+        .loading-text h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .loading-text p {
+            font-size: 16px;
+            font-weight: 300;
+            margin-bottom: 12px;
+            opacity: 0.95;
+        }
+        
+        .loading-status {
+            font-size: 13px;
+            opacity: 0.75;
+            min-height: 20px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.95; }
+        }
+        
+        .loading-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1.5px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #fff;
+            animation: progress 2.5s ease-in-out infinite;
+        }
+        
+        @keyframes progress {
+            0% { width: 10%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .fallback-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .loading-container {
+                gap: 25px;
+                padding: 20px;
+            }
+            #lottie-container {
+                width: 150px;
+                height: 150px;
+            }
+            .loading-text h2 {
+                font-size: 24px;
+            }
+            .loading-text p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载屏幕 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-container">
+            <div id="lottie-container"></div>
+            <div class="loading-text">
+                <h2>ChatGPT Web</h2>
+                <p>正在启动应用</p>
+                <div class="loading-status" id="loadingStatus">
+                    初始化中...
+                </div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vue 应用挂载点 -->
+    <div id="app"></div>
+    
+    <!-- 加载 ChatGPT Web JS - 资源在 source/assets/ -->
+    <script>
+        // 开发环境模拟 50 秒冷启动延迟
+        const COLD_START_DELAY = 50000; // 50 秒
+        const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        
+        function loadApp() {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = '<%= config.root %>assets/index.js';
+            document.body.appendChild(script);
+        }
+        
+        if (isDev) {
+            console.log('[AI-Chat] Dev Mode: Simulating 50s cold start delay...');
+            setTimeout(loadApp, COLD_START_DELAY);
+        } else {
+            // 生产环境正常加载
+            loadApp();
+        }
+    </script>
+    
+    <script>
+        // 加载屏管理
+        (function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingStatus = document.getElementById('loadingStatus');
+            const appElement = document.getElementById('app');
+            const lottieContainer = document.getElementById('lottie-container');
+            
+            console.log('[AI-Chat] Initializing loading screen...');
+            
+            // 尝试加载 Lottie 动画
+            if (typeof lottie !== 'undefined') {
+                console.log('[AI-Chat] Loading Lottie animation...');
+                lottie.loadAnimation({
+                    container: lottieContainer,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '<%= config.root %>assets/loading.json'
+                });
+            } else {
+                console.warn('[AI-Chat] Lottie library not available, using CSS fallback');
+                lottieContainer.innerHTML = '<div class="fallback-spinner"></div>';
+            }
+            
+            // 隐藏加载屏
+            function hideLoadingScreen() {
+                if (loadingOverlay.classList.contains('fade-out')) return;
+                console.log('[AI-Chat] Hiding loading screen');
+                loadingOverlay.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 600);
+            }
+            
+            function updateStatus(text) {
+                if (loadingStatus) {
+                    loadingStatus.textContent = text;
+                    console.log('[AI-Chat] Status:', text);
+                }
+            }
+            
+            // 监听 1: 检查应用挂载
+            let checkInterval = setInterval(() => {
+                if (appElement && appElement.children.length > 0) {
+                    console.log('[AI-Chat] App mounted, hiding loading screen');
+                    setTimeout(() => hideLoadingScreen(), 500);
+                    clearInterval(checkInterval);
+                }
+            }, 100);
+            
+            // 监听 2: 进度提示
+            let elapsed = 0;
+            let statusInterval = setInterval(() => {
+                elapsed += 2;
+                if (elapsed < 10) updateStatus('正在初始化资源...');
+                else if (elapsed < 25) updateStatus('正在启动服务...');
+                else if (elapsed < 40) updateStatus('马上就好...');
+                else if (elapsed < 55) updateStatus('还在加载中，请耐心等待...');
+                else updateStatus('加载可能需要更长时间');
+            }, 2000);
+            
+            // 监听 3: 页面 load 事件
+            window.addEventListener('load', () => {
+                setTimeout(() => hideLoadingScreen(), 1000);
+            });
+            
+            // 监听 4: 超时保护
+            setTimeout(() => {
+                hideLoadingScreen();
+                clearInterval(statusInterval);
+            }, 65000);
+        })();
+    </script>
+</body>
+</html>

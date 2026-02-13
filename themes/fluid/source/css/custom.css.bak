@@ -1,0 +1,63 @@
+/* 让banner固定在背景，全屏显示 */
+#banner {
+  height: 100vh !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+/* 单独虚化banner的背景层 */
+#banner .full-bg-img {
+  transition: filter 0.5s ease, opacity 0.5s ease;
+}
+
+/* 确保导航栏在最上层 */
+#navbar {
+  position: fixed;
+  z-index: 1000;
+  backdrop-filter: none !important;
+}
+
+/* 确保banner内的文字标题不被虚化 */
+#banner .banner-text {
+  position: relative;
+  z-index: 2;
+  filter: none !important;
+}
+
+/* 主内容区域 */
+main {
+  position: relative;
+  z-index: 10;
+  margin-top: 100vh; /* 让内容从屏幕底部开始 */
+  background: #f8f9fa; /* Fluid默认背景色 */
+  min-height: 100vh;
+}
+
+/* 确保内容容器有背景 */
+#board {
+  position: relative;
+  background: transparent;
+  padding-top: 2rem;
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+}
+
+/* 文章卡片保持原样 */
+.index-card {
+  background: white;
+  position: relative;
+  z-index: 10;
+}
+
+/* 页脚也要在上层 */
+footer {
+  position: relative;
+  z-index: 10;
+  background: white;
+}
