@@ -14,8 +14,8 @@ layout: false
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
 	<title>ChatGPT Web</title>
-  <script type="module" crossorigin src="/assets/index-9f7e48be.js"></script>
-  <link rel="stylesheet" href="/assets/index-1f930604.css">
+  <script type="module" crossorigin src="/assets/index-79e102df.js"></script>
+  <link rel="stylesheet" href="/assets/index-e29cac2f.css">
 </head>
 
 <body class="dark:bg-black">
