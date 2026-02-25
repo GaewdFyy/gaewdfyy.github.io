@@ -3,89 +3,58 @@ title: AI Chat
 layout: false
 ---
 
-
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-	<meta charset="UTF-8">
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-	<meta content="yes" name="apple-mobile-web-app-capable"/>
-	<link rel="apple-touch-icon" href="/favicon.ico">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
-	<title>ChatGPT Web</title>
-  <script type="module" crossorigin src="/assets/index-79e102df.js"></script>
-  <link rel="stylesheet" href="/assets/index-e29cac2f.css">
-</head>
-
-<body class="dark:bg-black">
-	<div id="app">
-		<style>
-			.loading-wrap {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100vh;
-			}
-
-			.balls {
-				width: 4em;
-				display: flex;
-				flex-flow: row nowrap;
-				align-items: center;
-				justify-content: space-between;
-			}
-
-			.balls div {
-				width: 0.8em;
-				height: 0.8em;
-				border-radius: 50%;
-				background-color: #4b9e5f;
-			}
-
-			.balls div:nth-of-type(1) {
-				transform: translateX(-100%);
-				animation: left-swing 0.5s ease-in alternate infinite;
-			}
-
-			.balls div:nth-of-type(3) {
-				transform: translateX(-95%);
-				animation: right-swing 0.5s ease-out alternate infinite;
-			}
-
-			@keyframes left-swing {
-
-				50%,
-				100% {
-					transform: translateX(95%);
-				}
-			}
-
-			@keyframes right-swing {
-				50% {
-					transform: translateX(-95%);
-				}
-
-				100% {
-					transform: translateX(100%);
-				}
-			}
-
-			@media (prefers-color-scheme: dark) {
-				body {
-					background: #121212;
-				}
-			}
-		</style>
-		<div class="loading-wrap">
-			<div class="balls">
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
-		</div>
-	</div>
-	
-</body>
-
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chat</title>    
+    <!-- ✅ 从 CDN 加载 Lottie 库（极快） -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <script type="module" crossorigin src="/assets/index-e5465b33.js"></script>
+    <link rel="stylesheet" href="/assets/index-5a51b65e.css">
+  </head>
+  <body>
+    <!-- ✅ 初始加载动画（立即显示，带 Lottie 动画） -->
+    <div id="initial-loading" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #5B5B5B 0%, #5B5B5B 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    ">
+      <!-- Lottie 动画容器 -->
+      <div id="initial-lottie-container" style="
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+      "></div>    
+      <!-- 文本 -->
+      <div style="text-align: center; color: white;">
+        <h2 style="margin: 0 0 10px 0; font-size: 1.25rem; font-weight: 500;">正在加载资源...</h2>
+        <p style="margin: 0; font-size: 0.9rem; opacity: 0.7;">请稍候</p>
+      </div>
+    </div>    
+    <!-- Vue 应用挂载点 -->
+    <div id="app"></div>          
+    <!-- ✅ 立即加载 Lottie 动画 -->
+    <script>
+      if (window.lottie) {
+        lottie.loadAnimation({
+          container: document.getElementById('initial-lottie-container'),
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '/lottie/loading.json'
+        });
+      }
+    </script>
+  </body>
 </html>

@@ -11,3 +11,9 @@ tags: [音乐, test]
     
         {% meting "13834326098" "netease" "playlist" %}
 
+
+{% videojs "source=/m3u8/output.m3u8" %}
+
+    
+    {% videojs "source=m3u8视频链接" %}
+    
