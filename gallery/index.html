@@ -1,0 +1,289 @@
+<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图廊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/colorthief@2/dist/color-thief.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
+  <style>
+    :root {
+      --primary:           #a78bda;
+      --on-primary:        #1a0048;
+      --primary-container: #2d1a5e;
+      --secondary:         #cbb8e8;
+      --surface:           #12101a;
+      --surface-variant:   #1e1b2e;
+      --on-surface:        #e8e3f0;
+      --background:        #0d0b14;
+      --outline:           #4a4460;
+      --t: 0.6s;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      transition: background var(--t) ease, color var(--t) ease;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 1.25rem 3.5rem;
+      background: rgba(13,11,20,0.7);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background var(--t) ease;
+    }
+
+    header h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.8rem; color: var(--primary); }
+    header .sep { width: 1px; height: 1.2rem; background: var(--outline); opacity: 0.5; }
+    header .subtitle { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.45; }
+
+    /* ── Gallery ─────────────────────────────────────── */
+    .gallery-wrap { padding: 3rem 3.5rem 5rem; }
+    .grid { margin-top: 1rem; }
+    
+    .grid-sizer, .gallery-item { width: calc(25% - 12px); }
+    .gutter-sizer { width: 16px; }
+
+    .gallery-item {
+      margin-bottom: 16px; cursor: pointer; position: relative; overflow: hidden;
+      border-radius: 10px; opacity: 0; animation: rise 0.55s ease forwards;
+    }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+    .gallery-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.55s ease; }
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    /* ── Detail Overlay ──────────────────────────────── */
+    .detail-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      display: flex; align-items: stretch; opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .detail-overlay.open { opacity: 1; pointer-events: all; }
+    .detail-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
+
+    .detail-panel {
+      position: relative; z-index: 1; display: flex; width: 100%; max-width: 1200px;
+      margin: auto; height: 88vh; border-radius: 16px; overflow: hidden;
+      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      transform: translateY(22px) scale(0.975);
+      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), background var(--t) ease;
+    }
+    .detail-overlay.open .detail-panel { transform: none; }
+
+    .detail-img-wrap { flex: 1 1 60%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .detail-img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+    .detail-meta {
+      flex: 0 0 340px; display: flex; flex-direction: column;
+      padding: 2.5rem 2rem; border-left: 1px solid rgba(255,255,255,0.07);
+      overflow-y: auto; background: var(--surface-variant);
+      transition: background var(--t) ease;
+    }
+
+    .detail-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.9rem; margin-bottom: 0.4rem; color: var(--on-surface); }
+    .detail-loc { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 2rem; }
+    
+    .detail-params { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem 1.2rem; margin-bottom: 2rem; }
+    .param-key { font-size: 0.65rem; text-transform: uppercase; opacity: 0.4; }
+    .param-val { font-size: 0.82rem; color: var(--on-surface); }
+
+    .detail-comment { font-size: 0.85rem; line-height: 1.75; opacity: 0.75; border-left: 2px solid var(--primary); padding-left: 0.9rem; margin-bottom: 2.5rem; }
+
+    .btn-raw {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0.8rem; border-radius: 8px;
+      background: var(--primary-container); color: var(--secondary);
+      text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em;
+      text-transform: uppercase; border: 1px solid var(--outline);
+      transition: all 0.2s ease;
+    }
+    .btn-raw:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-2px); }
+
+    .detail-close {
+      position: absolute; top: 1rem; right: 1rem; z-index: 10;
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08);
+      border: none; color: var(--on-surface); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .grid-sizer, .gallery-item { width: calc(33.333% - 11px); }
+    }
+    @media (max-width: 768px) {
+      .gallery-wrap { padding: 2rem 1.5rem 4rem; }
+      header { padding: 1rem 1.5rem; }
+      .grid-sizer, .gallery-item { width: calc(50% - 8px); }
+    }
+    
+    /* 核心修复：宽度小于 600px 时图片独占一行，保证竖屏展示效果 */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.4rem; }
+      .gallery-wrap { padding: 1.5rem 1rem; }
+      .grid-sizer, .gallery-item { width: 100%; margin-bottom: 12px; }
+      .detail-panel { flex-direction: column; height: 92vh; }
+      .detail-meta { flex: 0 0 auto; border-left: none; border-top: 1px solid rgba(255,255,255,0.07); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Gallery</h1>
+  <div class="sep"></div>
+  <span class="subtitle">摄影作品集</span>
+</header>
+
+<section class="gallery-wrap">
+  <div class="grid" id="grid">
+    <div class="grid-sizer"></div>
+    <div class="gutter-sizer"></div>  
+    <div class="gallery-item" data-title="Tapestry of Spring" data-loc="春意织锦" data-camera="Nikon D3300" data-settings="105mm · 1/40s · f/5.6 · ISO 100" data-comment="那些粉色的花簇，在 105mm 的镜头下变得格外温柔。" data-raw="https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo04.jpg">
+      <img src="/gallery/photo/photo04.jpg" alt="Tapestry of Spring" crossorigin="anonymous">
+    </div>
+    <div class="gallery-item" data-title="Through the Willow Veil" data-loc="柳帘窥岸" data-camera="Nikon D3300" data-settings="105mm · 1/160s · F9 · ISO4000" data-comment="当你把眼睛凑近取景器时，世界忽然从一种无序的喧嚣，缩减成了一个 3:2 的矩形方框。" data-raw="https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo01.jpg">
+  <img src="/gallery/photo/photo01.jpg" alt="简短描述" crossorigin="anonymous">
+</div>
+<div class="gallery-item" data-title="Serenity by the Stream" data-loc="河畔静谧" data-camera="Nikon D3300" data-settings="105mm · 1/50s · F5.6 · ISO100" data-comment="“犹抱琵琶半遮面”" data-raw="https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo02.jpg">
+  <img src="/gallery/photo/photo02.jpg" alt="简短描述" crossorigin="anonymous">
+</div>
+<div class="gallery-item" data-title="Glow of the Bloom" data-loc="浮光春蕊" data-camera="Nikon D3300" data-settings="105mm · 1/60s · F5.6 · ISO200" data-comment="就像我们在修图软件里小心翼翼地调整阴影和高光，本质上是在用色彩，去缝补记忆里的某些缺憾。" data-raw="https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo03.jpg">
+  <img src="/gallery/photo/photo03.jpg" alt="简短描述" crossorigin="anonymous">
+</div>
+
+<p>&#x2F;&#x2F;</p>
+</div></section>
+
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-backdrop" id="detailBackdrop"></div>
+  <div class="detail-panel">
+    <button class="detail-close" id="detailClose">✕</button>
+    <div class="detail-img-wrap">
+      <img id="detailImg" src alt>
+    </div>
+    <div class="detail-meta">
+      <h2 class="detail-title" id="detailTitle"></h2>
+      <div class="detail-loc" id="detailLoc"></div>
+      <div class="detail-params" id="detailParams"></div>
+      <p class="detail-comment" id="detailComment"></p>     
+      <a href="#" id="btnRaw" target="_blank" class="btn-raw">获取高清原图 ↗</a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { argbFromRgb, themeFromSourceColor, hexFromArgb } from 'https://esm.sh/@material/material-color-utilities@0.3.0';
+
+  const colorThief = new ColorThief();
+  const colorCache = new Map();
+  const root = document.documentElement;
+
+  // 1. 快速取色：将图片绘制到极小的 Canvas 进行分析
+  async function getFastColor(img) {
+    return new Promise((resolve) => {
+      const size = 100; 
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = size;
+      canvas.height = size;
+      ctx.drawImage(img, 0, 0, size, size);
+      try {
+        const color = colorThief.getColor(canvas);
+        resolve(color);
+      } catch (e) { resolve(null); }
+    });
+  }
+
+  function applyTheme(r, g, b) {
+    const theme = themeFromSourceColor(argbFromRgb(r, g, b));
+    const s = theme.schemes.dark;
+    const vars = {
+      '--primary': hexFromArgb(s.primary),
+      '--on-primary': hexFromArgb(s.onPrimary),
+      '--primary-container': hexFromArgb(s.primaryContainer),
+      '--secondary': hexFromArgb(s.secondary),
+      '--surface': hexFromArgb(s.surface),
+      '--surface-variant': hexFromArgb(s.surfaceVariant),
+      '--on-surface': hexFromArgb(s.onSurface),
+      '--outline': hexFromArgb(s.outline),
+      '--background': hexFromArgb(s.background),
+    };
+    for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
+  }
+
+  const overlay = document.getElementById('detailOverlay');
+  const detailImg = document.getElementById('detailImg');
+  const btnRaw = document.getElementById('btnRaw');
+  let pendingLoad = null;
+
+  function openDetail(item) {
+    const img = item.querySelector('img');
+    const { title, loc, camera, settings, comment, raw } = item.dataset;
+
+    // 更新文本和链接
+    document.getElementById('detailTitle').textContent = title || '无题';
+    document.getElementById('detailLoc').textContent = loc || '';
+    document.getElementById('detailComment').textContent = comment || '';
+    document.getElementById('detailParams').innerHTML = `
+      <span class="param-key">相机</span><span class="param-val">${camera || '-'}</span>
+      <span class="param-key">参数</span><span class="param-val">${settings || '-'}</span>
+    `;
+    btnRaw.href = raw || '#';
+
+    // 立即显示详情页并切换图片
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    detailImg.src = img.src; 
+    pendingLoad = img.src;
+
+    // 异步处理颜色切换
+    if (colorCache.has(img.src)) {
+      applyTheme(...colorCache.get(img.src));
+    } else {
+      const tempImg = new Image();
+      tempImg.crossOrigin = "anonymous";
+      tempImg.src = img.src;
+      tempImg.onload = async () => {
+        const color = await getFastColor(tempImg);
+        if (color) {
+          colorCache.set(img.src, color);
+          if (pendingLoad === img.src) applyTheme(...color);
+        }
+      };
+    }
+  }
+
+  // 事件绑定
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => openDetail(item));
+  });
+
+  const close = () => { overlay.classList.remove('open'); document.body.style.overflow = ''; };
+  document.getElementById('detailClose').onclick = close;
+  document.getElementById('detailBackdrop').onclick = close;
+
+  // 初始化瀑布流
+  imagesLoaded('#grid', () => {
+    new Masonry('#grid', { itemSelector: '.gallery-item', columnWidth: '.grid-sizer', gutter: '.gutter-sizer', percentPosition: true });
+  });
+</script>
+</body>
+</html>
