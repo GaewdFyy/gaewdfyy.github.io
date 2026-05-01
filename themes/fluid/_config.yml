@@ -383,10 +383,12 @@ navbar:
     - { key: "message", link: "/message/", icon: "iconfont icon-speakernotes" }
     - { key: "更新日志", link: "/update/", icon: "iconfont icon-code" }
     - {
-      key: '娱乐',
+      key: '其他',
       icon: 'iconfont icon-switch-fill',
       submenu: [
-        { key: 'Furry随机图片', link: '/play/' },
+        { key: 'Furry随机图片', link: '/furry-img/' },
+        { key: 'AI聊天', link: '/ai-chat/' },
+        { key: '图廊', link: '/gallery/' },
       ]
   }
     - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
