@@ -533,7 +533,7 @@ index:
 
     # 为空则按 hexo config.subtitle 显示
     # If empty, text based on `subtitle` in hexo config
-    text: "You're Just Like Pop Music, Every Memory Will Come And Go."
+    text: "沾衣欲湿杏花雨，吹面不寒杨柳风。"
 
     # 通过 API 接口作为首页副标题的内容，必须返回的是 JSON 格式，如果请求失败则按 text 字段显示，该功能必须先开启 typing 打字机功能
     # Subtitle of the homepage through the API, must be returned a JSON. If the request fails, it will be displayed in `text` value. This feature must first enable the typing animation
@@ -542,7 +542,7 @@ index:
 
       # 请求地址
       # Request url
-      url: "https://apis.tianapi.com/mingyan/index?key=be99e44f60d3ca0ee4b3d39b9e1e82ce"
+      url: "https://api.furry.ist/hitokoto?cat=e"
 
       # 请求方法
       # Request method
@@ -553,7 +553,7 @@ index:
       # Request headers
       headers: {}
 
-      keys: ["result", "list", 0, "content"]
+      keys: ["hitokoto"]
 
   # 自动截取文章摘要
   # Auto extract post
@@ -575,7 +575,7 @@ index:
   # 文章通过 sticky 排序后，在首页文章标题前显示图标
   # If the posts are sorted by `sticky`, an icon is displayed in front of the post title
   post_sticky:
-    enable: false
+    enable: true
     icon: "iconfont icon-top"
 
 

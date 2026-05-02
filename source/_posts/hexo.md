@@ -1,5 +1,5 @@
 ---
-title: 完全使用Android手机来搭建并部署Hexo博客！
+title: 完全使用Android手机来搭建并部署Hexo博客
 date: 2025-08-12 00:49:34
 tags:
   - Hexo

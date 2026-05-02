@@ -1,12 +1,13 @@
 ---
-title: 加密文章
+title: Escaping the Rat Race, Healing Social Anxiety：The Kids Lost in the "Furry" World
 date: 2025-05-02 11:46:55
 tags:
-password: ilikefurry
-excerpt: https://mp.weixin.qq.com/s/wKFjjqrNsachRZasEycMUg
+password: 
+excerpt: 与Gemini共同译制：逃离内卷、治愈社恐：迷恋“毛毛”的兽世界小孩   | 原文章:https://mp.weixin.qq.com/s/wKFjjqrNsachRZasEycMUg
+tags: [Furry]
 ---
 
-# Title: Escaping the Rat Race, Healing Social Anxiety：The Kids Lost in the "Furry" World
+# Escaping the Rat Race, Healing Social Anxiety：The Kids Lost in the "Furry" World
 
 _Estimated reading time: 18-22 minutes_
 _原文章/Original article：https://mp.weixin.qq.com/s/wKFjjqrNsachRZasEycMUg_
@@ -18,7 +19,7 @@ _原文章/Original article：https://mp.weixin.qq.com/s/wKFjjqrNsachRZasEycMUg_
 - Editor: Chen Xiao
 
 
-# The Furry World
+## The Furry World
 
 Imagine you're on the subway and see a kid in a school uniform. His backpack looks a bit worn, but it's got a fluffy keychain bouncing around and a row of cartoon animal pins. You could probably go up and ask, "Hey, are you a furry?" Chances are he'll say "Yeah!" with a spark in his eyes, and ask right back, "Are you one too?" When two furries who don't know each other meet like this, it often leads to one thing: exchanging "fursona cards".
 
@@ -76,7 +77,7 @@ Now, he's a fourth-year student at East China Normal University and already has 
 
 **A lot of furries love _Zootopia_ because its message really resonates: "Be who you are, no matter what anyone else thinks." Maybe the furry fandom is a kind of Zootopia. Every little animal has its own nature, right? And you can't really change an animal's core instincts. Because of that, maybe they feel like they can just be themselves without any pressure.**
 
-# Identity
+## Identity
 
 Okay, fluffy little animals are cute, sure. But imagining yourself as one? That seems like a whole different thing. For outsiders, the first questions are usually: "How can you even tell if someone's a furry?" And "why do they project themselves onto animals?" I mean, humans evolved from animals, why would anyone want to change back?
 
@@ -109,7 +110,7 @@ Honestly, even the kindest, friendliest, gentlest people in the real world proba
 
 A week after we got back from Shanghai, I asked Lu Ya, "So, are you a furry now?" She said, "I think I am."
 
-# About Fursonas
+## About Fursonas
 
 **After identifying as furry, most people go on to create a "fursona" for themselves, complete with a backstory.**
 
@@ -140,7 +141,7 @@ These emotional connections have left Hao Yue deeply attached to the community a
 Hao Yue's deep bond with his fursonas and the fandom is quite common. For him, like for many others, entering the furry world coincided with the high-pressure period of his adolescence, and the community provided that crucial "safe harbor."
 Knowing many furries were in Shanghai, he started dreaming of going to university there. His parents had set their sights on South China University of Technology, a good school in their home province. But Hao Yue managed to negotiate: "ECNU (East China Normal University) is a better school," he argued. "Just let me put it as my first choice and try. If I get in, you'll look good in front of the relatives too (gain face)!" He got his wish and made it to Shanghai.
 
-# A New Social Language
+## A New Social Language
 
 They cling to the furry world, sometimes like a child clings to a gentle mother. Zhong Yu, born in 2005 and just a high school freshman this year, heard we were doing a story on the furry community and stayed up all night writing out his story by hand. He filled seven pages of a composition book. At the end, he signed off: "00:51 AM, April 17, 2021. Writing's a bit rushed 'cause it's so late. From a miserable Shanghai freshman furry – he still doesn't have a phone!".
 

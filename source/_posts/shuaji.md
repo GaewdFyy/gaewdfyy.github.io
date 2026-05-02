@@ -1,12 +1,14 @@
 ---
-title: 超详细的小米手机刷机指南！
+title: 小米手机玩机指南
 date: 2025-02-22
 tags:
   - 玩机
   - 教程
+  - 经验之谈
+  - 小米
 sticky: 100
 toc: true
-excerpt: 教程涵盖了解锁Bootloader、刷入第三方Rec、获取ROM、Root等完整流程，适合动手党进阶使用。
+excerpt: 解锁Bootloader、刷入第三方Rec、获取ROM、Root等完整流程
 ---
 ## 前言
 本文章会教你如何解锁Bootloader，刷机，获取Root权限，救砖等操作
