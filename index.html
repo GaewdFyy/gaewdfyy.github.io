@@ -285,7 +285,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="You&#39;re Just Like Pop Music, Every Memory Will Come And Go."></span>
+            <span id="subtitle" data-typed-text="沾衣欲湿杏花雨，吹面不寒杨柳风。"></span>
           
         </div>
 
@@ -323,15 +323,17 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+          <i class="index-pin iconfont icon-top" title="Pin on top"></i>
+        
         <a href="/2025/02/22/shuaji/" target="_blank">
-          超详细的小米手机刷机指南！
+          小米手机玩机指南
         </a>
       </h2>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/02/22/shuaji/" target="_blank">
         <div>
-          教程涵盖了解锁Bootloader、刷入第三方Rec、获取ROM、Root等完整流程，适合动手党进阶使用。
+          解锁Bootloader、刷入第三方Rec、获取ROM、Root等完整流程
         </div>
       </a>
 
@@ -352,6 +354,10 @@
               <a href="/tags/%E6%95%99%E7%A8%8B/">#教程</a>
             
               <a href="/tags/%E7%8E%A9%E6%9C%BA/">#玩机</a>
+            
+              <a href="/tags/%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88/">#经验之谈</a>
+            
+              <a href="/tags/%E5%B0%8F%E7%B1%B3/">#小米</a>
             
           </div>
         
@@ -406,7 +412,7 @@
       <h2 class="index-header">
         
         <a href="/2025/08/12/hexo/" target="_blank">
-          完全使用Android手机来搭建并部署Hexo博客！
+          完全使用Android手机来搭建并部署Hexo博客
         </a>
       </h2>
 
@@ -447,39 +453,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/05/02/article01/" target="_blank">
-          加密文章
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/05/02/article01/" target="_blank">
-        <div>
-          Here's something encrypted, password is required to continue reading.
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-05-02 11:46" pubdate>
-              2025-05-02
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/2025/01/23/test/" target="_blank">
           test
         </a>
@@ -509,6 +482,8 @@
               <a href="/tags/%E9%9F%B3%E4%B9%90/">#音乐</a>
             
               <a href="/tags/test/">#test</a>
+            
+              <a href="/tags/%E8%A7%86%E9%A2%91/">#视频</a>
             
           </div>
         
@@ -636,13 +611,13 @@
       
         jQuery.ajax({
           type: 'GET',
-          url: 'https://apis.tianapi.com/mingyan/index?key=be99e44f60d3ca0ee4b3d39b9e1e82ce',
+          url: 'https://api.furry.ist/hitokoto?cat=e',
           headers: {},
           dataType: 'json',
           success: function(result) {
             var apiText;
             if (result) {
-              var keys = 'result,list,0,content'.split(',');
+              var keys = 'hitokoto'.split(',');
               if (result instanceof Array) {
                 result = result[0];
               }
@@ -660,7 +635,7 @@
           },
           error: function(xhr, status, error) {
             if (error) {
-              console.error('Failed to request https://apis.tianapi.com/mingyan/index?key=be99e44f60d3ca0ee4b3d39b9e1e82ce:', error);
+              console.error('Failed to request https://api.furry.ist/hitokoto?cat=e:', error);
             }
             typing(text);
           }
