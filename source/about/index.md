@@ -7,101 +7,92 @@ thumbnail: /images/10.png
 
 # About Me
 👏哈喽~ 这里是 **「GaewdFyy」的Blog**，可以简称为 **「Gd」**，或者你也可以称呼我的兽设名 **「奈程」、「Naichi_Michi」** 
-是Furry控，喜欢毛绒绒可可爱爱的小动物！
+是Furry控！
 
 咱搞这个Blog只是兴趣，还没有受过关于编程的系统化学习，~~基本只靠Vibe coding~~（小声）所以请多指教！
 喜好科技💻、艺术🎨、音乐🎵、摄影📷以及美食🍹！
 
 在玩的游戏有：
-Minecraft（80%）
-Osu!-lazer（65%)
+Minecraft（60%）
+Osu!（75%)
+冰与火之舞（70%）
+恶魔轮盘（55%）
 绝区零（5%）
 极限竞速：地平线4（10%）
-Modern Warship （5%）
+Modern Warship （15%）
 ~~FL Studio（10%）~~
-
-除了这些，我还搭了一个MInecraft服务器，1.20.1 Forge模组服，但其实很接近原版生存
-如果你想来一起玩的话，欢迎到QQ咨询！
-
 
 
 
 ## Follow Me
 
+<!-- 相关群组 -->
 <div class="furry-container">
-    <div class="furry-text">
-        <div class="contact-title">相关群组</div>
-        <div class="contact-item">
-            <i class="iconfont icon-telegram-fill"></i>
-            <a href="https://t.me/+sI1zAoPR4gplYThl" target="_blank">
-                Telegram-Blog频道
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-qq-fill"></i>
-            <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fh-zKonn30BGlIv_7bzEKlPMAxcga0a2&authKey=iweA8fooGtt1pOwRiucf3fz%2FmRPeLXtOYdeVHLylmZgWlDt%2F2K2zDgiLaVC56956&noverify=0&group_code=908592581" target="_blank">
-                QQ粉丝群：908592581
-            </a>
-        </div>
-    </div>
+  <div class="contact-title">相关群组</div>
+  <div class="group-cards">
+    <a class="contact-item card-telegram"
+       href="https://t.me/+sI1zAoPR4gplYThl" target="_blank">
+      <i class="iconfont icon-telegram-fill"></i>
+      <span>Telegram<br>Blog 频道</span>
+    </a>
+    <a class="contact-item card-qq"
+       href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fh-zKonn30BGlIv_7bzEKlPMAxcga0a2&authKey=iweA8fooGtt1pOwRiucf3fz%2FmRPeLXtOYdeVHLylmZgWlDt%2F2K2zDgiLaVC56956&noverify=0&group_code=908592581" target="_blank">
+      <div class="icon-wrap"><i class="iconfont icon-qq-fill"></i></div>
+      <span>QQ 粉丝群<br>908592581</span>
+    </a>
+  </div>
 </div>
 
-
-----
-
-
-
+<!-- 交友链接 -->
 <div class="furry-container">
-    <div class="furry-text">
-        <div class="contact-title">主要的</div>
-        <div class="contact-item">
-            <i class="iconfont icon-github-fill"></i>
-            <a href="https://github.com/GaewdFyy" target="_blank">
-                GaewdFyy
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-qq-fill"></i>
-            <a href="https://qm.qq.com/q/8zdTHEjfzO" target="_blank">
-                3426173822
-            </a>
-        </div>
-        <div class="contact-item">
-            <a href="https://bsky.app/profile/blog-gaewdfyy.fun" target="_blank">
-                BlueSky：@blog-gaewdfyy.fun
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-twitter-fill"></i>
-            <a href="https://x.com/gaewdfyy" target="_blank">
-                @GaewdFyy
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-twitter-fill"></i>
-            <a href="https://x.com/furgaewdfyy" target="_blank">
-                @FurGaewdFyy
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-bilibili-fill"></i>
-            <a href="https://b23.tv/6AL861S" target="_blank">
-                奈程Naichi_Michi
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-mail"></i>
-            <a href="mailto:3426173822@qq.com" target="_blank">
-                3426173822@qq.com
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-telegram-fill"></i>
-            <a href="https://t.me/gaewdfyy" target="_blank">
-                奈程Naichi_Michi
-            </a>
-        </div>
-    </div>
+  <div class="contact-title">交友链接</div>
+  <div class="friend-list">
+    <a class="contact-item fl-github"
+       href="https://github.com/GaewdFyy" target="_blank">
+      <i class="iconfont icon-github-fill"></i>
+      <div class="meta">
+        <span class="name">GitHub</span>
+        <span class="handle">@GaewdFyy</span>
+      </div>
+      <i class="fas fa-arrow-right arrow"></i>
+    </a>
+    <a class="contact-item fl-qq"
+       href="https://qm.qq.com/q/8zdTHEjfzO" target="_blank">
+      <i class="iconfont icon-qq-fill"></i>
+      <div class="meta">
+        <span class="name">QQ</span>
+        <span class="handle">3426173822</span>
+      </div>
+      <i class="fas fa-arrow-right arrow"></i>
+    </a>
+    <a class="contact-item fl-twitter"
+       href="https://x.com/gaewdfyy" target="_blank">
+      <i class="iconfont icon-twitter-fill"></i>
+      <div class="meta">
+        <span class="name">X / Twitter</span>
+        <span class="handle">@GaewdFyy</span>
+      </div>
+      <i class="fas fa-arrow-right arrow"></i>
+    </a>
+        <a class="contact-item fl-bilibili"
+       href="https://b23.tv/6AL861S" target="_blank">
+      <i class="iconfont icon-bilibili-fill"></i>
+      <div class="meta">
+        <span class="name">Bilibili</span>
+        <span class="handle">奈程Naichi_Michi</span>
+      </div>
+      <i class="fas fa-arrow-right arrow"></i>
+    </a>
+        <a class="contact-item fl-steam"
+       href="https://steamcommunity.com/profiles/76561199654977273" target="_blank">
+      <i class="iconfont icon-steam"></i>
+      <div class="meta">
+        <span class="name">Steam</span>
+        <span class="handle">GaewdFyy</span>
+      </div>
+      <i class="fas fa-arrow-right arrow"></i>
+    </a>
+  </div>
 </div>
 
 ----
@@ -109,32 +100,8 @@ Modern Warship （5%）
 
 
 
-<div class="furry-container">
-    <div class="furry-text">
-        <div class="contact-title">其他</div>
-        <div class="contact-item">
-            <i class="iconfont icon-steam"></i>
-            <a href="https://steamcommunity.com/profiles/76561199654977273/" target="_blank">
-                GaewdFyy
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-youtube-fill"></i>
-            <a href="https://youtube.com/@gdmqwqx?si=fEDOkBSNrA25ThYm" target="_blank">
-                GdMqwqX
-            </a>
-        </div>
-        <div class="contact-item">
-            <i class="iconfont icon-weibo-fill"></i>
-            <a href="http://weibo.cn/qr/userinfo?featurecode=profile_qrcode&uid=7922018683" target="_blank">
-                GaewdFyy
-            </a>
-        </div>
-    </div>
-</div>
 
 
-----
 
 
 ## Blog素材引用

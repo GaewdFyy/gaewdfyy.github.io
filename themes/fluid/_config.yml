@@ -121,7 +121,7 @@ fun_features:
   progressbar:
     enable: true
     height_px: 3
-    color: "#29d"
+    color: "#FFE3C7"
     # See: https://github.com/rstacruz/nprogress
     options: { showSpinner: false, trickleSpeed: 100 }
 
@@ -236,12 +236,15 @@ font:
 # Specify the path of your custom js file, support list. The path is relative to the source directory, such as `/js/custom.js` corresponding to the directory `source/js/custom.js`
 custom_js:
   - /js/custom.js
+  - /js/banner.js
+  - /js/busuanzi.js
+
 
 # 指定自定义 .css 文件路径，用法和 custom_js 相同
 # The usage is the same as custom_js
 custom_css:
-  - /css/custom.css
   - /css/home.css
+  - /css/about.css
   
 
 custom_layout:
