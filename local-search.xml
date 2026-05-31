@@ -14,7 +14,7 @@
     
     <tags>
       
-      <tag>hexo</tag>
+      <tag>Hexo</tag>
       
     </tags>
     
@@ -92,7 +92,7 @@
     <link href="/2025/01/23/test/"/>
     <url>/2025/01/23/test/</url>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-gjEALoFV" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div><pre><code class="hljs">    &#123;% meting "13834326098" "netease" "playlist" %&#125;</code></pre><div>  <video-js id="videojs-id-f4046ec2-0fd0-4833-90bb-c5cf05dbd42a" class="vjs-default-skin vjs-16-9" controls preload="auto" width="100%" height="350px">    <source src="/m3u8/output.m3u8" type="application&#x2F;x-mpegURL">  </video-js>      <script>    const videojsidf4046ec20fd0483390bbc5cf05dbd42a = videojs('videojs-id-f4046ec2-0fd0-4833-90bb-c5cf05dbd42a', {      html5: {        hls: {          overrideNative: true        }      }    });  </script>  </div> <pre><code class="hljs">&#123;% videojs "source=m3u8视频链接" %&#125;</code></pre>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-bBRepUmt" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div><pre><code class="hljs">    &#123;% meting "13834326098" "netease" "playlist" %&#125;</code></pre><div>  <video-js id="videojs-id-1525b196-886a-4996-acb9-d903c1610268" class="vjs-default-skin vjs-16-9" controls preload="auto" width="100%" height="350px">    <source src="/m3u8/output.m3u8" type="application&#x2F;x-mpegURL">  </video-js>      <script>    const videojsid1525b196886a4996acb9d903c1610268 = videojs('videojs-id-1525b196-886a-4996-acb9-d903c1610268', {      html5: {        hls: {          overrideNative: true        }      }    });  </script>  </div> <pre><code class="hljs">&#123;% videojs "source=m3u8视频链接" %&#125;</code></pre>]]></content>
     
     
     
