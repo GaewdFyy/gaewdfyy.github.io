@@ -7,12 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/colorthief@2/dist/color-thief.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
 
   <style>
-    /* ── CSS Variables（默认暖色，JS 加载后覆盖） ──── */
+    /* ── Design tokens ──────────────────────────────────────── */
     :root {
       --primary:           #ffb68a;
       --on-primary:        #4a1f00;
@@ -24,308 +23,379 @@
       --background:        #130f0c;
       --outline:           #5c4030;
       --t: 0.6s;
+      --drawer-w: 260px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
 
     body {
       background: var(--background);
       color: var(--on-surface);
       font-family: 'Outfit', sans-serif;
       font-weight: 300;
-      min-height: 100vh;
+      display: flex; flex-direction: column;
       transition: background var(--t) ease, color var(--t) ease;
+      overflow: hidden;         /* shell handles scroll */
     }
 
-    /* ── Header ───────────────────────────────────── */
-    header {
-      position: sticky; top: 0; z-index: 200;
-      display: flex; align-items: center; gap: 1.5rem;
-      padding: 1.1rem 3.5rem;
-      background: rgba(19,15,12,0.75);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    /* ── Mobile top bar ─────────────────────────────────────── */
+    .top-bar {
+      display: none;
+      position: relative; z-index: 300;
+      align-items: center; gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--surface-variant);
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
       transition: background var(--t) ease;
-      flex-wrap: wrap;
     }
-    header h1 {
+    .top-bar h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 300; font-size: 1.8rem;
-      color: var(--primary); white-space: nowrap;
+      font-weight: 300; font-size: 1.5rem;
+      color: var(--primary); flex: 1;
     }
-    header .sep { width: 1px; height: 1.2rem; background: var(--outline); opacity: 0.5; flex-shrink: 0; }
+    .icon-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: none; background: transparent;
+      color: var(--on-surface); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; flex-shrink: 0;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.08); }
+    .icon-btn svg { width: 22px; height: 22px; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* ── Tag Filter Bar ───────────────────────────── */
-    .tag-bar {
-      display: flex; align-items: center; gap: 0.5rem;
-      flex-wrap: wrap; flex: 1;
-    }
-    .tag-btn {
-      padding: 0.28rem 0.85rem; border-radius: 99px;
-      border: 1px solid var(--outline);
-      background: transparent; color: var(--on-surface);
-      font-family: 'Outfit', sans-serif; font-size: 0.72rem;
-      letter-spacing: 0.08em; cursor: pointer;
-      transition: all 0.2s ease; opacity: 0.55;
-    }
-    .tag-btn:hover { opacity: 0.85; border-color: var(--primary); }
-    .tag-btn.active {
-      background: var(--primary-container);
-      border-color: var(--primary);
-      color: var(--primary); opacity: 1;
-    }
+    /* ── Shell (drawer + main side by side) ─────────────────── */
+    .shell { flex: 1; display: flex; min-height: 0; position: relative; }
 
-    /* ── Layout: timeline sidebar + gallery ───────── */
-    .page-body {
-      display: flex;
-      align-items: flex-start;
-    }
-
-    /* ── Timeline Sidebar ─────────────────────────── */
-    .timeline-sidebar {
-      position: sticky; top: 70px;
-      width: 88px; flex-shrink: 0;
-      padding: 2.5rem 0 2.5rem 2rem;
-      display: flex; flex-direction: column; gap: 0;
-      max-height: calc(100vh - 70px);
+    /* ── MD3 Navigation Drawer ──────────────────────────────── */
+    .drawer {
+      width: var(--drawer-w); flex-shrink: 0;
+      display: flex; flex-direction: column;
+      background: var(--surface-variant);
+      border-right: 1px solid rgba(255,255,255,0.05);
       overflow-y: auto; overflow-x: hidden;
+      transition: background var(--t) ease;
     }
-    .timeline-sidebar::-webkit-scrollbar { display: none; }
+    .drawer::-webkit-scrollbar { display: none; }
 
-    .tl-group { display: flex; flex-direction: column; align-items: flex-start; }
-    .tl-year {
-      font-size: 0.62rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--primary);
-      opacity: 0.7; margin-top: 1.2rem; margin-bottom: 0.3rem;
-      cursor: pointer; transition: opacity 0.2s;
+    .drawer-header { padding: 2rem 1.5rem 0.75rem; flex-shrink: 0; }
+    .drawer-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: 1.85rem; line-height: 1;
+      color: var(--primary);
     }
-    .tl-year:first-child { margin-top: 0; }
-    .tl-year:hover { opacity: 1; }
+    .drawer-subtitle {
+      font-size: 0.62rem; letter-spacing: 0.22em;
+      text-transform: uppercase; opacity: 0.35; margin-top: 0.4rem;
+    }
 
-    .tl-month-item {
-      display: flex; align-items: center; gap: 0.45rem;
-      cursor: pointer; padding: 0.18rem 0;
+    .drawer-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 0.6rem 1.25rem; }
+
+    .drawer-section-label {
+      font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.38;
+      padding: 0.9rem 1.5rem 0.35rem;
     }
-    .tl-dot {
+
+    /* nav item (pill) */
+    .nav-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.7rem 1rem 0.7rem 1.1rem;
+      margin: 0.08rem 0.65rem;
+      border-radius: 99px; cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      user-select: none; position: relative;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.06); }
+    .nav-item.active { background: var(--primary-container); color: var(--primary); }
+
+    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.65; transition: opacity 0.18s; }
+    .nav-item.active .nav-icon { opacity: 1; }
+    .nav-label { font-size: 0.84rem; flex: 1; }
+    .nav-count {
+      font-size: 0.65rem; opacity: 0.4;
+      background: rgba(255,255,255,0.07);
+      padding: 0.08rem 0.48rem; border-radius: 99px;
+    }
+    .nav-item.active .nav-count { opacity: 0.65; }
+
+    /* sub-list (month anchors under each tag) */
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.28s ease; }
+    .nav-sub.open { max-height: 600px; }
+
+    .nav-sub-item {
+      display: flex; align-items: center; gap: 0.55rem;
+      padding: 0.38rem 1rem 0.38rem 3rem;
+      margin: 0 0.65rem; border-radius: 99px;
+      font-size: 0.72rem; opacity: 0.42;
+      cursor: pointer; transition: opacity 0.15s, background 0.15s;
+    }
+    .nav-sub-item:hover { opacity: 0.8; background: rgba(255,255,255,0.04); }
+    .nav-sub-item.tl-active { opacity: 1; color: var(--primary); }
+    .nav-sub-dot {
       width: 5px; height: 5px; border-radius: 50%;
-      background: var(--outline); flex-shrink: 0;
-      transition: background 0.2s, transform 0.2s;
+      background: currentColor; flex-shrink: 0; transition: transform 0.15s;
     }
-    .tl-month-item:hover .tl-dot,
-    .tl-month-item.active .tl-dot {
-      background: var(--primary); transform: scale(1.5);
-    }
-    .tl-month-label {
-      font-size: 0.62rem; opacity: 0.4;
-      transition: opacity 0.2s; white-space: nowrap;
-    }
-    .tl-month-item:hover .tl-month-label,
-    .tl-month-item.active .tl-month-label { opacity: 0.9; }
+    .nav-sub-item.tl-active .nav-sub-dot { transform: scale(1.7); }
 
-    /* vertical line connecting dots */
-    .tl-line {
-      width: 1px; height: 14px; background: var(--outline);
-      margin-left: 2px; opacity: 0.25;
+    /* ── Scrim (mobile) ─────────────────────────────────────── */
+    .scrim {
+      display: none; position: fixed; inset: 0; z-index: 298;
+      background: rgba(0,0,0,0.5);
+      opacity: 0; pointer-events: none; transition: opacity 0.28s ease;
     }
 
-    /* ── Gallery ──────────────────────────────────── */
-    .gallery-wrap { flex: 1; padding: 2.5rem 3rem 5rem 1rem; min-width: 0; }
+    /* ── Main scroll area ───────────────────────────────────── */
+    .main { flex: 1; overflow-y: auto; overflow-x: hidden; min-width: 0; }
 
-    /* Month group header */
+    /* ── Gallery ────────────────────────────────────────────── */
+    .gallery-wrap { padding: 2.5rem 2.5rem 5rem; }
+
     .month-group { margin-bottom: 0.5rem; }
+    .month-group.empty { display: none; }
+
     .month-heading {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem; font-weight: 300; font-style: italic;
-      color: var(--secondary); opacity: 0.6;
-      margin-bottom: 0.8rem; padding-left: 2px;
-      letter-spacing: 0.04em;
+      font-size: 1.2rem; font-weight: 300; font-style: italic;
+      color: var(--secondary); opacity: 0.55;
+      margin-bottom: 0.9rem; padding-left: 2px;
     }
 
-    .grid { margin-top: 0; }
+    /* ── Masonry grid ───────────────────────────────────────── */
+    .grid { position: relative; }   /* Masonry writes absolute positions here */
     .grid-sizer, .gallery-item { width: calc(25% - 12px); }
     .gutter-sizer { width: 16px; }
 
     .gallery-item {
-      margin-bottom: 16px; cursor: pointer; position: relative; overflow: hidden;
-      border-radius: 10px; opacity: 0; animation: rise 0.55s ease forwards;
+      margin-bottom: 16px; cursor: pointer;
+      position: relative; overflow: hidden; border-radius: 10px;
+      opacity: 0; animation: rise 0.5s ease forwards;
     }
-    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
 
-    .gallery-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.55s ease; }
+    .gallery-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.5s ease; }
     .gallery-item:hover img { transform: scale(1.05); }
 
-    /* tag chips on thumbnail */
-    .item-tags {
-      position: absolute; top: 0.6rem; left: 0.6rem;
-      display: flex; flex-wrap: wrap; gap: 0.3rem;
-      opacity: 0; transition: opacity 0.28s ease;
-      pointer-events: none;
-    }
-    .gallery-item:hover .item-tags { opacity: 1; }
-    .item-tag-chip {
-      font-size: 0.55rem; letter-spacing: 0.1em;
-      padding: 0.15rem 0.5rem; border-radius: 99px;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px);
-      color: var(--primary); border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    /* ── Hover Title Overlay ──────────────────────── */
+    /* hover caption */
     .item-hover-caption {
       position: absolute; inset: 0; border-radius: 10px;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 1.1rem 1rem 0.9rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 55%, transparent 100%);
-      opacity: 0; transition: opacity 0.32s ease; pointer-events: none;
+      padding: 1rem 0.9rem 0.85rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.14) 55%, transparent 100%);
+      opacity: 0; transition: opacity 0.28s ease; pointer-events: none;
     }
     .gallery-item:hover .item-hover-caption { opacity: 1; }
     .caption-en {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-weight: 300;
-      font-size: 1.05rem; color: #fff; line-height: 1.2;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+      font-size: 1rem; color: #fff; line-height: 1.2;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.55);
     }
     .caption-zh {
-      font-size: 0.65rem; letter-spacing: 0.2em;
-      color: var(--secondary); opacity: 0.85; margin-top: 0.25rem;
+      font-size: 0.62rem; letter-spacing: 0.18em;
+      color: var(--secondary); opacity: 0.85; margin-top: 0.2rem;
       text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
 
-    /* hidden state for filter */
-    .gallery-item.hidden { display: none; }
-    .month-group.empty { display: none; }
+    /* ── Empty state ────────────────────────────────────────── */
+    .empty-state {
+      display: none; flex-direction: column;
+      align-items: center; padding: 6rem 2rem;
+      opacity: 0.3; gap: 0.8rem;
+    }
+    .empty-state.show { display: flex; }
+    .empty-state svg { width: 44px; }
+    .empty-state p { font-size: 0.82rem; letter-spacing: 0.1em; }
 
-    /* ── Detail Overlay ───────────────────────────── */
+    /* ── Detail overlay ─────────────────────────────────────── */
     .detail-overlay {
-      position: fixed; inset: 0; z-index: 300;
-      display: flex; align-items: stretch; opacity: 0; pointer-events: none;
-      transition: opacity 0.35s ease;
+      position: fixed; inset: 0; z-index: 400;
+      display: flex; align-items: stretch;
+      opacity: 0; pointer-events: none; transition: opacity 0.32s ease;
     }
     .detail-overlay.open { opacity: 1; pointer-events: all; }
     .detail-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
 
     .detail-panel {
-      position: relative; z-index: 1; display: flex; width: 100%; max-width: 1200px;
-      margin: auto; height: 88vh; border-radius: 16px; overflow: hidden;
+      position: relative; z-index: 1; display: flex;
+      width: 100%; max-width: 1200px; margin: auto;
+      height: 88vh; border-radius: 16px; overflow: hidden;
       background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
       box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-      transform: translateY(22px) scale(0.975);
-      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), background var(--t) ease;
+      transform: translateY(20px) scale(0.975);
+      transition: transform 0.36s cubic-bezier(0.22,1,0.36,1), background var(--t) ease;
     }
     .detail-overlay.open .detail-panel { transform: none; }
 
-    .detail-img-wrap {
-      flex: 1 1 60%; background: #000;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-    }
+    .detail-img-wrap { flex: 1 1 60%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .detail-img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
     .detail-meta {
-      flex: 0 0 340px; display: flex; flex-direction: column;
-      padding: 2.5rem 2rem; border-left: 1px solid rgba(255,255,255,0.07);
+      flex: 0 0 320px; display: flex; flex-direction: column;
+      padding: 2.5rem 1.8rem; border-left: 1px solid rgba(255,255,255,0.07);
       overflow-y: auto; background: var(--surface-variant);
       transition: background var(--t) ease;
     }
-    .detail-title {
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: 1.9rem; margin-bottom: 0.4rem; color: var(--on-surface);
-    }
-    .detail-loc {
-      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--secondary); margin-bottom: 0.6rem;
-    }
-    .detail-date {
-      font-size: 0.68rem; opacity: 0.38; margin-bottom: 1.6rem; letter-spacing: 0.05em;
-    }
-    .detail-tag-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.8rem; }
-    .detail-tag-chip {
-      font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.2rem 0.65rem;
-      border-radius: 99px; border: 1px solid var(--outline);
-      color: var(--primary); background: var(--primary-container); opacity: 0.85;
-    }
-    .detail-params { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem 1.2rem; margin-bottom: 2rem; }
-    .param-key { font-size: 0.65rem; text-transform: uppercase; opacity: 0.4; }
-    .param-val { font-size: 0.82rem; color: var(--on-surface); }
-    .detail-comment {
-      font-size: 0.85rem; line-height: 1.75; opacity: 0.75;
-      border-left: 2px solid var(--primary); padding-left: 0.9rem; margin-bottom: 2.5rem;
-    }
+    .detail-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.85rem; margin-bottom: 0.35rem; color: var(--on-surface); }
+    .detail-loc   { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 0.5rem; }
+    .detail-date  { font-size: 0.65rem; opacity: 0.35; margin-bottom: 1.5rem; }
+    .detail-tag-row { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1.6rem; }
+    .detail-tag-chip { font-size: 0.6rem; letter-spacing: 0.07em; padding: 0.18rem 0.6rem; border-radius: 99px; border: 1px solid var(--outline); color: var(--primary); background: var(--primary-container); }
+    .detail-params { display: grid; grid-template-columns: auto 1fr; gap: 0.55rem 1.1rem; margin-bottom: 1.8rem; }
+    .param-key { font-size: 0.62rem; text-transform: uppercase; opacity: 0.38; }
+    .param-val  { font-size: 0.8rem; }
+    .detail-comment { font-size: 0.83rem; line-height: 1.78; opacity: 0.72; border-left: 2px solid var(--primary); padding-left: 0.85rem; margin-bottom: 2.5rem; }
     .btn-raw {
       margin-top: auto; display: flex; align-items: center; justify-content: center;
-      padding: 0.8rem; border-radius: 8px;
+      padding: 0.75rem; border-radius: 8px;
       background: var(--primary-container); color: var(--secondary);
-      text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em;
-      text-transform: uppercase; border: 1px solid var(--outline);
-      transition: all 0.2s ease;
+      text-decoration: none; font-size: 0.72rem; letter-spacing: 0.1em;
+      text-transform: uppercase; border: 1px solid var(--outline); transition: all 0.2s ease;
     }
     .btn-raw:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-2px); }
     .detail-close {
-      position: absolute; top: 1rem; right: 1rem; z-index: 10;
-      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08);
-      border: none; color: var(--on-surface); cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem;
+      position: absolute; top: 0.9rem; right: 0.9rem; z-index: 10;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: none;
+      color: var(--on-surface); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
     }
 
-    /* ── Empty state ──────────────────────────────── */
-    .empty-state {
-      display: none; flex-direction: column; align-items: center;
-      padding: 5rem 2rem; opacity: 0.35; gap: 0.8rem;
-    }
-    .empty-state.show { display: flex; }
-    .empty-state svg { width: 48px; opacity: 0.5; }
-    .empty-state p { font-size: 0.85rem; letter-spacing: 0.1em; }
-
-    /* ── Responsive ───────────────────────────────── */
-    @media (max-width: 1100px) {
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 1200px) {
       .grid-sizer, .gallery-item { width: calc(33.333% - 11px); }
     }
-    @media (max-width: 900px) {
-      .timeline-sidebar { display: none; }
-      .gallery-wrap { padding: 2rem 1.5rem 4rem; }
-      header { padding: 1rem 1.5rem; }
+    @media (max-width: 860px) {
+      body { overflow: auto; }           /* body scrolls on mobile */
+      .shell { overflow: visible; }
+      .main  { overflow: visible; }
+
+      .top-bar { display: flex; }
+
+      /* drawer becomes fixed slide-in overlay */
+      .drawer {
+        position: fixed; top: 0; left: 0; bottom: 0; z-index: 299;
+        transform: translateX(calc(-1 * var(--drawer-w) - 8px));
+        transition: transform 0.3s cubic-bezier(0.2,0,0,1), background var(--t) ease;
+        box-shadow: none;
+      }
+      .drawer.open {
+        transform: translateX(0);
+        box-shadow: 8px 0 32px rgba(0,0,0,0.55);
+      }
+      .scrim { display: block; }
+      .scrim.show { opacity: 1; pointer-events: all; }
+
+      .gallery-wrap { padding: 1.8rem 1.25rem 4rem; }
     }
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       .grid-sizer, .gallery-item { width: calc(50% - 8px); }
     }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.4rem; }
-      .gallery-wrap { padding: 1.5rem 1rem; }
-      .grid-sizer, .gallery-item { width: 100%; margin-bottom: 12px; }
-      .detail-panel { flex-direction: column; height: 92vh; }
-      .detail-meta { flex: 0 0 auto; border-left: none; border-top: 1px solid rgba(255,255,255,0.07); }
+    @media (max-width: 420px) {
+      .grid-sizer, .gallery-item { width: 100%; margin-bottom: 10px; }
+    }
+
+    /* ── 移动端详情页：上图下信息 sheet 布局 ────────── */
+    @media (max-width: 860px) {
+      /* panel 从屏幕底部滑入 */
+      .detail-overlay { align-items: flex-end; }
+
+      .detail-panel {
+        flex-direction: column;
+        width: 100%; max-width: 100%;
+        height: 92dvh;
+        border-radius: 20px 20px 0 0;
+        margin: 0;
+        transform: translateY(40px);
+      }
+      .detail-overlay.open .detail-panel { transform: translateY(0); }
+
+      /* 图片区：固定高度，不伸缩 */
+      .detail-img-wrap {
+        flex: 0 0 42%;
+        min-height: 0;
+      }
+
+      /* 信息区：占满剩余，内部可滚动 */
+      .detail-meta {
+        flex: 1 1 0;
+        min-height: 0;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding: 1.4rem 1.5rem 2rem;
+        overflow-y: auto;
+      }
+
+      /* 标题字号收小，避免窄屏折行 */
+      .detail-title { font-size: 1.45rem; margin-bottom: 0.5rem; }
+
+      /* 副标题和日期给出明确间距 */
+      .detail-loc  { margin-bottom: 0.45rem; }
+      .detail-date { margin-bottom: 1rem; }
+
+      /* 其余区块间距收紧 */
+      .detail-tag-row { margin-bottom: 1.1rem; }
+      .detail-params  { margin-bottom: 1.2rem; }
+      .detail-comment { margin-bottom: 1.6rem; }
+
+      /* 关闭按钮：半透明深色背景，覆盖在图片上清晰可见 */
+      .detail-close {
+        top: 0.75rem; right: 0.75rem;
+        background: rgba(0,0,0,0.45);
+        backdrop-filter: blur(8px);
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
+<!-- Mobile top bar (hidden on desktop) -->
+<header class="top-bar">
+  <button class="icon-btn" id="drawerToggle" aria-label="打开菜单">
+    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
   <h1>GaewdFyy's Gallery</h1>
-  <div class="sep"></div>
-  <div class="tag-bar" id="tagBar"><!-- 由 JS 生成 --></div>
 </header>
 
-<div class="page-body">
-  <nav class="timeline-sidebar" id="timelineSidebar"><!-- 由 JS 生成 --></nav>
+<div class="scrim" id="scrim"></div>
 
-  <section class="gallery-wrap">
-    <div class="gallery-wrap-inner" id="galleryWrapInner"><!-- 由 JS 生成 --></div>
-    <div class="empty-state" id="emptyState">
-      <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <p>当前标签下暂无作品</p>
+<div class="shell">
+
+  <!-- ── MD3 Navigation Drawer ──────────────────────────── -->
+  <nav class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">GaewdFyy</div>
+      <div class="drawer-subtitle">摄影作品集</div>
     </div>
-  </section>
+    <div class="drawer-divider"></div>
+    <div class="drawer-section-label">图廊</div>
+    <div id="navList"></div>
+  </nav>
+
+  <!-- ── Main content ────────────────────────────────────── -->
+  <main class="main" id="main">
+    <div class="gallery-wrap">
+      <div id="galleryRoot"></div>
+      <div class="empty-state" id="emptyState">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <p>该分类暂无作品</p>
+      </div>
+    </div>
+  </main>
 </div>
 
+<!-- Detail overlay -->
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-backdrop" id="detailBackdrop"></div>
   <div class="detail-panel">
     <button class="detail-close" id="detailClose">✕</button>
-    <div class="detail-img-wrap">
-      <img id="detailImg" src alt>
-    </div>
+    <div class="detail-img-wrap"><img id="detailImg" src alt></div>
     <div class="detail-meta">
       <h2 class="detail-title" id="detailTitle"></h2>
       <div class="detail-loc" id="detailLoc"></div>
@@ -339,364 +409,403 @@
 </div>
 
 <script type="module">
-  import { argbFromRgb, themeFromSourceColor, hexFromArgb } from 'https://esm.sh/@material/material-color-utilities@0.3.0';
+import { argbFromRgb, themeFromSourceColor, hexFromArgb }
+  from 'https://esm.sh/@material/material-color-utilities@0.3.0';
 
-  /* ══════════════════════════════════════════════════
-     📸 作品数据表 — 以后添加新作品只需在这里加一条记录
-     字段说明：
-       src      本地路径（相对于站点根目录）
-       raw      GitHub 原图直链
-       title    英文标题
-       loc      中文副标题 / 拍摄地
-       date     拍摄日期 "YYYY-MM-DD"
-       tags     标签数组，可自由定义
-       camera   相机型号
-       settings 拍摄参数
-       comment  作者感言
-  ══════════════════════════════════════════════════ */
-  const PHOTOS = [
-    {
-      src:      '/gallery/photo/photo04.jpg',
-      raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo04.jpg',
-      title:    'Tapestry of Spring',
-      loc:      '春意织锦',
-      date:     '2026-04-01',
-      tags:     ['春天'],
-      camera:   'Nikon D3300',
-      settings: '105mm · 1/40s · f/5.6 · ISO 100',
-      comment:  '那些粉色的花簇，在 105mm 的镜头下变得格外温柔。',
-    },
-    {
-      src:      '/gallery/photo/photo01.jpg',
-      raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo01.jpg',
-      title:    'Through the Willow Veil',
-      loc:      '柳帘窥岸',
-      date:     '2026-04-01',
-      tags:     ['风景'],
-      camera:   'Nikon D3300',
-      settings: '105mm · 1/160s · F9 · ISO100',
-      comment:  '当你把眼睛凑近取景器时，世界忽然从一种无序的喧嚣，缩减成了一个 3:2 的矩形方框。',
-    },
-    {
-      src:      '/gallery/photo/photo02.jpg',
-      raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo02.jpg',
-      title:    'Serenity by the Stream',
-      loc:      '河畔静谧',
-      date:     '2026-04-01',
-      tags:     ['风景'],
-      camera:   'Nikon D3300',
-      settings: '105mm · 1/50s · F5.6 · ISO100',
-      comment:  '"犹抱琵琶半遮面"',
-    },
-    {
-      src:      '/gallery/photo/photo03.jpg',
-      raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo03.jpg',
-      title:    'Glow of the Bloom',
-      loc:      '浮光春蕊',
-      date:     '2026-04-01',
-      tags:     ['春天'],
-      camera:   'Nikon D3300',
-      settings: '105mm · 1/60s · F5.6 · ISO200',
-      comment:  '就像我们在修图软件里小心翼翼地调整阴影和高光，本质上是在用色彩，去缝补记忆里的某些缺憾。',
-    },
-  ];
+/* ══════════════════════════════════════════════════════════════
+   📸  作品数据表
+   ──────────────────────────────────────────────────────────────
+   添加新作品：在数组末尾追加一个对象即可。
+   侧边栏分类、时间轴、瀑布流分组全部自动更新，无需修改其他代码。
 
-  /* ── Material You ───────────────────────────────── */
-  const root = document.documentElement;
-  const colorThief = new ColorThief();
-  const colorCache = new Map();
+   字段说明：
+     src      本地路径，如 /gallery/photo/xxx.jpg
+     raw      GitHub 高清直链（用于"获取原图"按钮）
+     title    英文标题
+     loc      中文副标题 / 拍摄地
+     date     拍摄日期 "YYYY-MM-DD"  ← 决定排序和时间轴
+     tags     标签数组，如 ['风景', '春天']  ← 决定侧边栏分类
+     camera   相机型号
+     settings 拍摄参数
+     comment  作者感言
+══════════════════════════════════════════════════════════════ */
+const PHOTOS = [
+  {
+    src:      '/gallery/photo/photo04.jpg',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo04.jpg',
+    title:    'Tapestry of Spring',
+    loc:      '春意织锦',
+    date:     '2025-03-18',
+    tags:     ['花卉', '春天'],
+    camera:   'Nikon D3300',
+    settings: '105mm · 1/40s · f/5.6 · ISO 100',
+    comment:  '那些粉色的花簇，在 105mm 的镜头下变得格外温柔。',
+  },
+  {
+    src:      '/gallery/photo/photo01.jpg',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo01.jpg',
+    title:    'Through the Willow Veil',
+    loc:      '柳帘窥岸',
+    date:     '2025-03-18',
+    tags:     ['风景', '春天'],
+    camera:   'Nikon D3300',
+    settings: '105mm · 1/160s · F9 · ISO100',
+    comment:  '当你把眼睛凑近取景器时，世界忽然从一种无序的喧嚣，缩减成了一个 3:2 的矩形方框。',
+  },
+  {
+    src:      '/gallery/photo/photo02.jpg',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo02.jpg',
+    title:    'Serenity by the Stream',
+    loc:      '河畔静谧',
+    date:     '2025-03-18',
+    tags:     ['风景', '春天'],
+    camera:   'Nikon D3300',
+    settings: '105mm · 1/50s · F5.6 · ISO100',
+    comment:  '"犹抱琵琶半遮面"',
+  },
+  {
+    src:      '/gallery/photo/photo03.jpg',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo03.jpg',
+    title:    'Glow of the Bloom',
+    loc:      '浮光春蕊',
+    date:     '2025-03-18',
+    tags:     ['花卉', '春天'],
+    camera:   'Nikon D3300',
+    settings: '105mm · 1/60s · F5.6 · ISO200',
+    comment:  '就像我们在修图软件里小心翼翼地调整阴影和高光，本质上是在用色彩，去缝补记忆里的某些缺憾。',
+  },
+];
 
-  function applyTheme(r, g, b) {
-    const s = themeFromSourceColor(argbFromRgb(r, g, b)).schemes.dark;
-    const vars = {
-      '--primary':           hexFromArgb(s.primary),
-      '--on-primary':        hexFromArgb(s.onPrimary),
-      '--primary-container': hexFromArgb(s.primaryContainer),
-      '--secondary':         hexFromArgb(s.secondary),
-      '--surface':           hexFromArgb(s.surface),
-      '--surface-variant':   hexFromArgb(s.surfaceVariant),
-      '--on-surface':        hexFromArgb(s.onSurface),
-      '--outline':           hexFromArgb(s.outline),
-      '--background':        hexFromArgb(s.background),
-    };
-    for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
-  }
+/* ── Material You ─────────────────────────────────────────── */
+const root = document.documentElement;
+const colorCache = new Map();
 
-  // 默认暖色种子 (#FFE3C7 × #F2B6A0 中值)
-  applyTheme(249, 202, 163);
+function applyTheme(r, g, b) {
+  const s = themeFromSourceColor(argbFromRgb(r, g, b)).schemes.dark;
+  const vars = {
+    '--primary':           hexFromArgb(s.primary),
+    '--on-primary':        hexFromArgb(s.onPrimary),
+    '--primary-container': hexFromArgb(s.primaryContainer),
+    '--secondary':         hexFromArgb(s.secondary),
+    '--surface':           hexFromArgb(s.surface),
+    '--surface-variant':   hexFromArgb(s.surfaceVariant),
+    '--on-surface':        hexFromArgb(s.onSurface),
+    '--outline':           hexFromArgb(s.outline),
+    '--background':        hexFromArgb(s.background),
+  };
+  for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
+}
+applyTheme(249, 202, 163); // 默认暖色 (#FFE3C7 × #F2B6A0)
 
-  async function getFastColor(img) {
-    return new Promise(resolve => {
-      const c = document.createElement('canvas');
-      c.width = c.height = 100;
-      c.getContext('2d').drawImage(img, 0, 0, 100, 100);
-      try { resolve(colorThief.getColor(c)); } catch { resolve(null); }
-    });
-  }
+/* ── Date / group helpers ─────────────────────────────────── */
+const MONTHS_ZH = ['一月','二月','三月','四月','五月','六月',
+                   '七月','八月','九月','十月','十一月','十二月'];
 
-  /* ── Date helpers ───────────────────────────────── */
-  const MONTHS_ZH = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+const parseDate  = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
+const groupKey   = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+const groupLabel = k => { const [y,m] = k.split('-'); return `${y} · ${MONTHS_ZH[+m-1]}`; };
+const anchor     = k => `grp-${k}`;
 
-  function parseDate(s) {
-    const [y, m, d] = s.split('-').map(Number);
-    return new Date(y, m - 1, d);
-  }
-  function groupKey(d)   { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
-  function groupLabel(k) {
-    const [y, m] = k.split('-');
-    return `${y} · ${MONTHS_ZH[+m - 1]}`;
-  }
-  function groupAnchor(k) { return `grp-${k}`; }
+/* ── Derive data structures ───────────────────────────────── */
+PHOTOS.sort((a, b) => parseDate(b.date) - parseDate(a.date)); // newest first
 
-  /* ── Sort PHOTOS newest-first ───────────────────── */
-  PHOTOS.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+const allTags = [...new Set(PHOTOS.flatMap(p => p.tags))];
 
-  /* ── Collect all tags ───────────────────────────── */
-  const allTags = ['全部', ...new Set(PHOTOS.flatMap(p => p.tags))];
-  let activeTag = '全部';
+// groups: "YYYY-MM" → Photo[]  (already sorted because PHOTOS is sorted)
+const groups = new Map();
+PHOTOS.forEach(p => {
+  const k = groupKey(parseDate(p.date));
+  if (!groups.has(k)) groups.set(k, []);
+  groups.get(k).push(p);
+});
 
-  /* ── Build Tag Bar ──────────────────────────────── */
-  const tagBar = document.getElementById('tagBar');
+/* ── State ────────────────────────────────────────────────── */
+let activeTag = '全部';
+
+/* ══════════════════════════════════════════════════════════════
+   DRAWER / NAV
+══════════════════════════════════════════════════════════════ */
+const ICON_ALL = `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+  <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+  <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+  <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+  <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+</svg>`;
+const ICON_TAG = `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+  <line x1="7" y1="7" x2="7.01" y2="7"/>
+</svg>`;
+
+function buildNav() {
+  const list = document.getElementById('navList');
+  list.innerHTML = '';
+  appendNavItem(list, '全部', ICON_ALL, PHOTOS.length);
   allTags.forEach(tag => {
-    const btn = document.createElement('button');
-    btn.className = 'tag-btn' + (tag === '全部' ? ' active' : '');
-    btn.textContent = tag;
-    btn.addEventListener('click', () => {
-      activeTag = tag;
-      document.querySelectorAll('.tag-btn').forEach(b => b.classList.toggle('active', b.textContent === tag));
-      filterGallery();
+    appendNavItem(list, tag, ICON_TAG, PHOTOS.filter(p => p.tags.includes(tag)).length);
+  });
+  syncNavActive();
+}
+
+function appendNavItem(list, tag, icon, count) {
+  const item = document.createElement('div');
+  item.className = 'nav-item';
+  item.dataset.tag = tag;
+  item.innerHTML = `${icon}<span class="nav-label">${tag}</span><span class="nav-count">${count}</span>`;
+  item.addEventListener('click', () => { selectTag(tag); closeMobileDrawer(); });
+
+  const sub = document.createElement('div');
+  sub.className = 'nav-sub';
+  sub.dataset.tag = tag;
+  rebuildSubItems(sub, tag);
+
+  list.appendChild(item);
+  list.appendChild(sub);
+}
+
+function rebuildSubItems(container, tag) {
+  container.innerHTML = '';
+  groups.forEach((photos, key) => {
+    if (tag !== '全部' && !photos.some(p => p.tags.includes(tag))) return;
+    const [y, m] = key.split('-');
+    const row = document.createElement('div');
+    row.className = 'nav-sub-item';
+    row.dataset.key = key;
+    row.innerHTML = `<div class="nav-sub-dot"></div>${y} ${MONTHS_ZH[+m-1]}`;
+    row.addEventListener('click', e => { e.stopPropagation(); scrollToGroup(key); closeMobileDrawer(); });
+    container.appendChild(row);
+  });
+}
+
+function syncNavActive() {
+  document.querySelectorAll('.nav-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.tag === activeTag));
+  document.querySelectorAll('.nav-sub').forEach(el =>
+    el.classList.toggle('open', el.dataset.tag === activeTag));
+}
+
+function selectTag(tag) {
+  activeTag = tag;
+  syncNavActive();
+  renderGallery();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GALLERY — complete re-render on every filter change
+   ──────────────────────────────────────────────────────────────
+   Why re-render instead of show/hide?
+   Masonry writes absolute pixel positions to each item. When items
+   are hidden with display:none the grid collapses, but the remaining
+   items keep their old absolute positions — so they don't fill the
+   gaps. Destroy+reInit has the same problem because Masonry reads
+   the already-mutated inline styles from the previous run.
+   The only reliable fix is to rebuild the DOM from scratch so every
+   item starts without any inline style, then let Masonry lay them
+   out fresh. Performance is fine here because the image elements are
+   fetched from browser cache on subsequent renders.
+══════════════════════════════════════════════════════════════ */
+const galleryRoot = document.getElementById('galleryRoot');
+
+function renderGallery() {
+  galleryRoot.innerHTML = '';     // ← full teardown; Masonry instances go away with the nodes
+  let anyVisible = false;
+
+  groups.forEach((photos, key) => {
+    // filter photos for this group
+    const visible = activeTag === '全部'
+      ? photos
+      : photos.filter(p => p.tags.includes(activeTag));
+
+    if (!visible.length) return;
+    anyVisible = true;
+
+    // month section
+    const section = document.createElement('div');
+    section.className = 'month-group';
+    section.id = anchor(key);
+
+    const heading = document.createElement('div');
+    heading.className = 'month-heading';
+    heading.textContent = groupLabel(key);
+    section.appendChild(heading);
+
+    // masonry grid
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    // grid-sizer and gutter-sizer must be FIRST children — Masonry reads them before items
+    grid.innerHTML = '<div class="grid-sizer"></div><div class="gutter-sizer"></div>';
+
+    visible.forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+
+      const img = document.createElement('img');
+      img.src = p.src; img.alt = p.title; img.crossOrigin = 'anonymous';
+
+      const cap = document.createElement('div');
+      cap.className = 'item-hover-caption';
+      cap.innerHTML = `<span class="caption-en">${p.title}</span><span class="caption-zh">${p.loc}</span>`;
+
+      item.appendChild(img);
+      item.appendChild(cap);
+      item.addEventListener('click', () => openDetail(p, img));
+      grid.appendChild(item);
     });
-    tagBar.appendChild(btn);
+
+    section.appendChild(grid);
+    galleryRoot.appendChild(section);
+
+    // init Masonry for this grid once its images are loaded
+    imagesLoaded(grid, () => {
+      new Masonry(grid, {
+        itemSelector: '.gallery-item',
+        columnWidth:  '.grid-sizer',
+        gutter:       '.gutter-sizer',
+        percentPosition: true,
+        // stamp heading so Masonry doesn't overlap it
+      });
+      updateSubActive();
+    });
   });
 
-  /* ── Group photos by month ──────────────────────── */
-  const groups = new Map(); // key → photo[]
-  PHOTOS.forEach(p => {
-    const k = groupKey(parseDate(p.date));
-    if (!groups.has(k)) groups.set(k, []);
-    groups.get(k).push(p);
+  document.getElementById('emptyState').classList.toggle('show', !anyVisible);
+  updateSubActive();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SCROLL TRACKING (month highlight in sidebar)
+══════════════════════════════════════════════════════════════ */
+function getScrollContainer() {
+  // On desktop the <main> element scrolls; on mobile the body scrolls.
+  const main = document.getElementById('main');
+  return (main.scrollHeight > main.clientHeight) ? main : document.documentElement;
+}
+
+function scrollToGroup(key) {
+  const el = document.getElementById(anchor(key));
+  if (!el) return;
+  const main = document.getElementById('main');
+  const isMobile = window.innerWidth <= 860;
+  if (isMobile) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    main.scrollTo({ top: el.offsetTop - 20, behavior: 'smooth' });
+  }
+}
+
+function updateSubActive() {
+  const isMobile = window.innerWidth <= 860;
+  const scrollTop = isMobile
+    ? (document.documentElement.scrollTop || document.body.scrollTop)
+    : document.getElementById('main').scrollTop;
+
+  const threshold = scrollTop + 100;
+  const sections  = [...document.querySelectorAll('.month-group')];
+  if (!sections.length) return;
+
+  let activeKey = sections[0].id.replace('grp-', '');
+  sections.forEach(s => {
+    if (s.offsetTop <= threshold) activeKey = s.id.replace('grp-', '');
   });
 
-  /* ── Build Gallery HTML ─────────────────────────── */
-  const galleryWrap = document.getElementById('galleryWrapInner');
-  let masonryInstance = null;
+  document.querySelectorAll('.nav-sub-item').forEach(el =>
+    el.classList.toggle('tl-active', el.dataset.key === activeKey));
+}
 
-  function buildGallery() {
-    galleryWrap.innerHTML = '';
+document.getElementById('main').addEventListener('scroll', updateSubActive, { passive: true });
+window.addEventListener('scroll', updateSubActive, { passive: true }); // covers mobile body scroll
 
-    groups.forEach((photos, key) => {
-      const section = document.createElement('div');
-      section.className = 'month-group';
-      section.id = groupAnchor(key);
+/* ══════════════════════════════════════════════════════════════
+   MOBILE DRAWER
+══════════════════════════════════════════════════════════════ */
+const drawer = document.getElementById('drawer');
+const scrim  = document.getElementById('scrim');
 
-      const heading = document.createElement('div');
-      heading.className = 'month-heading';
-      heading.textContent = groupLabel(key);
-      section.appendChild(heading);
+function openMobileDrawer()  { drawer.classList.add('open');    scrim.classList.add('show'); }
+function closeMobileDrawer() { drawer.classList.remove('open'); scrim.classList.remove('show'); }
 
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      grid.innerHTML = '<div class="grid-sizer"></div><div class="gutter-sizer"></div>';
+document.getElementById('drawerToggle').addEventListener('click', openMobileDrawer);
+scrim.addEventListener('click', closeMobileDrawer);
 
-      photos.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.dataset.tags  = JSON.stringify(p.tags);
-        item.dataset.photo = JSON.stringify(p);
+/* ══════════════════════════════════════════════════════════════
+   DETAIL OVERLAY
+══════════════════════════════════════════════════════════════ */
+const overlay   = document.getElementById('detailOverlay');
+const detailImg = document.getElementById('detailImg');
+const btnRaw    = document.getElementById('btnRaw');
+let pendingLoad = null;
 
-        // tag chips (top-left, shown on hover)
-        const chipRow = document.createElement('div');
-        chipRow.className = 'item-tags';
-        p.tags.forEach(t => {
-          const chip = document.createElement('span');
-          chip.className = 'item-tag-chip';
-          chip.textContent = t;
-          chipRow.appendChild(chip);
-        });
+function openDetail(p, thumbImg) {
+  document.getElementById('detailTitle').textContent   = p.title   || '无题';
+  document.getElementById('detailLoc').textContent     = p.loc     || '';
+  document.getElementById('detailDate').textContent    = p.date    || '';
+  document.getElementById('detailComment').textContent = p.comment || '';
+  document.getElementById('detailParams').innerHTML    = `
+    <span class="param-key">相机</span><span class="param-val">${p.camera   || '-'}</span>
+    <span class="param-key">参数</span><span class="param-val">${p.settings || '-'}</span>
+  `;
+  document.getElementById('detailTagRow').innerHTML =
+    (p.tags || []).map(t => `<span class="detail-tag-chip">${t}</span>`).join('');
+  btnRaw.href = p.raw || '#';
 
-        // hover title caption (bottom)
-        const cap = document.createElement('div');
-        cap.className = 'item-hover-caption';
-        cap.innerHTML = `
-          <span class="caption-en">${p.title}</span>
-          <span class="caption-zh">${p.loc}</span>
-        `;
+  // ── 图片：直接复用浏览器缓存，主线程零阻塞 ─────────────────────
+  // 浏览器对同一 URL 只会发一次请求，后续赋值直接从内存缓存读取，
+  // 不会出现网络往返。之前用 canvas blit 反而引入了同步的 drawImage，
+  // 对全尺寸照片会阻塞主线程 5 秒以上，这里彻底移除。
+  detailImg.src = thumbImg.src;
 
-        const img = document.createElement('img');
-        img.src = p.src;
-        img.alt = p.title;
-        img.crossOrigin = 'anonymous';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
 
-        item.appendChild(img);
-        item.appendChild(chipRow);
-        item.appendChild(cap);
-        item.addEventListener('click', () => openDetail(p, img));
-        grid.appendChild(item);
-      });
+  const key = thumbImg.src;
+  pendingLoad = key;
 
-      section.appendChild(grid);
-      galleryWrap.appendChild(section);
-    });
-
-    // init Masonry for each grid after images load
-    imagesLoaded(galleryWrap, () => {
-      document.querySelectorAll('.grid').forEach(grid => {
-        new Masonry(grid, {
-          itemSelector: '.gallery-item',
-          columnWidth: '.grid-sizer',
-          gutter: '.gutter-sizer',
-          percentPosition: true,
-        });
-      });
-      buildTimeline();
-    });
+  // 已有缓存色值：立即应用
+  if (colorCache.has(key)) {
+    applyTheme(...colorCache.get(key));
+    return;
   }
 
-  /* ── Filter gallery by tag ──────────────────────── */
-  function filterGallery() {
-    let anyVisible = false;
-    document.querySelectorAll('.month-group').forEach(section => {
-      let groupVisible = false;
-      section.querySelectorAll('.gallery-item').forEach(item => {
-        const tags = JSON.parse(item.dataset.tags);
-        const show = activeTag === '全部' || tags.includes(activeTag);
-        item.classList.toggle('hidden', !show);
-        if (show) groupVisible = true;
-      });
-      section.classList.toggle('empty', !groupVisible);
-      if (groupVisible) anyVisible = true;
+  // ── 取色：createImageBitmap + OffscreenCanvas，完全在后台执行 ──
+  // createImageBitmap 接收已解码的 HTMLImageElement，
+  // 缩放到 80×80 的操作由 GPU 完成，不占主线程时间。
+  // OffscreenCanvas.getContext('2d').getImageData 也在后台线程执行。
+  // 整个取色过程对 INP / 帧率零影响。
+  createImageBitmap(thumbImg, {
+    resizeWidth: 80, resizeHeight: 80, resizeQuality: 'low',
+  }).then(bitmap => {
+    const oc  = new OffscreenCanvas(80, 80);
+    const ctx = oc.getContext('2d');
+    ctx.drawImage(bitmap, 0, 0);
+    bitmap.close();
 
-      // re-layout each grid
-      section.querySelectorAll('.gallery-item:not(.hidden)').forEach(el => {
-        el.style.display = '';
-      });
-    });
-
-    document.getElementById('emptyState').classList.toggle('show', !anyVisible);
-
-    // Refresh Masonry layout
-    document.querySelectorAll('.grid').forEach(grid => {
-      const m = Masonry.data(grid);
-      if (m) m.layout();
-    });
-
-    updateTimelineActive();
-  }
-
-  /* ── Build Timeline Sidebar ─────────────────────── */
-  function buildTimeline() {
-    const sidebar = document.getElementById('timelineSidebar');
-    sidebar.innerHTML = '';
-
-    // group keys by year
-    const byYear = new Map();
-    groups.forEach((_, key) => {
-      const [y] = key.split('-');
-      if (!byYear.has(y)) byYear.set(y, []);
-      byYear.get(y).push(key);
-    });
-
-    byYear.forEach((keys, year) => {
-      const yearLabel = document.createElement('div');
-      yearLabel.className = 'tl-year';
-      yearLabel.textContent = year;
-      yearLabel.addEventListener('click', () => scrollToGroup(keys[0]));
-      sidebar.appendChild(yearLabel);
-
-      keys.forEach((key, i) => {
-        if (i > 0) {
-          const line = document.createElement('div');
-          line.className = 'tl-line';
-          sidebar.appendChild(line);
-        }
-        const [, m] = key.split('-');
-        const item = document.createElement('div');
-        item.className = 'tl-month-item';
-        item.dataset.key = key;
-        item.innerHTML = `<div class="tl-dot"></div><span class="tl-month-label">${MONTHS_ZH[+m-1]}</span>`;
-        item.addEventListener('click', () => scrollToGroup(key));
-        sidebar.appendChild(item);
-
-        if (i < keys.length - 1) {
-          const line2 = document.createElement('div');
-          line2.className = 'tl-line';
-          sidebar.appendChild(line2);
-        }
-      });
-    });
-
-    updateTimelineActive();
-  }
-
-  function scrollToGroup(key) {
-    const el = document.getElementById(groupAnchor(key));
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function updateTimelineActive() {
-    const sections = [...document.querySelectorAll('.month-group:not(.empty)')];
-    if (!sections.length) return;
-
-    const scrollY = window.scrollY + 120;
-    let activeKey = sections[0].id.replace('grp-', '');
-    sections.forEach(s => {
-      if (s.offsetTop <= scrollY) activeKey = s.id.replace('grp-', '');
-    });
-
-    document.querySelectorAll('.tl-month-item').forEach(el => {
-      el.classList.toggle('active', el.dataset.key === activeKey);
-    });
-  }
-
-  window.addEventListener('scroll', updateTimelineActive, { passive: true });
-
-  /* ── Detail Overlay ─────────────────────────────── */
-  const overlay   = document.getElementById('detailOverlay');
-  const detailImg = document.getElementById('detailImg');
-  const btnRaw    = document.getElementById('btnRaw');
-  let pendingLoad = null;
-
-  function openDetail(p, thumbImg) {
-    document.getElementById('detailTitle').textContent   = p.title || '无题';
-    document.getElementById('detailLoc').textContent     = p.loc || '';
-    document.getElementById('detailDate').textContent    = p.date || '';
-    document.getElementById('detailComment').textContent = p.comment || '';
-    document.getElementById('detailParams').innerHTML = `
-      <span class="param-key">相机</span><span class="param-val">${p.camera || '-'}</span>
-      <span class="param-key">参数</span><span class="param-val">${p.settings || '-'}</span>
-    `;
-    const tagRow = document.getElementById('detailTagRow');
-    tagRow.innerHTML = (p.tags || []).map(t => `<span class="detail-tag-chip">${t}</span>`).join('');
-    btnRaw.href = p.raw || '#';
-
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    detailImg.src = thumbImg.src;
-    pendingLoad = thumbImg.src;
-
-    if (colorCache.has(thumbImg.src)) {
-      applyTheme(...colorCache.get(thumbImg.src));
-    } else {
-      const tmp = new Image();
-      tmp.crossOrigin = 'anonymous';
-      tmp.src = thumbImg.src;
-      tmp.onload = async () => {
-        const color = await getFastColor(tmp);
-        if (color) {
-          colorCache.set(thumbImg.src, color);
-          if (pendingLoad === thumbImg.src) applyTheme(...color);
-        }
-      };
+    // 从缩小后的图像数据里取主色
+    const data = ctx.getImageData(0, 0, 80, 80).data;
+    let r = 0, g = 0, b = 0, count = 0;
+    for (let i = 0; i < data.length; i += 16) {   // 每 4 个像素采一次
+      const a = data[i + 3];
+      if (a < 128) continue;                        // 跳过透明像素
+      r += data[i]; g += data[i+1]; b += data[i+2];
+      count++;
     }
-  }
+    if (!count) return;
+    const color = [Math.round(r/count), Math.round(g/count), Math.round(b/count)];
+    colorCache.set(key, color);
+    if (pendingLoad === key) applyTheme(...color);
+  }).catch(() => {/* crossOrigin / 浏览器不支持时静默跳过 */});
+}
 
-  const closeDetail = () => { overlay.classList.remove('open'); document.body.style.overflow = ''; };
-  document.getElementById('detailClose').onclick = closeDetail;
-  document.getElementById('detailBackdrop').onclick = closeDetail;
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+const closeDetail = () => {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  pendingLoad = null;
+};
+document.getElementById('detailClose').onclick    = closeDetail;
+document.getElementById('detailBackdrop').onclick = closeDetail;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
 
-  /* ── Init ───────────────────────────────────────── */
-  buildGallery();
+/* ── Init ─────────────────────────────────────────────────── */
+buildNav();
+renderGallery();
 </script>
 </body>
 </html>
