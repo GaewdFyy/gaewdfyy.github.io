@@ -1,7 +1,11 @@
 ---
 layout: false
 ---
+
+
+
 <!DOCTYPE html>
+<link rel="icon" href="/gallery/icon.png" type="image/png" />
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
@@ -12,7 +16,6 @@ layout: false
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-
   <style>
     /* ── Design tokens ──────────────────────────────────────── */
     :root {
@@ -25,8 +28,10 @@ layout: false
       --on-surface:        #f0e8e0;
       --background:        #130f0c;
       --outline:           #5c4030;
+      --outline-variant:   #3e2a1e;
       --t: 0.6s;
       --drawer-w: 260px;
+      --header-h: 58px; /* 固定的顶栏高度 */
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,24 +43,26 @@ layout: false
       font-family: 'Outfit', sans-serif;
       font-weight: 300;
       display: flex; flex-direction: column;
+      padding-top: var(--header-h); /* 为固定顶栏留出空间 */
       transition: background var(--t) ease, color var(--t) ease;
-      overflow: hidden;         /* shell handles scroll */
+      overflow: hidden;         /* shell handles scroll on desktop */
     }
 
-    /* ── Mobile top bar ─────────────────────────────────────── */
+    /* ── Header (全平台强力置顶) ──────────────────────────────────── */
     .top-bar {
-      display: none;
-      position: relative; z-index: 300;
+      display: flex;
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      z-index: 300;
       align-items: center; gap: 1rem;
-      padding: 0.85rem 1.25rem;
+      padding: 0 1.25rem;
       background: var(--surface-variant);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      flex-shrink: 0;
-      transition: background var(--t) ease;
+      border-bottom: 1px solid var(--outline-variant);
+      transition: background var(--t) ease, border-color var(--t) ease;
     }
     .top-bar h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 300; font-size: 1.5rem;
+      font-weight: 300; font-size: 1.45rem;
       color: var(--primary); flex: 1;
     }
     .icon-btn {
@@ -63,10 +70,15 @@ layout: false
       border: none; background: transparent;
       color: var(--on-surface); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s; flex-shrink: 0;
+      transition: background 0.2s, color var(--t) ease; flex-shrink: 0;
     }
-    .icon-btn:hover { background: rgba(255,255,255,0.08); }
+    .icon-btn:hover { background: color-mix(in srgb, var(--on-surface) 8%, transparent); }
     .icon-btn svg { width: 22px; height: 22px; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* 隐藏桌面端的侧边栏呼出按钮 */
+    @media (min-width: 861px) {
+      #drawerToggle { display: none; }
+    }
 
     /* ── Shell (drawer + main side by side) ─────────────────── */
     .shell { flex: 1; display: flex; min-height: 0; position: relative; }
@@ -76,28 +88,25 @@ layout: false
       width: var(--drawer-w); flex-shrink: 0;
       display: flex; flex-direction: column;
       background: var(--surface-variant);
-      border-right: 1px solid rgba(255,255,255,0.05);
+      border-right: 1px solid var(--outline-variant);
       overflow-y: auto; overflow-x: hidden;
-      transition: background var(--t) ease;
+      transition: background var(--t) ease, border-color var(--t) ease;
     }
     .drawer::-webkit-scrollbar { display: none; }
 
-    .drawer-header { padding: 2rem 1.5rem 0.75rem; flex-shrink: 0; }
-    .drawer-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300; font-size: 1.85rem; line-height: 1;
-      color: var(--primary);
-    }
+    .drawer-header { padding: 2rem 1.5rem 0.85rem; flex-shrink: 0; }
     .drawer-subtitle {
-      font-size: 0.62rem; letter-spacing: 0.22em;
-      text-transform: uppercase; opacity: 0.35; margin-top: 0.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400; font-size: 1.35rem; line-height: 1.2;
+      color: var(--on-surface); opacity: 0.9;
+      letter-spacing: 0.02em;
     }
 
-    .drawer-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 0.6rem 1.25rem; }
+    .drawer-divider { height: 1px; background: var(--outline-variant); margin: 0.6rem 1.25rem; transition: background var(--t) ease;}
 
     .drawer-section-label {
       font-size: 0.58rem; letter-spacing: 0.2em;
-      text-transform: uppercase; opacity: 0.38;
+      text-transform: uppercase; opacity: 0.45;
       padding: 0.9rem 1.5rem 0.35rem;
     }
 
@@ -110,20 +119,20 @@ layout: false
       transition: background 0.18s, color 0.18s;
       user-select: none; position: relative;
     }
-    .nav-item:hover { background: rgba(255,255,255,0.06); }
-    .nav-item.active { background: var(--primary-container); color: var(--primary); }
+    .nav-item:hover { background: color-mix(in srgb, var(--on-surface) 8%, transparent); }
+    .nav-item.active { background: var(--primary-container); color: var(--on-primary-container); }
 
     .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.65; transition: opacity 0.18s; }
     .nav-item.active .nav-icon { opacity: 1; }
     .nav-label { font-size: 0.84rem; flex: 1; }
     .nav-count {
-      font-size: 0.65rem; opacity: 0.4;
-      background: rgba(255,255,255,0.07);
+      font-size: 0.65rem; opacity: 0.6;
+      background: color-mix(in srgb, var(--on-surface) 8%, transparent);
       padding: 0.08rem 0.48rem; border-radius: 99px;
     }
-    .nav-item.active .nav-count { opacity: 0.65; }
+    .nav-item.active .nav-count { opacity: 0.8; background: color-mix(in srgb, var(--on-primary-container) 12%, transparent); }
 
-    /* sub-list (month anchors under each tag) */
+    /* sub-list */
     .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.28s ease; }
     .nav-sub.open { max-height: 600px; }
 
@@ -131,16 +140,27 @@ layout: false
       display: flex; align-items: center; gap: 0.55rem;
       padding: 0.38rem 1rem 0.38rem 3rem;
       margin: 0 0.65rem; border-radius: 99px;
-      font-size: 0.72rem; opacity: 0.42;
+      font-size: 0.72rem; opacity: 0.55;
       cursor: pointer; transition: opacity 0.15s, background 0.15s;
     }
-    .nav-sub-item:hover { opacity: 0.8; background: rgba(255,255,255,0.04); }
+    .nav-sub-item:hover { opacity: 0.9; background: color-mix(in srgb, var(--on-surface) 6%, transparent); }
     .nav-sub-item.tl-active { opacity: 1; color: var(--primary); }
     .nav-sub-dot {
       width: 5px; height: 5px; border-radius: 50%;
       background: currentColor; flex-shrink: 0; transition: transform 0.15s;
     }
     .nav-sub-item.tl-active .nav-sub-dot { transform: scale(1.7); }
+
+    /* ── Drawer Footer (版权署名) ───────────────────────────── */
+    .drawer-footer {
+      margin-top: auto; /* 确保顶到最下方 */
+      padding: 2rem 1.5rem 1.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      opacity: 0.35;
+      text-align: center;
+      flex-shrink: 0;
+    }
 
     /* ── Scrim (mobile) ─────────────────────────────────────── */
     .scrim {
@@ -154,19 +174,17 @@ layout: false
 
     /* ── Gallery ────────────────────────────────────────────── */
     .gallery-wrap { padding: 2.5rem 2.5rem 5rem; }
-
     .month-group { margin-bottom: 0.5rem; }
     .month-group.empty { display: none; }
-
     .month-heading {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; font-weight: 300; font-style: italic;
-      color: var(--secondary); opacity: 0.55;
+      font-size: 1.2rem; font-weight: 600; font-style: italic;
+      color: var(--secondary); opacity: 0.7;
       margin-bottom: 0.9rem; padding-left: 2px;
     }
 
     /* ── Masonry grid ───────────────────────────────────────── */
-    .grid { position: relative; }   /* Masonry writes absolute positions here */
+    .grid { position: relative; }
     .grid-sizer, .gallery-item { width: calc(25% - 12px); }
     .gutter-sizer { width: 16px; }
 
@@ -176,11 +194,9 @@ layout: false
       opacity: 0; animation: rise 0.5s ease forwards;
     }
     @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
-
     .gallery-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.5s ease; }
     .gallery-item:hover img { transform: scale(1.05); }
 
-    /* hover caption */
     .item-hover-caption {
       position: absolute; inset: 0; border-radius: 10px;
       display: flex; flex-direction: column; justify-content: flex-end;
@@ -196,7 +212,7 @@ layout: false
     }
     .caption-zh {
       font-size: 0.62rem; letter-spacing: 0.18em;
-      color: var(--secondary); opacity: 0.85; margin-top: 0.2rem;
+      color: rgba(255, 255, 255, 0.8); margin-top: 0.2rem;
       text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
 
@@ -204,7 +220,7 @@ layout: false
     .empty-state {
       display: none; flex-direction: column;
       align-items: center; padding: 6rem 2rem;
-      opacity: 0.3; gap: 0.8rem;
+      opacity: 0.4; gap: 0.8rem;
     }
     .empty-state.show { display: flex; }
     .empty-state svg { width: 44px; }
@@ -217,16 +233,21 @@ layout: false
       opacity: 0; pointer-events: none; transition: opacity 0.32s ease;
     }
     .detail-overlay.open { opacity: 1; pointer-events: all; }
-    .detail-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
+    .detail-backdrop { 
+      position: absolute; inset: 0; 
+      background: color-mix(in srgb, var(--background) 85%, transparent); 
+      backdrop-filter: blur(10px); 
+      transition: background var(--t) ease;
+    }
 
     .detail-panel {
       position: relative; z-index: 1; display: flex;
       width: 100%; max-width: 1200px; margin: auto;
       height: 88vh; border-radius: 16px; overflow: hidden;
-      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      background: var(--surface); border: 1px solid var(--outline-variant);
       box-shadow: 0 32px 80px rgba(0,0,0,0.6);
       transform: translateY(20px) scale(0.975);
-      transition: transform 0.36s cubic-bezier(0.22,1,0.36,1), background var(--t) ease;
+      transition: transform 0.36s cubic-bezier(0.22,1,0.36,1), background var(--t) ease, border-color var(--t) ease;
     }
     .detail-overlay.open .detail-panel { transform: none; }
 
@@ -235,23 +256,23 @@ layout: false
 
     .detail-meta {
       flex: 0 0 320px; display: flex; flex-direction: column;
-      padding: 2.5rem 1.8rem; border-left: 1px solid rgba(255,255,255,0.07);
+      padding: 2.5rem 1.8rem; border-left: 1px solid var(--outline-variant);
       overflow-y: auto; background: var(--surface-variant);
-      transition: background var(--t) ease;
+      transition: background var(--t) ease, border-color var(--t) ease;
     }
-    .detail-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.85rem; margin-bottom: 0.35rem; color: var(--on-surface); }
+    .detail-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: 1.85rem; margin-bottom: 0.35rem; color: var(--on-surface); }
     .detail-loc   { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 0.5rem; }
-    .detail-date  { font-size: 0.65rem; opacity: 0.35; margin-bottom: 1.5rem; }
+    .detail-date  { font-size: 0.65rem; opacity: 0.45; margin-bottom: 1.5rem; }
     .detail-tag-row { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1.6rem; }
     .detail-tag-chip { font-size: 0.6rem; letter-spacing: 0.07em; padding: 0.18rem 0.6rem; border-radius: 99px; border: 1px solid var(--outline); color: var(--primary); background: var(--primary-container); }
     .detail-params { display: grid; grid-template-columns: auto 1fr; gap: 0.55rem 1.1rem; margin-bottom: 1.8rem; }
-    .param-key { font-size: 0.62rem; text-transform: uppercase; opacity: 0.38; }
+    .param-key { font-size: 0.62rem; text-transform: uppercase; opacity: 0.5; }
     .param-val  { font-size: 0.8rem; }
-    .detail-comment { font-size: 0.83rem; line-height: 1.78; opacity: 0.72; border-left: 2px solid var(--primary); padding-left: 0.85rem; margin-bottom: 2.5rem; }
+    .detail-comment { font-size: 0.83rem; line-height: 1.78; opacity: 0.8; border-left: 2px solid var(--primary); padding-left: 0.85rem; margin-bottom: 2.5rem; }
     .btn-raw {
       margin-top: auto; display: flex; align-items: center; justify-content: center;
       padding: 0.75rem; border-radius: 8px;
-      background: var(--primary-container); color: var(--secondary);
+      background: var(--primary-container); color: var(--on-primary-container);
       text-decoration: none; font-size: 0.72rem; letter-spacing: 0.1em;
       text-transform: uppercase; border: 1px solid var(--outline); transition: all 0.2s ease;
     }
@@ -259,28 +280,28 @@ layout: false
     .detail-close {
       position: absolute; top: 0.9rem; right: 0.9rem; z-index: 10;
       width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: none;
+      background: color-mix(in srgb, var(--on-surface) 10%, transparent); border: none;
       color: var(--on-surface); cursor: pointer;
       display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+      transition: background 0.2s, color var(--t) ease;
     }
+    .detail-close:hover { background: color-mix(in srgb, var(--on-surface) 20%, transparent); }
 
     /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 1200px) {
       .grid-sizer, .gallery-item { width: calc(33.333% - 11px); }
     }
     @media (max-width: 860px) {
-      body { overflow: auto; }           /* body scrolls on mobile */
+      body { overflow: auto; height: auto; } /* 允许移动端原生滚动，fixed header 依然生效 */
       .shell { overflow: visible; }
       .main  { overflow: visible; }
 
-      .top-bar { display: flex; }
-
-      /* drawer becomes fixed slide-in overlay */
+      /* drawer 弹出层定位基于固定的顶栏高度 */
       .drawer {
-        position: fixed; top: 0; left: 0; bottom: 0; z-index: 299;
+        position: fixed; top: var(--header-h); left: 0; bottom: 0; z-index: 299;
         transform: translateX(calc(-1 * var(--drawer-w) - 8px));
         transition: transform 0.3s cubic-bezier(0.2,0,0,1), background var(--t) ease;
-        box-shadow: none;
+        box-shadow: none; border-right: none;
       }
       .drawer.open {
         transform: translateX(0);
@@ -290,6 +311,26 @@ layout: false
       .scrim.show { opacity: 1; pointer-events: all; }
 
       .gallery-wrap { padding: 1.8rem 1.25rem 4rem; }
+      
+      .detail-overlay { align-items: flex-end; }
+      .detail-panel {
+        flex-direction: column; width: 100%; max-width: 100%; height: 92dvh;
+        border-radius: 20px 20px 0 0; margin: 0; transform: translateY(40px);
+      }
+      .detail-overlay.open .detail-panel { transform: translateY(0); }
+      .detail-img-wrap { flex: 0 0 42%; min-height: 0; }
+      .detail-meta {
+        flex: 1 1 0; min-height: 0; border-left: none;
+        border-top: 1px solid var(--outline-variant);
+        padding: 1.4rem 1.5rem 2rem; overflow-y: auto;
+      }
+      .detail-title { font-size: 1.45rem; margin-bottom: 0.5rem; }
+      .detail-loc  { margin-bottom: 0.45rem; }
+      .detail-date { margin-bottom: 1rem; }
+      .detail-tag-row { margin-bottom: 1.1rem; }
+      .detail-params  { margin-bottom: 1.2rem; }
+      .detail-comment { margin-bottom: 1.6rem; }
+      .detail-close { top: 0.75rem; right: 0.75rem; background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); color: #fff; }
     }
     @media (max-width: 640px) {
       .grid-sizer, .gallery-item { width: calc(50% - 8px); }
@@ -297,62 +338,10 @@ layout: false
     @media (max-width: 420px) {
       .grid-sizer, .gallery-item { width: 100%; margin-bottom: 10px; }
     }
-
-    /* ── 移动端详情页：上图下信息 sheet 布局 ────────── */
-    @media (max-width: 860px) {
-      /* panel 从屏幕底部滑入 */
-      .detail-overlay { align-items: flex-end; }
-
-      .detail-panel {
-        flex-direction: column;
-        width: 100%; max-width: 100%;
-        height: 92dvh;
-        border-radius: 20px 20px 0 0;
-        margin: 0;
-        transform: translateY(40px);
-      }
-      .detail-overlay.open .detail-panel { transform: translateY(0); }
-
-      /* 图片区：固定高度，不伸缩 */
-      .detail-img-wrap {
-        flex: 0 0 42%;
-        min-height: 0;
-      }
-
-      /* 信息区：占满剩余，内部可滚动 */
-      .detail-meta {
-        flex: 1 1 0;
-        min-height: 0;
-        border-left: none;
-        border-top: 1px solid rgba(255,255,255,0.08);
-        padding: 1.4rem 1.5rem 2rem;
-        overflow-y: auto;
-      }
-
-      /* 标题字号收小，避免窄屏折行 */
-      .detail-title { font-size: 1.45rem; margin-bottom: 0.5rem; }
-
-      /* 副标题和日期给出明确间距 */
-      .detail-loc  { margin-bottom: 0.45rem; }
-      .detail-date { margin-bottom: 1rem; }
-
-      /* 其余区块间距收紧 */
-      .detail-tag-row { margin-bottom: 1.1rem; }
-      .detail-params  { margin-bottom: 1.2rem; }
-      .detail-comment { margin-bottom: 1.6rem; }
-
-      /* 关闭按钮：半透明深色背景，覆盖在图片上清晰可见 */
-      .detail-close {
-        top: 0.75rem; right: 0.75rem;
-        background: rgba(0,0,0,0.45);
-        backdrop-filter: blur(8px);
-      }
-    }
   </style>
 </head>
 <body>
 
-<!-- Mobile top bar (hidden on desktop) -->
 <header class="top-bar">
   <button class="icon-btn" id="drawerToggle" aria-label="打开菜单">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -362,24 +351,26 @@ layout: false
     </svg>
   </button>
   <h1>GaewdFyy's Gallery</h1>
+  <button class="icon-btn" id="themeToggle" aria-label="切换主题">
+    </button>
 </header>
 
 <div class="scrim" id="scrim"></div>
 
 <div class="shell">
-
-  <!-- ── MD3 Navigation Drawer ──────────────────────────── -->
   <nav class="drawer" id="drawer">
     <div class="drawer-header">
-      <div class="drawer-title">GaewdFyy</div>
       <div class="drawer-subtitle">摄影作品集</div>
     </div>
     <div class="drawer-divider"></div>
     <div class="drawer-section-label">图廊</div>
     <div id="navList"></div>
+    
+    <div class="drawer-footer">
+      © 2026 GaewdFyy. All rights reserved.
+    </div>
   </nav>
 
-  <!-- ── Main content ────────────────────────────────────── -->
   <main class="main" id="main">
     <div class="gallery-wrap">
       <div id="galleryRoot"></div>
@@ -393,12 +384,11 @@ layout: false
   </main>
 </div>
 
-<!-- Detail overlay -->
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-backdrop" id="detailBackdrop"></div>
   <div class="detail-panel">
     <button class="detail-close" id="detailClose">✕</button>
-    <div class="detail-img-wrap"><img id="detailImg" src="" alt="" /></div>
+    <div class="detail-img-wrap"><img id="detailImg" src="" alt="" loading="lazy" /></div>
     <div class="detail-meta">
       <h2 class="detail-title"   id="detailTitle"></h2>
       <div class="detail-loc"    id="detailLoc"></div>
@@ -415,30 +405,13 @@ layout: false
 import { argbFromRgb, themeFromSourceColor, hexFromArgb }
   from 'https://esm.sh/@material/material-color-utilities@0.3.0';
 
-/* ══════════════════════════════════════════════════════════════
-   📸  作品数据表
-   ──────────────────────────────────────────────────────────────
-   添加新作品：在数组末尾追加一个对象即可。
-   侧边栏分类、时间轴、瀑布流分组全部自动更新，无需修改其他代码。
-
-   字段说明：
-     src      本地路径，如 /gallery/photo/xxx.jpg
-     raw      GitHub 高清直链（用于"获取原图"按钮）
-     title    英文标题
-     loc      中文副标题 / 拍摄地
-     date     拍摄日期 "YYYY-MM-DD"  ← 决定排序和时间轴
-     tags     标签数组，如 ['风景', '春天']  ← 决定侧边栏分类
-     camera   相机型号
-     settings 拍摄参数
-     comment  作者感言
-══════════════════════════════════════════════════════════════ */
 const PHOTOS = [
   {
     src:      '/gallery/photo/photo04.jpg',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo04.jpg',
     title:    'Tapestry of Spring',
     loc:      '春意织锦',
-    date:     '2025-03-18',
+    date:     '2026-04-01',
     tags:     ['花卉', '春天'],
     camera:   'Nikon D3300',
     settings: '105mm · 1/40s · f/5.6 · ISO 100',
@@ -449,7 +422,7 @@ const PHOTOS = [
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo01.jpg',
     title:    'Through the Willow Veil',
     loc:      '柳帘窥岸',
-    date:     '2025-03-18',
+    date:     '2026-04-01',
     tags:     ['风景', '春天'],
     camera:   'Nikon D3300',
     settings: '105mm · 1/160s · F9 · ISO100',
@@ -460,7 +433,7 @@ const PHOTOS = [
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo02.jpg',
     title:    'Serenity by the Stream',
     loc:      '河畔静谧',
-    date:     '2025-03-18',
+    date:     '2026-04-01',
     tags:     ['风景', '春天'],
     camera:   'Nikon D3300',
     settings: '105mm · 1/50s · F5.6 · ISO100',
@@ -471,34 +444,101 @@ const PHOTOS = [
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo03.jpg',
     title:    'Glow of the Bloom',
     loc:      '浮光春蕊',
-    date:     '2025-03-18',
+    date:     '2026-04-01',
     tags:     ['花卉', '春天'],
     camera:   'Nikon D3300',
     settings: '105mm · 1/60s · F5.6 · ISO200',
     comment:  '就像我们在修图软件里小心翼翼地调整阴影和高光，本质上是在用色彩，去缝补记忆里的某些缺憾。',
   },
+  {
+    src:      '/gallery/photo/photo05.webp',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo05.jpg',
+    title:    'Where the Sun Rests',
+    loc:      '熔金剪影',
+    date:     '2026-06-12',
+    tags:     ['风景', '夏天'],
+    camera:   'Nikon D3300',
+    settings: '105mm · 1/2000s · F5.6 · ISO100',
+    comment:  '一轮炽热的落日正缓缓沉入地平线，刚好隐藏在繁茂的树丛背后，将天空拉出一道层次分明的晚霞。前景是泛着微光的暗色水面，与中间大片浓郁的树木剪影共同压低了画面的视觉重心',
+  },
+  {
+    src:      '/gallery/photo/photo06.webp',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo06.jpg',
+    title:    'Golden Strings of Twilight',
+    loc:      '金色琴弦',
+    date:     '2026-06-12',
+    tags:     ['风景', '夏天'],
+    camera:   'Nikon D3300',
+    settings: '105mm · 1/400s · F5.6 · ISO100',
+    comment:  '一座宏伟的白色斜拉桥主塔，它直插云霄，放射状的钢索犹如竖琴的琴弦。落日的余晖将天空染成了饱和度极高的橙黄色渐变，平静的水面如镜子般完美倒映出主塔与天空的暖芒，左侧远方则是城市高楼的剪影。',
+  },
+  {
+    src:      '/gallery/photo/photo07.webp',
+    raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo07.jpg',
+    title:    'Verdant Frames',
+    loc:      '翠羽红墙',
+    date:     '2026-06-12',
+    tags:     ['风景', '夏天'],
+    camera:   'Nikon D3300',
+    settings: '70mm · 1/50s · F5.6 · ISO100',
+    comment:  '红砖教堂尖塔挺拔地伫立在淡蓝色的天空下。画面右侧和下方，几抹翠绿的柳枝自然地探入镜头，为原本严肃、冰冷的建筑线条增添了一抹生机。',
+  },
 ];
 
-/* ── Material You ─────────────────────────────────────────── */
+/* ── Theme Management ─────────────────────────────────────── */
 const root = document.documentElement;
 const colorCache = new Map();
 
-function applyTheme(r, g, b) {
-  const s = themeFromSourceColor(argbFromRgb(r, g, b)).schemes.dark;
+const prefersDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+let isDarkMode = localStorage.getItem('md3-theme') 
+  ? localStorage.getItem('md3-theme') === 'dark' 
+  : prefersDarkQuery.matches;
+let currentBaseColor = [249, 202, 163];
+
+const themeToggleBtn = document.getElementById('themeToggle');
+
+function updateThemeIcon() {
+  themeToggleBtn.innerHTML = isDarkMode
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+}
+
+function applyTheme(r, g, b, dark = isDarkMode) {
+  currentBaseColor = [r, g, b];
+  const s = themeFromSourceColor(argbFromRgb(r, g, b)).schemes[dark ? 'dark' : 'light'];
   const vars = {
-    '--primary':           hexFromArgb(s.primary),
-    '--on-primary':        hexFromArgb(s.onPrimary),
-    '--primary-container': hexFromArgb(s.primaryContainer),
-    '--secondary':         hexFromArgb(s.secondary),
-    '--surface':           hexFromArgb(s.surface),
-    '--surface-variant':   hexFromArgb(s.surfaceVariant),
-    '--on-surface':        hexFromArgb(s.onSurface),
-    '--outline':           hexFromArgb(s.outline),
-    '--background':        hexFromArgb(s.background),
+    '--primary':              hexFromArgb(s.primary),
+    '--on-primary':           hexFromArgb(s.onPrimary),
+    '--primary-container':    hexFromArgb(s.primaryContainer),
+    '--on-primary-container': hexFromArgb(s.onPrimaryContainer),
+    '--secondary':            hexFromArgb(s.secondary),
+    '--surface':              hexFromArgb(s.surface),
+    '--surface-variant':      hexFromArgb(s.surfaceVariant),
+    '--on-surface':           hexFromArgb(s.onSurface),
+    '--outline':              hexFromArgb(s.outline),
+    '--outline-variant':      hexFromArgb(s.outlineVariant),
+    '--background':           hexFromArgb(s.background),
   };
   for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
 }
-applyTheme(249, 202, 163); // 默认暖色 (#FFE3C7 × #F2B6A0)
+
+themeToggleBtn.addEventListener('click', () => {
+  isDarkMode = !isDarkMode;
+  localStorage.setItem('md3-theme', isDarkMode ? 'dark' : 'light');
+  updateThemeIcon();
+  applyTheme(...currentBaseColor);
+});
+
+prefersDarkQuery.addEventListener('change', (e) => {
+  if (!localStorage.getItem('md3-theme')) {
+    isDarkMode = e.matches;
+    updateThemeIcon();
+    applyTheme(...currentBaseColor);
+  }
+});
+
+updateThemeIcon();
+applyTheme(...currentBaseColor);
 
 /* ── Date / group helpers ─────────────────────────────────── */
 const MONTHS_ZH = ['一月','二月','三月','四月','五月','六月',
@@ -510,11 +550,9 @@ const groupLabel = k => { const [y,m] = k.split('-'); return `${y} · ${MONTHS_Z
 const anchor     = k => `grp-${k}`;
 
 /* ── Derive data structures ───────────────────────────────── */
-PHOTOS.sort((a, b) => parseDate(b.date) - parseDate(a.date)); // newest first
+PHOTOS.sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
 const allTags = [...new Set(PHOTOS.flatMap(p => p.tags))];
-
-// groups: "YYYY-MM" → Photo[]  (already sorted because PHOTOS is sorted)
 const groups = new Map();
 PHOTOS.forEach(p => {
   const k = groupKey(parseDate(p.date));
@@ -525,9 +563,7 @@ PHOTOS.forEach(p => {
 /* ── State ────────────────────────────────────────────────── */
 let activeTag = '全部';
 
-/* ══════════════════════════════════════════════════════════════
-   DRAWER / NAV
-══════════════════════════════════════════════════════════════ */
+/* ── Nav Build ────────────────────────────────────────────── */
 const ICON_ALL = `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
   <rect x="3" y="3" width="7" height="7" rx="1.5"/>
   <rect x="14" y="3" width="7" height="7" rx="1.5"/>
@@ -592,28 +628,14 @@ function selectTag(tag) {
   renderGallery();
 }
 
-/* ══════════════════════════════════════════════════════════════
-   GALLERY — complete re-render on every filter change
-   ──────────────────────────────────────────────────────────────
-   Why re-render instead of show/hide?
-   Masonry writes absolute pixel positions to each item. When items
-   are hidden with display:none the grid collapses, but the remaining
-   items keep their old absolute positions — so they don't fill the
-   gaps. Destroy+reInit has the same problem because Masonry reads
-   the already-mutated inline styles from the previous run.
-   The only reliable fix is to rebuild the DOM from scratch so every
-   item starts without any inline style, then let Masonry lay them
-   out fresh. Performance is fine here because the image elements are
-   fetched from browser cache on subsequent renders.
-══════════════════════════════════════════════════════════════ */
+/* ── Gallery Render ───────────────────────────────────────── */
 const galleryRoot = document.getElementById('galleryRoot');
 
 function renderGallery() {
-  galleryRoot.innerHTML = '';     // ← full teardown; Masonry instances go away with the nodes
+  galleryRoot.innerHTML = '';
   let anyVisible = false;
 
   groups.forEach((photos, key) => {
-    // filter photos for this group
     const visible = activeTag === '全部'
       ? photos
       : photos.filter(p => p.tags.includes(activeTag));
@@ -621,7 +643,6 @@ function renderGallery() {
     if (!visible.length) return;
     anyVisible = true;
 
-    // month section
     const section = document.createElement('div');
     section.className = 'month-group';
     section.id = anchor(key);
@@ -631,10 +652,8 @@ function renderGallery() {
     heading.textContent = groupLabel(key);
     section.appendChild(heading);
 
-    // masonry grid
     const grid = document.createElement('div');
     grid.className = 'grid';
-    // grid-sizer and gutter-sizer must be FIRST children — Masonry reads them before items
     grid.innerHTML = '<div class="grid-sizer"></div><div class="gutter-sizer"></div>';
 
     visible.forEach(p => {
@@ -642,7 +661,7 @@ function renderGallery() {
       item.className = 'gallery-item';
 
       const img = document.createElement('img');
-      img.src = p.src; img.alt = p.title; img.crossOrigin = 'anonymous';
+      img.src = p.src; img.alt = p.title; img.crossOrigin = 'anonymous'; img.loading = 'lazy';
 
       const cap = document.createElement('div');
       cap.className = 'item-hover-caption';
@@ -657,14 +676,12 @@ function renderGallery() {
     section.appendChild(grid);
     galleryRoot.appendChild(section);
 
-    // init Masonry for this grid once its images are loaded
     imagesLoaded(grid, () => {
       new Masonry(grid, {
         itemSelector: '.gallery-item',
         columnWidth:  '.grid-sizer',
         gutter:       '.gutter-sizer',
         percentPosition: true,
-        // stamp heading so Masonry doesn't overlap it
       });
       updateSubActive();
     });
@@ -674,15 +691,7 @@ function renderGallery() {
   updateSubActive();
 }
 
-/* ══════════════════════════════════════════════════════════════
-   SCROLL TRACKING (month highlight in sidebar)
-══════════════════════════════════════════════════════════════ */
-function getScrollContainer() {
-  // On desktop the <main> element scrolls; on mobile the body scrolls.
-  const main = document.getElementById('main');
-  return (main.scrollHeight > main.clientHeight) ? main : document.documentElement;
-}
-
+/* ── Scroll Tracking ──────────────────────────────────────── */
 function scrollToGroup(key) {
   const el = document.getElementById(anchor(key));
   if (!el) return;
@@ -715,11 +724,9 @@ function updateSubActive() {
 }
 
 document.getElementById('main').addEventListener('scroll', updateSubActive, { passive: true });
-window.addEventListener('scroll', updateSubActive, { passive: true }); // covers mobile body scroll
+window.addEventListener('scroll', updateSubActive, { passive: true });
 
-/* ══════════════════════════════════════════════════════════════
-   MOBILE DRAWER
-══════════════════════════════════════════════════════════════ */
+/* ── Mobile Drawer ────────────────────────────────────────── */
 const drawer = document.getElementById('drawer');
 const scrim  = document.getElementById('scrim');
 
@@ -729,9 +736,7 @@ function closeMobileDrawer() { drawer.classList.remove('open'); scrim.classList.
 document.getElementById('drawerToggle').addEventListener('click', openMobileDrawer);
 scrim.addEventListener('click', closeMobileDrawer);
 
-/* ══════════════════════════════════════════════════════════════
-   DETAIL OVERLAY
-══════════════════════════════════════════════════════════════ */
+/* ── Detail Overlay ───────────────────────────────────────── */
 const overlay   = document.getElementById('detailOverlay');
 const detailImg = document.getElementById('detailImg');
 const btnRaw    = document.getElementById('btnRaw');
@@ -749,11 +754,6 @@ function openDetail(p, thumbImg) {
   document.getElementById('detailTagRow').innerHTML =
     (p.tags || []).map(t => `<span class="detail-tag-chip">${t}</span>`).join('');
   btnRaw.href = p.raw || '#';
-
-  // ── 图片：直接复用浏览器缓存，主线程零阻塞 ─────────────────────
-  // 浏览器对同一 URL 只会发一次请求，后续赋值直接从内存缓存读取，
-  // 不会出现网络往返。之前用 canvas blit 反而引入了同步的 drawImage，
-  // 对全尺寸照片会阻塞主线程 5 秒以上，这里彻底移除。
   detailImg.src = thumbImg.src;
 
   overlay.classList.add('open');
@@ -762,17 +762,11 @@ function openDetail(p, thumbImg) {
   const key = thumbImg.src;
   pendingLoad = key;
 
-  // 已有缓存色值：立即应用
   if (colorCache.has(key)) {
     applyTheme(...colorCache.get(key));
     return;
   }
 
-  // ── 取色：createImageBitmap + OffscreenCanvas，完全在后台执行 ──
-  // createImageBitmap 接收已解码的 HTMLImageElement，
-  // 缩放到 80×80 的操作由 GPU 完成，不占主线程时间。
-  // OffscreenCanvas.getContext('2d').getImageData 也在后台线程执行。
-  // 整个取色过程对 INP / 帧率零影响。
   createImageBitmap(thumbImg, {
     resizeWidth: 80, resizeHeight: 80, resizeQuality: 'low',
   }).then(bitmap => {
@@ -781,12 +775,11 @@ function openDetail(p, thumbImg) {
     ctx.drawImage(bitmap, 0, 0);
     bitmap.close();
 
-    // 从缩小后的图像数据里取主色
     const data = ctx.getImageData(0, 0, 80, 80).data;
     let r = 0, g = 0, b = 0, count = 0;
-    for (let i = 0; i < data.length; i += 16) {   // 每 4 个像素采一次
+    for (let i = 0; i < data.length; i += 16) {
       const a = data[i + 3];
-      if (a < 128) continue;                        // 跳过透明像素
+      if (a < 128) continue;
       r += data[i]; g += data[i+1]; b += data[i+2];
       count++;
     }
@@ -794,7 +787,7 @@ function openDetail(p, thumbImg) {
     const color = [Math.round(r/count), Math.round(g/count), Math.round(b/count)];
     colorCache.set(key, color);
     if (pendingLoad === key) applyTheme(...color);
-  }).catch(() => {/* crossOrigin / 浏览器不支持时静默跳过 */});
+  }).catch(() => {});
 }
 
 const closeDetail = () => {

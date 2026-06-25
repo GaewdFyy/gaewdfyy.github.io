@@ -1013,7 +1013,7 @@ about:
   banner_mask_alpha: 0.3
   avatar: /img/02.jpg
   name: "GaewdFyy"
-  intro: "| 11年生 | 14 years old | 2026届中考生 | Furry控 | 社恐 | INFP |"
+  intro: "| 11年生 | 男孩子 | 14-y-o | Furry控 | 社恐 | INFP |"
   # 更多图标可从 https://hexo.fluid-dev.com/docs/icon/ 查找，`class` 代表图标的 css class，添加 `qrcode` 后，图标不再是链接而是悬浮二维码
   # More icons can be found from https://hexo.fluid-dev.com/docs/en/icon/  `class` is the css class of the icon. If adding `qrcode`, the icon is no longer a link, but a hovering QR code
   icons:

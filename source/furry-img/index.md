@@ -28,7 +28,7 @@ subtitle: Furry随机图
 
 
 API接口：
- [随机福瑞图片API](https://api.furry.ist/) 
+ [随机福瑞图片API(api.furry.ist))](https://api.furry.ist/) 
 
 
 <div id="utterances-container">

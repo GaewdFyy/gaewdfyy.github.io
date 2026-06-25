@@ -9,16 +9,15 @@ thumbnail: /images/10.png
 👏哈喽~ 这里是 **「GaewdFyy」的Blog**，可以简称为 **「Gd」**，或者你也可以称呼我的兽设名 **「奈程」、「Naichi_Michi」** 
 是Furry控！
 
-咱搞这个Blog只是兴趣，还没有受过关于编程的系统化学习，~~基本只靠Vibe coding~~（小声）所以请多指教！
-喜好科技💻、艺术🎨、音乐🎵、摄影📷以及美食🍹！
+咱搞这个Blog只是兴趣，~~基本只靠Vibe coding~~（小声）请多指教！
+爱好科技💻、艺术🎨、音乐🎵以及摄影📷！
 
 在玩的游戏有：
-Minecraft（60%）
-Osu!（75%)
-冰与火之舞（70%）
-恶魔轮盘（55%）
-绝区零（5%）
-极限竞速：地平线4（10%）
+Minecraft（70%）
+Osu!（60%)
+冰与火之舞（40%）
+恶魔轮盘（25%）
+极限竞速：地平线4（5%）
 Modern Warship （15%）
 ~~FL Studio（10%）~~
 
@@ -89,6 +88,15 @@ Modern Warship （15%）
       <div class="meta">
         <span class="name">Steam</span>
         <span class="handle">GaewdFyy</span>
+      </div>
+      <i class="fas fa-arrow-right arrow"></i>
+    </a>
+    <a class="contact-item fl-telegram"
+       href="https://t.me/GaewdFyy" target="_blank">
+      <i class="iconfont icon-telegram-fill"></i>
+      <div class="meta">
+        <span class="name">Telegram</span>
+        <span class="handle">奈程Naichi Michi</span>
       </div>
       <i class="fas fa-arrow-right arrow"></i>
     </a>
