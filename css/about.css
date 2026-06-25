@@ -1,5 +1,6 @@
 /* ══════════════════════════════
    关于页 · 社交链接样式
+   深色模式依据：html[data-user-color-scheme="dark"]
    ══════════════════════════════ */
 
 /* ── 通用标题 ── */
@@ -27,6 +28,7 @@
 
 /* ════════════════════════════
    相关群组 · 品牌色卡片
+   （本身就是有色背景 + 白字，深色模式下不用变）
 ════════════════════════════ */
 .group-cards {
   display: grid;
@@ -71,7 +73,7 @@
 .card-qq       { background: linear-gradient(135deg, #12b7f5, #0a9ed6); }
 
 /* ════════════════════════════
-   交友链接 · 列表详情
+   交友链接 · 列表详情（亮色模式默认值）
 ════════════════════════════ */
 .friend-list {
   display: flex;
@@ -87,7 +89,7 @@
   text-decoration: none !important;
   color: #333 !important;
   border-radius: 10px;
-  transition: all 0.18s ease;
+  transition: all 0.18s ease, background 0.18s ease;
   border-left: 3px solid transparent;
   background: transparent;
 }
@@ -138,35 +140,44 @@
   color: var(--brand);
 }
 
-/* 各平台品牌色 */
+/* 各平台品牌色（亮色模式） */
 .fl-github  { --brand: #24292e; }
 .fl-qq      { --brand: #12b7f5; }
 .fl-twitter { --brand: #1da1f2; }
-.fl-bilibili { --brand: #FF61C7; }
-.fl-steam { --brand: #2a457e; }
+.fl-bilibili  { --brand: #FF00B6; }
+.fl-steam     { --brand: #122779; }
+.fl-telegram { --brand: #12b7f5; }
 
 /* ════════════════════════════
-   深色模式（系统级）
+   深色模式
+   依据根节点属性：data-user-color-scheme="dark"
+   用 html[...] 提高优先级，确保能覆盖上面的默认样式
 ════════════════════════════ */
-@media (prefers-color-scheme: dark) {
-  .contact-title { color: #ccc; }
-  .contact-title::before { background: #555; }
-  .friend-list .contact-item { color: #ddd !important; }
-  .friend-list .contact-item:hover { background: rgba(255, 255, 255, 0.07); }
-  .friend-list .name   { color: #eee; }
-  .friend-list .handle { color: #999; }
-  .friend-list .arrow  { color: #555; }
-  .fl-github { --brand: #6e7681; }
+html[data-user-color-scheme="dark"] .contact-title {
+  color: #ccc;
+}
+html[data-user-color-scheme="dark"] .contact-title::before {
+  background: #555;
 }
 
-/* ════════════════════════════
-   深色模式（Fluid 主题切换）
-════════════════════════════ */
-[data-user-color-scheme="dark"] .contact-title { color: #ccc; }
-[data-user-color-scheme="dark"] .contact-title::before { background: #555; }
-[data-user-color-scheme="dark"] .friend-list .contact-item { color: #ddd !important; }
-[data-user-color-scheme="dark"] .friend-list .contact-item:hover { background: rgba(255, 255, 255, 0.07); }
-[data-user-color-scheme="dark"] .friend-list .name   { color: #eee; }
-[data-user-color-scheme="dark"] .friend-list .handle { color: #999; }
-[data-user-color-scheme="dark"] .friend-list .arrow  { color: #555; }
-[data-user-color-scheme="dark"] .fl-github { --brand: #6e7681; }
+html[data-user-color-scheme="dark"] .friend-list .contact-item {
+  color: #ddd !important;
+}
+html[data-user-color-scheme="dark"] .friend-list .contact-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+}
+html[data-user-color-scheme="dark"] .friend-list .name {
+  color: #eee;
+}
+html[data-user-color-scheme="dark"] .friend-list .handle {
+  color: #999;
+}
+html[data-user-color-scheme="dark"] .friend-list .arrow {
+  color: #555;
+}
+
+/* 深色下 GitHub 黑色块太暗，单独提亮一档 */
+html[data-user-color-scheme="dark"] .fl-github {
+  --brand: #6e7681;
+}
