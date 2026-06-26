@@ -791,6 +791,15 @@ const closeDetail = () => {
   overlay.classList.remove('open');
   document.body.style.overflow = '';
   pendingLoad = null;
+  
+  // 延迟 320ms（与 CSS 中的 opacity 动画时间 0.32s 保持一致）后清空 src。
+  // 这样既保证了关闭动画的平滑，又防止了下次打开时闪烁前一张残留图。
+  setTimeout(() => {
+    // 增加一层判断：确保在这 320ms 内用户没有手快点开下一张新图片
+    if (!overlay.classList.contains('open')) {
+      detailImg.src = '';
+    }
+  }, 320);
 };
 document.getElementById('detailClose').onclick    = closeDetail;
 document.getElementById('detailBackdrop').onclick = closeDetail;

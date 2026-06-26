@@ -846,18 +846,18 @@ i.iconfont {
 }
 :root {
   --color-mode: "light";
-  --body-bg-color: #CED3D9;
-  --board-bg-color: #ffffff;
+  --body-bg-color: #FFF6EB;
+  --board-bg-color: #FFF0DB;
   --text-color: #3c4858;
   --sec-text-color: #718096;
   --post-text-color: #2c3e50;
   --post-heading-color: #1a202c;
-  --post-link-color: #fcba03;
-  --link-hover-color: #c79816;
+  --post-link-color: #FF946D;
+  --link-hover-color: #FF7A4A;
   --link-hover-bg-color: #f8f9fa;
   --line-color: #eaecef;
   --navbar-bg-color: #00000000;
-  --navbar-text-color: #fcba03;
+  --navbar-text-color: #F2B6A0;
   --subtitle-color: #d0d0d0;
   --scrollbar-color: #c4c6c9;
   --scrollbar-hover-color: #a6a6a6;
@@ -879,12 +879,12 @@ i.iconfont {
     --sec-text-color: #a7a9ad;
     --post-text-color: #c4c6c9;
     --post-heading-color: #c4c6c9;
-    --post-link-color: #fcba03;
-    --link-hover-color: #c79816;
+    --post-link-color: #F2B6A0;
+    --link-hover-color: #FF946D;
     --link-hover-bg-color: #364151;
     --line-color: #435266;
     --navbar-bg-color: #00000000;
-    --navbar-text-color: #fcba03;
+    --navbar-text-color: #F2B6A0;
     --subtitle-color: #fff;
     --scrollbar-color: #687582;
     --scrollbar-hover-color: #9da8b3;
@@ -933,12 +933,12 @@ i.iconfont {
     --sec-text-color: #a7a9ad;
     --post-text-color: #c4c6c9;
     --post-heading-color: #c4c6c9;
-    --post-link-color: #fcba03;
-    --link-hover-color: #c79816;
+    --post-link-color: #F2B6A0;
+    --link-hover-color: #FF946D;
     --link-hover-bg-color: #364151;
     --line-color: #435266;
     --navbar-bg-color: #00000000;
-    --navbar-text-color: #fcba03;
+    --navbar-text-color: #F2B6A0;
     --subtitle-color: #fff;
     --scrollbar-color: #687582;
     --scrollbar-hover-color: #9da8b3;

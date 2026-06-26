@@ -8,8 +8,8 @@
 <head>
   <meta charset="UTF-8">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.png">
-  <link rel="icon" href="/img/ico.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.svg">
+  <link rel="icon" href="/img/ico.svg">
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://gaewdfyy.top/img/09.jpg">
 <meta property="og:image" content="https://gaewdfyy.top/img/11.jpg">
 <meta property="article:published_time" content="2025-02-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-02T16:14:46.618Z">
+<meta property="article:modified_time" content="2026-06-26T04:31:25.765Z">
 <meta property="article:author" content="GaewdFyy">
 <meta property="article:tag" content="教程">
 <meta property="article:tag" content="玩机">
@@ -87,7 +87,6 @@
 
 
   
-<link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/about.css">
 
 
@@ -167,18 +166,6 @@
               <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
               </a>
             </li>
           
@@ -335,7 +322,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.7k 字
+          5.5k 字
         
       </span>
     
@@ -346,7 +333,7 @@
         
         
         
-          48 分钟
+          47 分钟
         
       </span>
     
@@ -397,7 +384,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2026-05-03T00:14:46+08:00
+                    本文最后更新于 2026-06-26T12:31:25+08:00
                   
                   
 
@@ -618,9 +605,9 @@
 </blockquote>
 <p>将其复制到你能找到的位置并修改后缀名为 <strong>.img</strong></p>
 <h4 id="修补Boot镜像"><a href="#修补Boot镜像" class="headerlink" title="修补Boot镜像"></a>修补Boot镜像</h4><p>前往<a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases/">Magisk的GitHub发布页</a></p>
-<details markdown="1"><summary>推荐（点我）</summary>
-这里推荐一个第三方的Magisk管理端： [Kitsune Magisk](https://github.com/1q23lyc45/KitsuneMagisk) 
-与官方Magisk的不同之处就是可以更有效地隐藏对软件的Root，因为一些软件检测到手机获取了Root会有限制，所以更推荐安装这个Magisk管理端
+<details markdown="1"><summary>关于Kitsune Magisk</summary>
+Kitsune Magisk是一个开源的第三方的Magisk管理端： [Kitsune Magisk](https://github.com/1q23lyc45/KitsuneMagisk) 
+与官方Magisk的不同之处就是可以更有效地隐藏Root。
 </details>
 
 
@@ -648,15 +635,13 @@
 <p>救砖听起来比较难，实则对于刚接触刷机的萌新，确实。玩机这件事很多都是要靠经验的。所以掌握一些基本的救砖思路是很有必要的。</p>
 <hr>
 <p>拿我自己来说，我这台红米9A总共变砖了……超过7次了！其中黑砖差不多3次了…虽然听着感觉手机在解了BL&#x2F;root之后很容易变砖，其实只要不<strong>滥用Root权限</strong>，<strong>乱刷各种ROM，镜像和模块</strong>是没有任何问题的。</p>
-<h3 id="救砖？"><a href="#救砖？" class="headerlink" title="救砖？"></a>救砖？</h3><p>其实基本的救砖很简单，既然是因为系统的软件部分出了问题，那最简单的方法就是直接重刷系统，就这么简单，但是要注意，如果是因为刷Magisk模块导致变砖，可直接在Rec的文件浏览找到 <code>/data/adb/modules/</code>并删除相关模块就可以解决。</p>
-<h4 id="注意文件名称"><a href="#注意文件名称" class="headerlink" title="注意文件名称"></a>注意文件名称</h4><p>记得有一次，在误刷入一个文件名称已经标明了“<strong>板砖警告</strong>”的Rec镜像，手机变成黑砖了…也是很惨了，所以一定要注意这点。</p>
+<h3 id="怎么救砖？"><a href="#怎么救砖？" class="headerlink" title="怎么救砖？"></a>怎么救砖？</h3><p>其实基本的救砖很简单，既然是因为系统的软件部分出了问题，那最简单的方法就是直接重刷系统，就这么简单，但是要注意，如果是因为刷Magisk模块导致变砖，可直接在Rec的文件浏览找到 <code>/data/adb/modules/</code>并删除相关模块就可以解决。</p>
 <h4 id="建议不要在晚上刷机"><a href="#建议不要在晚上刷机" class="headerlink" title="建议不要在晚上刷机"></a>建议不要在晚上刷机</h4><p>Yes bro，it’s true.晚上刷机确实很可能出事。我有一次因为我突然想到我有一个东西没有备份就Rec刷机时直接长按电源键强制重启了，再刷回原来的包去备份，但是，刷不进去了（悲）只能Fastboot线刷救砖，然后因为版本不匹配导致黑砖…总之每一步都要小心。</p>
 <h4 id="强制重启"><a href="#强制重启" class="headerlink" title="强制重启"></a>强制重启</h4><p>Rec刷机时不要强制重启，这非常重要！！！不然很容易导致系统分区丢失导致刷不进去包，或者黑砖之类的，就像上面。</p>
 <h4 id="在玩机平台浏览相关帖子"><a href="#在玩机平台浏览相关帖子" class="headerlink" title="在玩机平台浏览相关帖子"></a>在玩机平台浏览相关帖子</h4><p>在酷安、XDA论坛等玩机平台浏览相关帖子，特别是“<strong>变砖</strong>” “<strong>黑砖</strong>”等标签，如我的红米9A。在一些帖子中会提到</p>
 <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="来自酷安" style="width: 40%; height: auto;">
 
 <h3 id="黑砖"><a href="#黑砖" class="headerlink" title="黑砖"></a>黑砖</h3><p>而黑砖就不一样了，需要用更底层的刷机工具，如高通的9008串口，联发科的深度刷机模式。因为红米9A搭载的是联发科的芯片，所以使用的是深度刷机模式，简称<strong>深刷</strong> 工具使用<strong>SPflash</strong>，因为每一台机型刷机方式都不大一样，所以这里就建议新手仔细在各大玩机平台，视频平台搜索相关的视频教程之类的，一般都很详细，如果实在不行，就封存起来，等到自己实力提升了再试试。或者去某宝的远程刷机&amp;售后解决了。</p>
-<h2 id="本文结束"><a href="#本文结束" class="headerlink" title="本文结束"></a>本文结束</h2><p>本文完结,感谢你的阅读！</p>
 
                 
               </div>
@@ -1106,7 +1091,6 @@
 
 
   
-<script src="/js/custom.js"></script>
 <script src="/js/banner.js"></script>
 <script src="/js/busuanzi.js"></script>
 
