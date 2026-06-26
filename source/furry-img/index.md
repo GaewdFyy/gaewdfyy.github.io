@@ -1,5 +1,5 @@
 ---
-title: play
+title: Furry随机图
 subtitle: Furry随机图
 ---
 

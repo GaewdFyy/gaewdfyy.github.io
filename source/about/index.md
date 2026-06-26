@@ -32,7 +32,7 @@ Modern Warship （15%）
     <a class="contact-item card-telegram"
        href="https://t.me/+sI1zAoPR4gplYThl" target="_blank">
       <i class="iconfont icon-telegram-fill"></i>
-      <span>Telegram<br>Blog 频道</span>
+      <span>Telegram<br>频道</span>
     </a>
     <a class="contact-item card-qq"
        href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fh-zKonn30BGlIv_7bzEKlPMAxcga0a2&authKey=iweA8fooGtt1pOwRiucf3fz%2FmRPeLXtOYdeVHLylmZgWlDt%2F2K2zDgiLaVC56956&noverify=0&group_code=908592581" target="_blank">
@@ -112,14 +112,17 @@ Modern Warship （15%）
 
 
 
-## Blog素材引用
+## 资源引用说明
 
 首页大图使用Bing历史壁纸 
 文章页使用Bing今日壁纸
 参考文档：https://www.timelessq.com/article/detail/57
-部分图片使用图床加载
+
+部分图片使用[聚合图床（superbed.cn）](https://superbed.cn)加载
 
 部分图片来源：[Bilibili：cloud米米](https://b23.tv/Fxybiqm)
+
+首页副标题使用[FurryAPI-一言 API（api.furry.ist）](https://api.furry.ist/apiIntro/hitokoto/)
 
 
 <div id="utterances-container">

@@ -18,11 +18,11 @@
 
 # 用于浏览器标签的图标
 # Icon for browser tab
-favicon: /img/ico.png
+favicon: /img/ico.svg
 
 # 用于苹果设备的图标
 # Icon for Apple touch
-apple_touch_icon: /img/ico.png
+apple_touch_icon: /img/ico.svg
 
 # 浏览器标签页中的标题分隔符，效果：文章名 - 站点名
 # Title separator in browser tab, eg: article - site
@@ -140,7 +140,7 @@ dark_mode:
 color:
   # body 背景色
   # Color of body background
-  body_bg_color: "#CED3D9"
+  body_bg_color: "#FFF6EB"
   # 暗色模式下的 body 背景色，下同
   # Color in dark mode, the same below
   body_bg_color_dark: "#181c27"
@@ -150,10 +150,10 @@ color:
   navbar_bg_color: "#00000000"
   navbar_bg_color_dark: "#00000000"
 
-  # 顶部菜单字体色
+  # 顶部菜单字体色 
   # Color of navigation bar text
-  navbar_text_color: "#fcba03"
-  navbar_text_color_dark: "#fcba03"
+  navbar_text_color: "#F2B6A0"
+  navbar_text_color_dark: "#F2B6A0"
 
   # 副标题字体色
   # Color of subtitle text
@@ -172,7 +172,7 @@ color:
 
   # 主面板背景色
   # Color of main board
-  board_color: "#ffffff"
+  board_color: "#FFF0DB"
   board_color_dark: "#252d38"
 
   # 文章正文字体色
@@ -187,13 +187,13 @@ color:
 
   # 文章超链接字体色
   # Color of post link
-  post_link_color: "#fcba03"
-  post_link_color_dark: "#fcba03"
+  post_link_color: "#FF946D"
+  post_link_color_dark: "#F2B6A0"
 
   # 超链接悬浮时字体色
   # Color of link when hovering
-  link_hover_color: "#c79816"
-  link_hover_color_dark: "#c79816"
+  link_hover_color: "#FF7A4A"
+  link_hover_color_dark: "#FF946D"
 
   # 超链接悬浮背景色
   # Color of link background when hovering
@@ -235,7 +235,6 @@ font:
 # 指定自定义 .js 文件路径，支持列表；路径是相对 source 目录，如 /js/custom.js 对应存放目录 source/js/custom.js
 # Specify the path of your custom js file, support list. The path is relative to the source directory, such as `/js/custom.js` corresponding to the directory `source/js/custom.js`
 custom_js:
-  - /js/custom.js
   - /js/banner.js
   - /js/busuanzi.js
 
@@ -243,7 +242,6 @@ custom_js:
 # 指定自定义 .css 文件路径，用法和 custom_js 相同
 # The usage is the same as custom_js
 custom_css:
-  - /css/home.css
   - /css/about.css
   
 
@@ -380,7 +378,6 @@ navbar:
   menu:
     - { key: "home", link: "/", icon: "iconfont icon-home-fill" }
     - { key: "archive", link: "/archives/", icon: "iconfont icon-archive-fill" }
-    - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
     - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
     - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
     - { key: "message", link: "/message/", icon: "iconfont icon-speakernotes" }
