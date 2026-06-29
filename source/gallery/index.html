@@ -2,15 +2,13 @@
 layout: false
 ---
 
-
-
 <!DOCTYPE html>
-<link rel="icon" href="/gallery/icon.png" type="image/png" />
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GaewdFyy's Gallery</title>
+  <link rel="icon" href="/gallery/icon.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet" />
@@ -331,6 +329,18 @@ layout: false
       .detail-params  { margin-bottom: 1.2rem; }
       .detail-comment { margin-bottom: 1.6rem; }
       .detail-close { top: 0.75rem; right: 0.75rem; background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); color: #fff; }
+
+      /* ── 移动端：滚动至中心自动聚焦动画 ── */
+      .gallery-item.is-focused .item-hover-caption { opacity: 1; }
+      .gallery-item.is-focused img { transform: scale(1.05); }
+      
+      /* 取消移动端点按导致的永久悬停残留 */
+      @media (hover: none) {
+        .gallery-item:hover .item-hover-caption { opacity: 0; }
+        .gallery-item:hover img { transform: none; }
+        .gallery-item.is-focused .item-hover-caption { opacity: 1; }
+        .gallery-item.is-focused img { transform: scale(1.03); }
+      }
     }
     @media (max-width: 640px) {
       .grid-sizer, .gallery-item { width: calc(50% - 8px); }
@@ -407,7 +417,7 @@ import { argbFromRgb, themeFromSourceColor, hexFromArgb }
 
 const PHOTOS = [
   {
-    src:      '/gallery/photo/photo04.jpg',
+    src:      'https://pic1.imgdb.cn/item/6a4214a964740cde7e9f71cb.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo04.jpg',
     title:    'Tapestry of Spring',
     loc:      '春意织锦',
@@ -418,7 +428,7 @@ const PHOTOS = [
     comment:  '那些粉色的花簇，在 105mm 的镜头下变得格外温柔。',
   },
   {
-    src:      '/gallery/photo/photo01.jpg',
+    src:      'https://pic1.imgdb.cn/item/6a4213ff64740cde7e9f717a.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo01.jpg',
     title:    'Through the Willow Veil',
     loc:      '柳帘窥岸',
@@ -429,7 +439,7 @@ const PHOTOS = [
     comment:  '当你把眼睛凑近取景器时，世界忽然从一种无序的喧嚣，缩减成了一个 3:2 的矩形方框。',
   },
   {
-    src:      '/gallery/photo/photo02.jpg',
+    src:      'https://pic1.imgdb.cn/item/6a4214a764740cde7e9f71ca.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo02.jpg',
     title:    'Serenity by the Stream',
     loc:      '河畔静谧',
@@ -440,7 +450,7 @@ const PHOTOS = [
     comment:  '"犹抱琵琶半遮面"',
   },
   {
-    src:      '/gallery/photo/photo03.jpg',
+    src:      'https://pic1.imgdb.cn/item/6a4214a764740cde7e9f71c8.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo03.jpg',
     title:    'Glow of the Bloom',
     loc:      '浮光春蕊',
@@ -451,7 +461,7 @@ const PHOTOS = [
     comment:  '就像我们在修图软件里小心翼翼地调整阴影和高光，本质上是在用色彩，去缝补记忆里的某些缺憾。',
   },
   {
-    src:      '/gallery/photo/photo05.webp',
+    src:      'https://pic1.imgdb.cn/item/6a4214ac64740cde7e9f71cd.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo05.jpg',
     title:    'Where the Sun Rests',
     loc:      '熔金剪影',
@@ -462,7 +472,7 @@ const PHOTOS = [
     comment:  '一轮炽热的落日正缓缓沉入地平线，刚好隐藏在繁茂的树丛背后，将天空拉出一道层次分明的晚霞。前景是泛着微光的暗色水面，与中间大片浓郁的树木剪影共同压低了画面的视觉重心',
   },
   {
-    src:      '/gallery/photo/photo06.webp',
+    src:      'https://pic1.imgdb.cn/item/6a4214ac64740cde7e9f71cc.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo06.jpg',
     title:    'Golden Strings of Twilight',
     loc:      '金色琴弦',
@@ -473,7 +483,7 @@ const PHOTOS = [
     comment:  '一座宏伟的白色斜拉桥主塔，它直插云霄，放射状的钢索犹如竖琴的琴弦。落日的余晖将天空染成了饱和度极高的橙黄色渐变，平静的水面如镜子般完美倒映出主塔与天空的暖芒，左侧远方则是城市高楼的剪影。',
   },
   {
-    src:      '/gallery/photo/photo07.webp',
+    src:      'https://pic1.imgdb.cn/item/6a42153864740cde7e9f720c.webp',
     raw:      'https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo07.jpg',
     title:    'Verdant Frames',
     loc:      '翠羽红墙',
@@ -684,12 +694,56 @@ function renderGallery() {
         percentPosition: true,
       });
       updateSubActive();
+      updateScrollObserver(); // 移动端滚动聚焦重新绑定
     });
   });
 
   document.getElementById('emptyState').classList.toggle('show', !anyVisible);
   updateSubActive();
 }
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE SCROLL OBSERVER (移动端中心视野自动聚焦)
+══════════════════════════════════════════════════════════════ */
+let scrollObserver = null;
+
+function updateScrollObserver() {
+  if (scrollObserver) {
+    scrollObserver.disconnect();
+    scrollObserver = null;
+  }
+  
+  // 仅在窄屏（移动端）设备上激活
+  if (window.innerWidth > 860) return;
+
+  // 设定触发区域：屏幕正中间的 40% 区域 
+  // (即顶部裁掉 30%，底部裁掉 30% 留下的中间横带)
+  const options = {
+    root: null,
+    rootMargin: '-30% 0px -30% 0px',
+    threshold: 0
+  };
+
+  scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      // 当图片进入屏幕中央区域时，加上 is-focused 类
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-focused');
+      } else {
+        entry.target.classList.remove('is-focused');
+      }
+    });
+  }, options);
+
+  // 监听当前所有的画廊图片
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    scrollObserver.observe(item);
+  });
+}
+
+// 监听屏幕旋转或缩放，动态开启/关闭观察器
+window.addEventListener('resize', updateScrollObserver, { passive: true });
+
 
 /* ── Scroll Tracking ──────────────────────────────────────── */
 function scrollToGroup(key) {
@@ -795,10 +849,8 @@ const closeDetail = () => {
   document.body.style.overflow = '';
   pendingLoad = null;
   
-  // 延迟 320ms（与 CSS 中的 opacity 动画时间 0.32s 保持一致）后清空 src。
-  // 这样既保证了关闭动画的平滑，又防止了下次打开时闪烁前一张残留图。
+  // 延迟 320ms（与 CSS 动画同步）后清空 src 防止残影
   setTimeout(() => {
-    // 增加一层判断：确保在这 320ms 内用户没有手快点开下一张新图片
     if (!overlay.classList.contains('open')) {
       detailImg.src = '';
     }
