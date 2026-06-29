@@ -4,6 +4,7 @@ date: 2025-05-02 11:46:55
 password: 
 excerpt: 与Gemini共同译制：逃离内卷、治愈社恐：迷恋“毛毛”的兽世界小孩   | 原文章:https://mp.weixin.qq.com/s/wKFjjqrNsachRZasEycMUg
 tags: [Furry]
+sticky: 50
 ---
 
 # Escaping the Rat Race, Healing Social Anxiety：The Kids Lost in the "Furry" World
