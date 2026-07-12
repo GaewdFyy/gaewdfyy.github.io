@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: GaewdFyyの部落格
+title: GaewdFyy的部落格
 subtitle: ''
 description: ''
 keywords:
@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://gaewdfyy.github.io
+url: https://gaewdfyy.top/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -28,7 +28,6 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -119,6 +118,10 @@ tag_cloud:
     pauseOnSelected: true # true 意味着当选中对应 tag 时,停止转动
     
     
+# 允许 JSON 文件被复制到 public
+skip_render:
+  - '*.json'
+
 plugins:
   - hexo-toc
 hexo-toc:
@@ -127,5 +130,6 @@ hexo-toc:
 
 deploy:
   type: git
-  repo: https://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@github.com/gaewdfyy/gaewdfyy.github.io.git
+  repo: https://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@github.com/gaewdfyy/gaewdfyy.github.io.git
   branch: main  # 或main，根据你的GitHub仓库设置
+  
