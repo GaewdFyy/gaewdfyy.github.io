@@ -116,7 +116,12 @@ tag_cloud:
     outlineColor: '#E2E1D1'
     maxSpeed: 0.2
     pauseOnSelected: true # true 意味着当选中对应 tag 时,停止转动
-    
+
+hexo-tag-videojs:
+  videoPlayerResourcesUrl:
+    - /js/videojs/video-js.css
+    - /js/videojs/video.js
+    - /js/videojs/videojs-http-streaming.js
     
 # 允许 JSON 文件被复制到 public
 skip_render:

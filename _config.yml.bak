@@ -130,6 +130,6 @@ hexo-toc:
 
 deploy:
   type: git
-  repo: https://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@github.com/gaewdfyy/gaewdfyy.github.io.git
+  repo: git@github.com:gaewdfyy/gaewdfyy.github.io.git
   branch: main  # 或main，根据你的GitHub仓库设置
   
