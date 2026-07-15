@@ -26,7 +26,7 @@
     "hexo-renderer-stylus": "^3.0.0",
     "hexo-server": "^3.0.0",
     "hexo-tag-aplayer": "^3.0.4",
-    "hexo-tag-cloud": "^2.1.2",
+    "hexo-tag-cloud": "^3.0.0",
     "hexo-tag-videojs": "^0.0.5",
     "hexo-theme-landscape": "^1.0.0"
   },
