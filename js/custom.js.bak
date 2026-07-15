@@ -1,0 +1,59 @@
+// 等待页面加载完成
+document.addEventListener('DOMContentLoaded', function() {
+  const banner = document.getElementById('banner');
+  const bannerBg = banner ? banner.querySelector('.full-bg-img') : null;
+  
+  if (banner && bannerBg) {
+    // 监听滚动事件
+    let ticking = false;
+    
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          const scrolled = window.pageYOffset;
+          const bannerHeight = window.innerHeight; // 100vh
+          
+          // 计算滚动进度（0到1）
+          const progress = Math.min(scrolled / bannerHeight, 1);
+          
+          // 当开始滚动时，只虚化背景图片
+          if (scrolled > 0) {
+            // 虚化效果：最大10px
+            const blurValue = progress * 10;
+            bannerBg.style.filter = `blur(${blurValue}px)`;
+            
+            // 透明度效果：从1降到0.3
+            const opacity = 1 - (progress * 0.7);
+            bannerBg.style.opacity = opacity;
+            
+            // 可选：让背景图片有轻微的向上移动效果（视差）
+            const translateY = scrolled * 0.5;
+            bannerBg.style.transform = `translateY(${translateY}px) scale(1.1)`;
+            
+          } else {
+            // 回到顶部时恢复原状
+            bannerBg.style.filter = 'blur(0px)';
+            bannerBg.style.opacity = '1';
+            bannerBg.style.transform = 'translateY(0) scale(1.1)';
+          }
+          
+          ticking = false;
+        });
+        
+        ticking = true;
+      }
+    });
+  }
+  
+  // 可选：平滑滚动到内容区域的功能
+  const scrollDownBar = document.querySelector('.scroll-down-bar');
+  if (scrollDownBar) {
+    scrollDownBar.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    });
+  }
+});
