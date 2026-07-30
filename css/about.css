@@ -1,0 +1,183 @@
+/* ══════════════════════════════
+   关于页 · 社交链接样式
+   深色模式依据：html[data-user-color-scheme="dark"]
+   ══════════════════════════════ */
+
+/* ── 通用标题 ── */
+.contact-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.contact-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1em;
+  border-radius: 2px;
+  background: #bbb;
+}
+
+.furry-container {
+  margin-bottom: 36px;
+}
+
+/* ════════════════════════════
+   相关群组 · 品牌色卡片
+   （本身就是有色背景 + 白字，深色模式下不用变）
+════════════════════════════ */
+.group-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.group-cards .contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 14px;
+  border-radius: 14px;
+  text-decoration: none !important;
+  color: #fff !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.group-cards .contact-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.12);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.group-cards .contact-item:hover::before { opacity: 1; }
+.group-cards .contact-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+.group-cards .contact-item i {
+  font-size: 1.7rem;
+}
+
+.card-telegram { background: linear-gradient(135deg, #2ca5e0, #1a8fc7); }
+.card-qq       { background: linear-gradient(135deg, #12b7f5, #0a9ed6); }
+
+/* ════════════════════════════
+   交友链接 · 列表详情（亮色模式默认值）
+════════════════════════════ */
+.friend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.friend-list .contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  text-decoration: none !important;
+  color: #333 !important;
+  border-radius: 10px;
+  transition: all 0.18s ease, background 0.18s ease;
+  border-left: 3px solid transparent;
+  background: transparent;
+}
+.friend-list .contact-item:hover {
+  padding-left: 20px;
+  border-left-color: var(--brand);
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.friend-list .icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #fff;
+  flex-shrink: 0;
+  background: var(--brand);
+}
+
+.friend-list .meta {
+  display: flex;
+  flex-direction: column;
+}
+.friend-list .name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #222;
+}
+.friend-list .handle {
+  font-size: 0.75rem;
+  font-family: monospace;
+  margin-top: 1px;
+  color: #888;
+}
+.friend-list .arrow {
+  margin-left: auto;
+  font-size: 0.8rem;
+  transition: transform 0.18s, color 0.18s;
+  flex-shrink: 0;
+  color: #ccc;
+}
+.friend-list .contact-item:hover .arrow {
+  transform: translateX(3px);
+  color: var(--brand);
+}
+
+/* 各平台品牌色（亮色模式） */
+.fl-github  { --brand: #24292e; }
+.fl-qq      { --brand: #12b7f5; }
+.fl-twitter { --brand: #1da1f2; }
+.fl-bilibili  { --brand: #FF00B6; }
+.fl-steam     { --brand: #122779; }
+.fl-telegram { --brand: #12b7f5; }
+
+/* ════════════════════════════
+   深色模式
+   依据根节点属性：data-user-color-scheme="dark"
+   用 html[...] 提高优先级，确保能覆盖上面的默认样式
+════════════════════════════ */
+html[data-user-color-scheme="dark"] .contact-title {
+  color: #ccc;
+}
+html[data-user-color-scheme="dark"] .contact-title::before {
+  background: #555;
+}
+
+html[data-user-color-scheme="dark"] .friend-list .contact-item {
+  color: #ddd !important;
+}
+html[data-user-color-scheme="dark"] .friend-list .contact-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+}
+html[data-user-color-scheme="dark"] .friend-list .name {
+  color: #eee;
+}
+html[data-user-color-scheme="dark"] .friend-list .handle {
+  color: #999;
+}
+html[data-user-color-scheme="dark"] .friend-list .arrow {
+  color: #555;
+}
+
+/* 深色下 GitHub 黑色块太暗，单独提亮一档 */
+html[data-user-color-scheme="dark"] .fl-github {
+  --brand: #6e7681;
+}
