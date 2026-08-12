@@ -1,7 +1,7 @@
-
+<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme="auto">
 
 
 
@@ -17,7 +17,7 @@
   
   <meta name="theme-color" content="#00000000">
   <meta name="author" content="GaewdFyy">
-  <meta name="keywords" content="">
+  <meta name="keywords" content>
   
     <meta property="og:type" content="website">
 <meta property="og:title" content="页面不存在">
@@ -33,7 +33,7 @@
   
   <title>页面不存在 - GaewdFyy的部落格</title>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
 
 
 
@@ -49,12 +49,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link rel="stylesheet" href="/css/main.css">
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css">
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css">
   
 
 
@@ -62,6 +62,392 @@
   
 <link rel="stylesheet" href="/css/about.css">
 
+<!-- 404 page hero: scoped styles, light/dark tokens follow Fluid's data-user-color-scheme attribute -->
+<style id="notfound-styles">
+  .nf-hero-wrap {
+    --nf-ink: #241d18;
+    --nf-mut: #83766c;
+    --nf-border: rgba(36, 29, 24, .10);
+    --nf-surface: rgba(255, 255, 255, .55);
+    --nf-accent: #c1652f;
+    --nf-accent-ink: #fff;
+    --nf-accent-soft: rgba(193, 101, 47, .12);
+    --nf-fur: #d9713a;
+    --nf-fur-cream: #f7e6cf;
+    --nf-wood: #7a5a3d;
+    --nf-wood-light: #a9835a;
+    --nf-wood-nail: rgba(77, 55, 35, .55);
+    --nf-glow: #f0c357;
+    --nf-shadow-ink: rgba(36, 29, 24, .20);
+    --nf-ink-soft: #4a382a;
+    --nf-sky-top: #4a4560;
+    --nf-sky-mid: #cdb9a0;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--nf-sky-top) 0%, var(--nf-sky-mid) 55%, rgba(0, 0, 0, 0) 100%);
+    min-height: 88vh;
+    height: auto !important;
+  }
+
+  html[data-user-color-scheme="dark"] .nf-hero-wrap {
+    --nf-ink: #f4ece0;
+    --nf-mut: #ab9f92;
+    --nf-border: rgba(255, 255, 255, .10);
+    --nf-surface: rgba(255, 255, 255, .045);
+    --nf-accent: #f0a15c;
+    --nf-accent-ink: #21140a;
+    --nf-accent-soft: rgba(240, 161, 92, .16);
+    --nf-fur: #e2864a;
+    --nf-fur-cream: #f6ddb8;
+    --nf-wood: #5b4128;
+    --nf-wood-light: #7d5c3a;
+    --nf-wood-nail: rgba(44, 29, 17, .6);
+    --nf-glow: #ffd873;
+    --nf-shadow-ink: rgba(0, 0, 0, .45);
+    --nf-ink-soft: #2c2015;
+    --nf-sky-top: #0c0d10;
+    --nf-sky-mid: #241c22;
+  }
+
+  .nf-hero {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 132px 24px 64px;
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .nf-hero-inner {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(32px, 6vw, 96px);
+  }
+
+  .nf-content {
+    flex: 1 1 420px;
+    min-width: 0;
+    color: var(--nf-ink);
+    animation: nf-rise .7s cubic-bezier(.22, .68, 0, 1) both;
+  }
+
+  .nf-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 18px;
+    font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--nf-mut);
+  }
+
+  .nf-eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--nf-accent);
+    box-shadow: 0 0 0 4px var(--nf-accent-soft);
+    flex: none;
+  }
+
+  .nf-title {
+    margin: 0 0 16px;
+    font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -.01em;
+    color: var(--nf-ink);
+  }
+
+  .nf-lede {
+    margin: 0 0 30px;
+    max-width: 34em;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--nf-mut);
+  }
+
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  .nf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .72rem 1.35rem;
+    border-radius: 999px;
+    font-size: .95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, color .18s ease, background .18s ease;
+  }
+
+  .nf-btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .nf-btn:focus-visible {
+    outline: 2px solid var(--nf-accent);
+    outline-offset: 3px;
+  }
+
+  .nf-btn-primary {
+    background: var(--nf-accent);
+    color: var(--nf-accent-ink);
+    box-shadow: 0 10px 24px -12px var(--nf-accent-soft);
+  }
+
+  .nf-btn-primary:hover {
+    box-shadow: 0 14px 28px -12px var(--nf-accent-soft);
+    color: var(--nf-accent-ink);
+  }
+
+  .nf-btn-ghost {
+    background: var(--nf-surface);
+    color: var(--nf-ink);
+    border-color: var(--nf-border);
+  }
+
+  .nf-btn-ghost:hover {
+    border-color: var(--nf-accent);
+    color: var(--nf-accent);
+  }
+
+  .nf-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin: 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--nf-border);
+    font: 500 .78rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+  }
+
+  .nf-meta[hidden] {
+    display: none;
+  }
+
+  .nf-meta-row {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .nf-meta dt {
+    color: var(--nf-mut);
+  }
+
+  .nf-meta dd {
+    margin: 0;
+    color: var(--nf-ink);
+  }
+
+  .nf-illustration {
+    flex: 1 1 340px;
+    min-width: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .nf-illustration-svg {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .nf-signpost-text {
+    font: 700 15px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    fill: var(--nf-fur-cream);
+    letter-spacing: .02em;
+  }
+
+  .nf-fox-eye {
+    fill: none;
+    stroke: var(--nf-ink-soft);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  @media (max-width: 991px) {
+    .nf-hero-wrap {
+      min-height: 0;
+    }
+
+    .nf-hero {
+      padding: 118px 24px 48px;
+      min-height: 0;
+      text-align: center;
+    }
+
+    .nf-hero-inner {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nf-lede {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .nf-actions {
+      justify-content: center;
+    }
+
+    .nf-meta {
+      justify-content: center;
+    }
+
+    .nf-illustration {
+      order: -1;
+      padding-bottom: 8px;
+    }
+
+    .nf-illustration-svg {
+      max-width: 240px;
+    }
+  }
+
+  @keyframes nf-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+
+    .nf-fox {
+      animation: nf-bob 4.5s ease-in-out infinite;
+      transform-box: view-box;
+      transform-origin: 196px 330px;
+    }
+
+    .nf-fox-tail {
+      animation: nf-tail-sway 3.2s ease-in-out infinite;
+      transform-box: view-box;
+      transform-origin: 232px 268px;
+    }
+
+    .nf-lantern-swing {
+      animation: nf-lantern-swing 3.6s ease-in-out infinite;
+      transform-box: view-box;
+      transform-origin: 150px 176px;
+    }
+
+    .nf-fireflies circle:first-child {
+      animation: nf-glow-pulse 2.6s ease-in-out infinite;
+    }
+
+    .nf-firefly {
+      opacity: 0;
+      animation: nf-firefly-drift 6s ease-in-out infinite;
+    }
+
+    .nf-firefly-1 { animation-delay: .1s; }
+    .nf-firefly-2 { animation-delay: 1.3s; }
+    .nf-firefly-3 { animation-delay: 2.4s; }
+    .nf-firefly-4 { animation-delay: 3.6s; }
+    .nf-firefly-5 { animation-delay: 4.5s; }
+  }
+
+  @keyframes nf-bob {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes nf-tail-sway {
+
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+
+    50% {
+      transform: rotate(4deg);
+    }
+  }
+
+  @keyframes nf-lantern-swing {
+
+    0%,
+    100% {
+      transform: rotate(-4deg);
+    }
+
+    50% {
+      transform: rotate(4deg);
+    }
+  }
+
+  @keyframes nf-glow-pulse {
+
+    0%,
+    100% {
+      opacity: .7;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes nf-firefly-drift {
+    0% {
+      opacity: 0;
+      transform: translate(var(--nf-fx, 60px), var(--nf-fy, 40px)) scale(.6);
+    }
+
+    20% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: .85;
+      transform: translate(calc(var(--nf-fx, 60px) + 18px), calc(var(--nf-fy, 40px) - 22px)) scale(1);
+    }
+
+    80% {
+      opacity: .5;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate(calc(var(--nf-fx, 60px) - 10px), calc(var(--nf-fy, 40px) - 40px)) scale(.7);
+    }
+  }
+
+  .nf-firefly-1 { --nf-fx: 40px; --nf-fy: 210px; }
+  .nf-firefly-2 { --nf-fx: 250px; --nf-fy: 140px; }
+  .nf-firefly-3 { --nf-fx: 90px; --nf-fy: 90px; }
+  .nf-firefly-4 { --nf-fx: 270px; --nf-fy: 260px; }
+  .nf-firefly-5 { --nf-fx: 200px; --nf-fy: 60px; }
+</style>
 
 
   <script id="fluid-configs">
@@ -74,8 +460,8 @@
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
   
 
   
@@ -96,22 +482,20 @@
 <script src="/js/videojs/videojs-http-streaming.min.js"></script></head>
 
 
-<body>
+<body data-page="not-found">
   
 
   <header>
     
 
-<div class="header-inner" style="height: 85vh;">
+<div class="header-inner nf-hero-wrap">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
       <strong>GaewdFyy的部落格</strong>
     </a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
@@ -196,8 +580,7 @@
           
           
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="iconfont icon-switch-fill"></i>
                 <span>其他</span>
               </a>
@@ -265,21 +648,95 @@
 
   
 
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="页面不存在"></span>
-          
-        </div>
-
-        
+<div class="nf-hero">
+  <div class="nf-hero-inner">
+    <div class="nf-content">
+      <p class="nf-eyebrow"><span class="nf-eyebrow-dot" aria-hidden="true"></span>错误 404</p>
+      <h1 class="nf-title">小径到此为止</h1>
+      <p class="nf-lede">这个地址没有对应的页面。跟着灯光走回首页，或者原路返回。</p>
+      <div class="nf-actions">
+        <a class="nf-btn nf-btn-primary" href="/">返回首页</a>
+        <button class="nf-btn nf-btn-ghost" type="button" data-action="nf-back">返回上一页</button>
       </div>
+      <dl class="nf-meta" id="nf-meta" hidden>
+        <div class="nf-meta-row">
+          <dt>IP</dt>
+          <dd id="nf-meta-ip">—</dd>
+        </div>
+        <div class="nf-meta-row">
+          <dt>位置</dt>
+          <dd id="nf-meta-loc">—</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="nf-illustration" aria-hidden="true">
+      <svg class="nf-illustration-svg" viewbox="0 0 380 380" xmlns="http://www.w3.org/2000/svg" focusable="false">
+        <defs>
+          <filter id="nfSoftBlur" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stddeviation="6">
+          </feGaussianBlur></filter>
+          <filter id="nfGlowBlur" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stddeviation="8">
+          </feGaussianBlur></filter>
+          <radialGradient id="nfLanternGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="var(--nf-glow)" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="var(--nf-glow)" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
 
-      
+        <ellipse cx="196" cy="332" rx="126" ry="14" fill="var(--nf-shadow-ink)" filter="url(#nfSoftBlur)"/>
+
+        <g class="nf-signpost">
+          <rect x="86" y="176" width="10" height="156" rx="3" fill="var(--nf-wood)"/>
+          <g transform="rotate(-7 91 190)">
+            <rect x="46" y="172" width="92" height="30" rx="4" fill="var(--nf-wood-light)"/>
+            <text x="92" y="193" text-anchor="middle" class="nf-signpost-text">404</text>
+          </g>
+          <circle cx="91" cy="188" r="2.6" fill="var(--nf-wood-nail)"/>
+        </g>
+
+        <g class="nf-fox">
+          <path class="nf-fox-tail" d="M232 268 C 276 260, 300 224, 286 186 C 278 162, 250 156, 244 176 C 258 178, 268 200, 258 220 C 250 236, 232 244, 216 246 Z" fill="var(--nf-fur)"/>
+          <path d="M244 176 C 250 156, 278 162, 286 186 C 291 200, 288 214, 278 224 C 284 208, 280 190, 266 180 C 258 174, 250 174, 244 176 Z" fill="var(--nf-fur-cream)"/>
+
+          <path d="M170 246 C 168 288, 176 320, 196 326 C 216 320, 224 288, 222 246 C 222 210, 196 196, 196 196 C 196 196, 170 210, 170 246 Z" fill="var(--nf-fur)"/>
+
+          <path d="M186 236 C 184 268, 190 300, 196 306 C 202 300, 208 268, 206 236 C 202 220, 190 220, 186 236 Z" fill="var(--nf-fur-cream)"/>
+
+          <ellipse cx="176" cy="322" rx="12" ry="7" fill="var(--nf-fur-cream)"/>
+          <ellipse cx="214" cy="322" rx="12" ry="7" fill="var(--nf-fur-cream)"/>
+
+          <g class="nf-fox-head">
+            <path d="M164 150 L182 118 L198 148 Z" fill="var(--nf-fur)"/>
+            <path d="M170 146 L182 128 L192 144 Z" fill="var(--nf-fur-cream)"/>
+            <path d="M222 150 L206 116 L188 148 Z" fill="var(--nf-fur)"/>
+            <path d="M216 146 L206 126 L196 144 Z" fill="var(--nf-fur-cream)"/>
+
+            <circle cx="194" cy="176" r="40" fill="var(--nf-fur)"/>
+            <path d="M172 190 C 176 210, 214 210, 218 190 C 214 202, 176 202, 172 190 Z" fill="var(--nf-fur-cream)"/>
+            <path d="M178 196 C 184 208, 204 208, 210 196 C 206 200, 182 200, 178 196 Z" fill="var(--nf-fur-cream)"/>
+
+            <path d="M180 172 q 6 -6 12 0" class="nf-fox-eye"/>
+            <path d="M196 172 q 6 -6 12 0" class="nf-fox-eye"/>
+            <path d="M188 198 L200 198 L194 204 Z" fill="var(--nf-ink-soft)"/>
+          </g>
+        </g>
+
+        <g class="nf-lantern-swing">
+          <circle cx="150" cy="222" r="30" fill="url(#nfLanternGlow)" filter="url(#nfGlowBlur)"/>
+          <line x1="150" y1="176" x2="150" y2="196" stroke="var(--nf-wood)" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="139" y="196" width="22" height="26" rx="5" fill="var(--nf-glow)"/>
+          <rect x="139" y="196" width="22" height="26" rx="5" fill="none" stroke="var(--nf-wood)" stroke-width="2"/>
+        </g>
+
+        <g class="nf-fireflies">
+          <g class="nf-firefly nf-firefly-1"><circle r="7" fill="var(--nf-glow)" filter="url(#nfGlowBlur)"/><circle r="2" fill="var(--nf-glow)"/></g>
+          <g class="nf-firefly nf-firefly-2"><circle r="6" fill="var(--nf-glow)" filter="url(#nfGlowBlur)"/><circle r="1.8" fill="var(--nf-glow)"/></g>
+          <g class="nf-firefly nf-firefly-3"><circle r="8" fill="var(--nf-glow)" filter="url(#nfGlowBlur)"/><circle r="2.2" fill="var(--nf-glow)"/></g>
+          <g class="nf-firefly nf-firefly-4"><circle r="6" fill="var(--nf-glow)" filter="url(#nfGlowBlur)"/><circle r="1.8" fill="var(--nf-glow)"/></g>
+          <g class="nf-firefly nf-firefly-5"><circle r="7" fill="var(--nf-glow)" filter="url(#nfGlowBlur)"/><circle r="2" fill="var(--nf-glow)"/></g>
+        </g>
+      </svg>
     </div>
   </div>
 </div>
@@ -290,19 +747,6 @@
 
   <main>
     
-      
-
-<script>
-  function redirect() {
-    location.href = "/";
-  }
-
-  
-    setTimeout(redirect, 5000)
-  
-</script>
-
-    
 
     
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
@@ -311,8 +755,7 @@
     
 
     
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -379,12 +822,12 @@
   
 </div>
 
-  </footer>
+  </div></div></footer>
 
   <!-- Scripts -->
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css">
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -395,13 +838,13 @@
   </script>
 
 
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
 
 
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
@@ -420,15 +863,15 @@
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script src="/js/img-lazyload.js"></script>
   
 
 
 
 
-  <script  src="/js/local-search.js" ></script>
+  <script src="/js/local-search.js"></script>
 
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
@@ -440,10 +883,44 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script src="/js/boot.js"></script>
 
+  <!-- 404 hero interactions: back button + optional Cloudflare request info -->
+  <script>
+    (function () {
+      var backBtn = document.querySelector('[data-action="nf-back"]');
+      if (backBtn) {
+        backBtn.addEventListener('click', function () {
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            window.location.href = '/';
+          }
+        });
+      }
 
-  
+      // Progressive enhancement: if this domain is proxied through Cloudflare,
+      // /cdn-cgi/trace exposes the visitor's IP and country for the "request info" strip.
+      // Fails silently (block stays hidden) on any other host.
+      fetch('/cdn-cgi/trace', { cache: 'no-store' })
+        .then(function (res) { return res.ok ? res.text() : Promise.reject(); })
+        .then(function (text) {
+          var data = {};
+          text.trim().split('\n').forEach(function (line) {
+            var i = line.indexOf('=');
+            if (i > -1) data[line.slice(0, i)] = line.slice(i + 1);
+          });
+          var meta = document.getElementById('nf-meta');
+          var ipEl = document.getElementById('nf-meta-ip');
+          var locEl = document.getElementById('nf-meta-loc');
+          var found = false;
+          if (data.ip) { ipEl.textContent = data.ip; found = true; }
+          if (data.loc) { locEl.textContent = data.loc; found = true; }
+          if (found) meta.removeAttribute('hidden');
+        })
+        .catch(function () { /* not on Cloudflare, or blocked — leave hidden */ });
+    })();
+  </script>
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
