@@ -1,0 +1,62 @@
+#live2d-widget {
+  position: fixed;
+  left: 20px;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  user-select: none;
+  touch-action: none; /* 避免移动端拖拽时页面跟着滚动 */
+}
+
+#live2d-widget.dragging {
+  cursor: grabbing;
+}
+
+#live2d-widget canvas#live2d {
+  cursor: grab;
+  display: block;
+}
+
+#live2d-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 6px;
+  margin-bottom: 24px;
+}
+
+#live2d-toolbar button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+#live2d-toolbar button:hover {
+  transform: scale(1.1);
+  background: #fff;
+}
+
+#live2d-reopen {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 9999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 18px;
+  display: none; /* 关闭看板娘后才显示 */
+}

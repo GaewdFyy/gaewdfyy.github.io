@@ -19,27 +19,27 @@
   <meta name="author" content="GaewdFyy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="作为中国大陆的用户，在网络环境中访问全球互联网时常常会遇到各种限制和审查。Tor浏览器是一个强大的工具，可以帮助你保护隐私并绕过这些障碍。本文将首先介绍Tor浏览器，然后解释网桥的概念，特别是Webtunnel网桥，最后提供配置步骤。">
+    <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Tor浏览器中配置Webtunnel网桥">
+<meta property="og:title" content="加密文章">
 <meta property="og:url" content="https://gaewdfyy.top/2025/10/08/webtunnel/index.html">
 <meta property="og:site_name" content="GaewdFyy的部落格">
-<meta property="og:description" content="作为中国大陆的用户，在网络环境中访问全球互联网时常常会遇到各种限制和审查。Tor浏览器是一个强大的工具，可以帮助你保护隐私并绕过这些障碍。本文将首先介绍Tor浏览器，然后解释网桥的概念，特别是Webtunnel网桥，最后提供配置步骤。">
+<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gaewdfyy.top/img/13.png">
+<meta property="og:image" content="https://pic1.imgdb.cn/i/034AwhlwJlCFlLtC9NVAR5.webp">
 <meta property="article:published_time" content="2025-10-07T17:59:27.000Z">
-<meta property="article:modified_time" content="2026-07-20T02:59:47.351Z">
+<meta property="article:modified_time" content="2026-08-21T10:29:39.956Z">
 <meta property="article:author" content="GaewdFyy">
 <meta property="article:tag" content="教程">
 <meta property="article:tag" content="Tor">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gaewdfyy.top/img/13.png">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/i/034AwhlwJlCFlLtC9NVAR5.webp">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>在Tor浏览器中配置Webtunnel网桥 - GaewdFyy的部落格</title>
+  <title>加密文章 - GaewdFyy的部落格</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -110,6 +110,8 @@
 <link rel="stylesheet" href="/js/videojs/video-js.css">
 <script src="/js/videojs/video.min.js"></script>
 <script src="/js/videojs/videojs-http-streaming.min.js"></script></head>
+
+
 
 
 <body>
@@ -288,7 +290,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="在Tor浏览器中配置Webtunnel网桥"></span>
+            <span id="subtitle" data-typed-text="加密文章"></span>
           
         </div>
 
@@ -311,7 +313,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          831 字
+          942 字
         
       </span>
     
@@ -322,7 +324,7 @@
         
         
         
-          7 分钟
+          8 分钟
         
       </span>
     
@@ -368,12 +370,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">在Tor浏览器中配置Webtunnel网桥</h1>
+            <h1 id="seo-header">加密文章</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2026-07-20T10:59:47+08:00
+                    本文最后更新于 2026-08-21T18:29:39+08:00
                   
                   
 
@@ -381,28 +383,22 @@
               </p>
             
             
-              <div class="markdown-body">
-                
-                <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="Tor浏览器"><a href="#Tor浏览器" class="headerlink" title="Tor浏览器"></a>Tor浏览器</h2><p><strong>Tor（The Onion Router）</strong>也就是<strong>洋葱路由</strong>，是一种匿名通信工具。它能让你上网的时候藏住自己的真实IP，保护隐私，甚至突破防火墙访问受限网站。</p>
-<p><strong>Tor浏览器（The Onion Router Browser）</strong> 是一个强大的基于开源的Tor网络的浏览器，它通过多层加密和中继节点来传输数据，每次连接都会随机选择路径，确保你的数据不易被追踪，重要的是，可以访问处在Tor网络中的<strong>暗网</strong>也就是为 <strong>.onion</strong> （顶级）域名的网站。</p>
-<p>但是在中国大陆，这里几乎没有Tor节点，因为有GFW的存在，导致无法在不使用VPN的情况下连接至Tor网络。于是就有了网桥</p>
-<h2 id="网桥"><a href="#网桥" class="headerlink" title="网桥"></a>网桥</h2><p>因为Tor的流量有很强的<strong>协议特征</strong>，很容易被封锁，这时就需要使用<strong>网桥（Bridges）</strong> 。常见的网桥类型有obfs4、meek和Snowflake等，它们通过不同的技术来隐藏Tor流量，使GFW放行，从而连接至Tor网络。但目前，由于GFW对上述三者的流量已经有了较高的识别，除非使用VPN对流量进行加密，否则也是无法连接的 <del>（那还不如直接用VPN翻呢）</del>  </p>
-<p>于是就有了Webtunnel，一种新型网桥。它将Tor流量伪装成正常的HTTPS网页访问，看起来就像在访问一个普通网站，从而翻过GFW，之后就到达在国外的Webtunnel网桥，最后连接到Tor网络。Webtunnel更难被检测和封锁，特别适合处于高审查环境的用户，比如中国大陆。</p>
-<blockquote>
-<p>不过现阶段GFW对Webtunnel的识别能力还不高，但是在以后可能还是会被封锁</p>
-</blockquote>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="安装Tor浏览器"><a href="#安装Tor浏览器" class="headerlink" title="安装Tor浏览器"></a>安装Tor浏览器</h2><p>点击<a target="_blank" rel="noopener" href="https://www.torproject.org/zh-CN/download/">这里（www.torproject.org/zh-CN/download/）</a>打开Tor浏览器的官网下载页面，下载对应的操作系统的版本，然后安装<br><img src="/img/13.png" srcset="/img/loading.gif" lazyload alt="Tor浏览器官网下载页面"></p>
-<h2 id="获取Webtunnel网桥地址"><a href="#获取Webtunnel网桥地址" class="headerlink" title="获取Webtunnel网桥地址"></a>获取Webtunnel网桥地址</h2><p>点击<a target="_blank" rel="noopener" href="https://bridges.torproject.org/options">这里（bridges.torproject.org&#x2F;options）</a>打开Tor浏览器官网网桥获取页面。先点击obfs4旁边的箭头选择<strong>webtunnel</strong> 如果你有ipv6地址的需要，在“Yes”旁边的框框点击打勾，然后点击 <strong>“Get Bridges</strong> 稍等片刻。</p>
-<p>在新页面中点击 <strong>“Copy All”</strong> 这即是webtunnel的网桥地址。</p>
-<h2 id="配置Tor浏览器"><a href="#配置Tor浏览器" class="headerlink" title="配置Tor浏览器"></a>配置Tor浏览器</h2><p>打开Tor浏览器，点击 <strong>“配置连接…”</strong> </p>
-<h3 id="桌面端这样操作："><a href="#桌面端这样操作：" class="headerlink" title="桌面端这样操作："></a>桌面端这样操作：</h3><p>在左侧  <strong>连接</strong> 一栏里点击 <strong>“更换网桥…”</strong> ，右键单击选择 <strong>粘贴</strong> ，然后点击 <strong>下一步</strong> ， <strong>连接</strong> 。你应该可以在两分钟内连接到Tor网络</p>
-<h3 id="移动端这样操作："><a href="#移动端这样操作：" class="headerlink" title="移动端这样操作："></a>移动端这样操作：</h3><p>点击 <strong>“配置连接…”</strong> 后往下滑动，选择 <strong>配置网桥</strong> ，随后将 <strong>使用网桥旁边的开关</strong> 打开，并点击 <strong>“输入已知网桥”</strong> ，长按输入框点击 <strong>粘贴</strong> 后，点击确定并返回到主页面，点击 <strong>连接</strong> 你应该可以在两分钟内连接到Tor网络</p>
-<h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><p><strong>Tor + WebTunnel</strong> 并不适合用来访问常规网站或者翻墙的首选方案。</p>
-<p>它是为隐私保护、匿名通信和访问暗网设计的，而不是为了速度和日用，看YouTube，打游戏真的不如使用VPN</p>
-<h1 id="本文结束"><a href="#本文结束" class="headerlink" title="本文结束"></a>本文结束</h1><p>码字不易，如果感觉咱写的不错的话投喂投喂吧~谢谢啦awa</p>
+              
+              <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="0e5d7c6915ac2f91adf577bf5982a3ee16da0afb14cd7a8e4eacb6e477991b6c">22064b17c03cb0c0e58c99349b6889d0c7e9d327de57f2d214b057f3875d6b37b9b20ab3b449f9d3b0ba6ffe12bb71d82eff8171349bc71e3a2c9718b358eacc07c1e2d0dcdcc94bb927d4bdef70eb39fd8e7de731fdf8f27d06339a84133e4a974b5fae5fee1809df024fdfbb238fba030fdd8003e2826f0a33da9ce588a76e8e6bc91b4049cb9065bb5b9840402572bd86834c2d0c361fdb4259dd56633b9d286b14b14b74d50d4ca10de4c2e54f118835e2ea5a28de2ac78c4f57666f83faa6cf49198dbd3f86312e8ae6475e1ad5cdd68c63c36033112a977009300394655c6e89fdc8b5d729cbf5090ffdd8f98d55b43f487eaa56a6af12e2bb02ab0f198e372a9bf9960de462061ca084af83ac16b8fcdda254351a210be177a973c38a2c1da95446d047d5956b78f045f85c6f2facc0eca1e1bce05181eb3660d90427db0faaf4bc6c2792fad668431fb5ae4b7cdfb7ae240e06f7118d9e19d36c41b9f91b01331864fa6dd086278ba83f1f90d03559b45dce5616cf5cb57c09e5d8c1dbd2b779baea0e2efb781888d713b50b0c08540366aaba2ef411fcb99c84429c1867cd4c03a86bad0848c8f3153e1d4f3929fd6947ff8292af6f67dc6ce1a628b60c905afae5335fb3ec89d424333907b809ada7dbcbdbd37714cc3bb849243d110babbe8f21d2fbb690cb2cb23c2b569ab6c5cd20d531976d805a6454424bc5729e4021075d9ce2333b45c35f81b62fdc26fe8c2f8fa23770ddc5142576b865876fdea114c1a39a1b67a844a33a19d5f44ba82e9392b12afed2aa8abeb5fe50fdfa80f8863f254de31014350f82c3065b5e43c1aaa1b681c978dccae16e2aaf279af77454657835ac20ea20620f3b85c9f47d0660b9d0dc196d0da74425cd3ce9651b7dda48309c3b1c3ccd6c2649fee2a9ae483af0752e3ff970622b7be3e956b804381719d621f2454a9ce79aa67795442f2f8286cb393f2f8085e7ecb4236cd552dc3e0aa42a0718e4b771ad2a3e888f826631adf327d9921b9bb5d9a669cdaf5b5868d2adb95443aa50b2bf1aedb195827434783608f7871d3b6c735ebe1040ed9f4bbdb95eb6110ba0caec53324c46a482055c06b012abadff4875eac006d0daa9b87f45a9baa39516e62a7472bd98f12ec64919c6559765b5b410973332e209c689aa05131cbeea79009296cfb4226c6855cce7b94fcfb707b45fb2749848d98ddbb678e7662cdc643ffbe01b5a11a0bff656ac42c48afa0f6c1e3ec6a4f7e8ac99bcd3c3e74e816f8a0f8487f3870dca42662aa0417410fbb3ebd11d425eff196e54f41e973b1265633f930b5ec27a639ea05bd94b4f367a7cce836ead89f19e3585b916c0454fa553f4a41f71acb18b182a548b8fb4114f5d6d1e4a337398b9cb6a7a42def506f63f7bb921aaecd7acfc21c9e007647c6be135bf02451bfdfdba8ae12b9248c7b2137dd97d35d6bf0e75117659c3fd9ca694a602c9a43aa32c6c89f428ba6c9df4d478761893689879dc9c706f3079e20a11b33e4a78fc92426f5bb018c7d9db636557dd6034cb6ee148c74ff65c02e0bf26ac3a71b364f07231d851b2f93236c3c7794c160cdd1fce3d291d5a66b16bf8659a63341cebb4c55153cbfe33b17329d0e0e27b291ba6905e6dfddd3dd7be52817d85c5f7fa257055b4cfff3bbd9b84af201976fae00e5a61fd203aae244910c0a22954eacf22623928652cbcbf5a7490f0f6387e52068f5e46113a1c03b9846f1db4268a122be4662693ad3c4afa9f3d65d01cbef2b14bed5655f29cf31d81e9d44146f4283c26b95412b5e3ccf329a88d35c19bd93f33370f3bfa7e09f09fb8832790348786d5f4a46a9de7a927d798b8a42455fd9b8d9f61384339490f5c88cae49a979ebf189753b22c7904de28fda9e0ddaa9b21aadd393e1251bed08e9d860fdf9cf0933d20279e2b6d5d918a4cc37800c4bdb3848bd73c8ef98895579e472e23c21740c01f1faefbd95ea21eb375eaf293d0c485088e0576152ef7c93f6137add6cb5686e6d3a332a8eb35778fc7c6af382388f0d1612e9277e816e2109a4c5aa8d7b3115f9caebe995bbe5509736869934035c390000edec35348040eddde91e329926cf343dc33c73d58fd04e82d033c8d6751815ce0d37406a62fd4f73c0ddb08f6791c206047414a90996d7d6ae4c1786152912ad422559dae349a795574f1918d8bfbaa58d32d7068d18fee9651c56afe7842104b8c5a50fcf223d2d8bf68842f65deb2757b2052bac5a915907dd0397f16484e56dd4f3871dcf497bef142faaa8455a3dd18572792a74670d1fff15a5fa0a1d29876990d7fbc376b9c9c7fc48032bdfe180adda32a9a918cf9abb29990d43d333c1fdad02c6820c46d9c90aacaa56bd94afe7ea02b221886b31e2c4ec904ad8555be40da13366dcc5cf8fb775d85f822524b10028e87933c192a1a5ff8c6cc7ddb3d44948cc09dd4f138b4cca38305183733767796504d130d211ec71839765324707e6d46db0bd2a1df25f2d1daee630268aba162ca2151305d66d10f547cddf85f8ce2da12c2f79dd855d51a62f3b27397fe654f46b4747922dab1b698ed9644155abebc3127da14fa178b608f564773e724122ff2f5d3dc119e75ca21c45782871708d55181e628e72431019515b83fc8e95afd78dff1d3897b1f3db2e362ac686ec5e08944e6f2c50e16eaf62d474dd72f2628a47b2ef2a145fd1eff838d07dd844788b279bc0c14c24dff59360212672c38bc46307b8387acc331835618b92c2fff0e0c6bfa9c90122dcd2f982dcdf6b1efde0fa3499be36fa81464977d2b9fd2a5cdd3cbed1bf9bc0bb4f67c53f3d30a4b1fd13e7de8c875408464ed2b5184b1d86d004574846df4592892244a7318a796c5b831142c19960781ccd0a73c393dcae8b01688e007b2ab495a23922b84c67b31d9dd44c7ca9f5f4d0c496a60df44436b41c94b880e86df9038748383112dbbeaeea52c29ae3ab67f1339a2a72b8aee0b4a4f94ed09881b65e51bd43e424819b9fd09697296e9deff13dd85230dba94fa910534b70d462701bb68b7aa34bfdea9f7b85fcbb772fb3423fc280f6c15054b10ae0964ab323dc66a668958ad0579aa3501fd81731eb70c305f408c7ba45ec89c71aac0d9caa51d5e6ac925e6e91d4c927db0b8d1b4e932f7a5be6bdf831e08f97f351dae878580823a746a58adddbcf35a9e83b1a0af3678cfa66594da44b41f1a4729cdcce6e87a077e07acdde6b30530ff1cf8c336cb19b0be277de9a430357eea54f55c4a892d5763ed0721e04eab681b67d5614e64117bb14b3d01ecf1ca4dd5144ffb5956fb214e5a43490e617d18a81be4c936ad7c9796d48e3a66cffa49ebe5cd07c660de628436831374662926e38f19e73da983f9e62656453ab066144fb919ac8d0f60798cf87fe7a738d9d3bacce4476e4e4ca44b8d1ed254fa55f1ae3b086b78fa92a74547f32d24995905797b25255ad91b0fc157417fed4f4849b35c4b5d1a130cbd9a69ef11d618c1d2d5b2e3dd6d2d5f7bcd63bef2f297fc39cef1db4dedb563d344d8d059b7b5e6ed63da3977e8baa3a5ab7bbf69b456c6184528e7a699b47a7492a2ecd16c0a5dcb7e70868e8bd38fd04f6be99380d40d8b534d4f40491dcd2fd25832da0642e9ad0efd151522625639bcc2559dd81fcbb140b94a3daec019cb83d6608cd1965beae4f9b184645289546854d970cc1004e288c98b84b901e145cb45ea6fbc83a76c8ec4c7254b00e950b6784ccf84c8643d6e683343675c2f58f9c732fc6679e4becad06ff8bf5388b0109cbf740e6dec13c503cc8b1185e08ee299b1f421064f27506283032f4842619988b688557f42413fdce3b8300e5abaa17594043439bfd38644bd327d0944dc41a6e88ff2fb5333c9557843e5f3cf97be442842a5e62c265fa57552d9760c02864ca7799ef36d1d1dd6145068e29cd515328f21dc05d4ea44ea9ff0f1fccecb035581ea9f9431dce234baae1b03b243663329ca5441304af58552b5e289c5be470a1a276b31909de9f877443d081272209fe389e5d11fe776ced854e78c974c9a04394ee83d3d231dd79d17f1c66571d633827bdcfb5009fa0d825adc09e11611b32ee5238f7b49d65dadc5b067446d2d40091842a6f91e56d2acd08827aa976a224ec8ee9362ebb2b92cee5bbe6b817214b1746d5f76046f8760e7f84785d32f415dfeb9c7081549c1bf86c4b64ed18cd6eff70e7e7340af400c164121b91861044798114ab4a4bed77025178bc5821ea46869f702160282dbc700605eada629bc8e2a9c36bc134e20bc56597fc4cf3e65ae60b1081dbfcd1d0c638a4c461a9a55558b905517aa4733291f60a8716dd90af20718e472c931d3dc16f741ca45b177b2d23f5e95038f6dc52c2042d7252a74370149ef304e46c97b7ef688836088e90263133bcc00f638671a34d85149162778200400455370e55efdcba1dc9bcac7910d1da5620d03e3e99adf8123ad05bb4213a8dac62550c164061fabc80bbfd0c04fd39bb707bfa927b6dbd29e1098a00afb2198e7e00de0a22af1530577104cc39ea336ddf44297ab932afc7f58514704d8d409f79d6df02d353574aae04c010709415a3005072b9daf78fa320ed48773b326e9f2c2ee4d60f4e05d2fab4000d7eb563edbf5a80462d3b62567fd0feae9e57112491f084a9808c5ebe88a714992b68a8cac3f5f32624740272951b7fe1fffa032fae9a8b14c622cb1d00a7fc5ad5f488b1ccef1b2f734ccbc77535dbc8c2f61693b603d284598a3a6aa33ff4f3ddccef749a1e208850f58dadf0c37fbb830b61004d71cb11e4f276d3889f98eaa9d7041a4c2015cba1215552ee376bc43afe45068c89198235d3062e926c83721777ad69ed096be04c3477d3302faa487d9431971217d36dbe09bba5fc8216205ac4f976a3408ea70765cfcf612eef27859013da1cefe478b2db0c8cfff4f52b63b3671a0dcde6f4eb26ef11ac9f0be80b96d3af3e206bb425b9f5a167a3c17b041dff68fbc317831165e9ba9693f5c473249bb3a6387db0de958b0a429a0a3506393d108b41c1b066a96996a2c8a084a4542c8fa422d4e1abbec46bba53089b0387d530fbbee3b79af296345d90025a4f8e050359d8030d6106345439e0290ce603e0623bf9361003f802a88da518d6f7013b7d3815a28f831cd79b9afbdb79d4c65779dea2d3173e2e31c4c8a135ec7b80134600d96b0b5db705f039e81e061da1df81774d0a4efafab7f53a830f6874375d9eb4f45a550ff0b6f5684851199decdfe662baefb27646866b843fdcfb228f94344f7feb0581fbf84c0559d11839c129e3b77148b99ef85fdd82a22e186a7fa1b1998273d926c578aa4af2dbb443961a01e0016c9dad661ea5ac49f8632a43ea4abf8080f5dafe32d08ca55dc54532b72e7c35d7e733bfea25109e3048c00ea6e1f6559e29f1ff9d297bf35b1ba4e690a267af51ff1225be8b4a2a72c60ce326368b03aef1284b7ed5d2a67918a1b5705811dd4cb60524b7eafcb80db0dcee29c4d4f4663c8e1fc203e8830d78650d7b4746c869a8fcc80b52cfe3e2848e54f16efedf40f5ffdffef4e17e1f97dada3f6bd6aea4cac8315a7adb7881aad59333c91d9c91e0ea45469c0c5c006f71453e8b8f19004019964e8f1ba1dde58a335b2ff43b70a64a9252f1b33a0b0eb09fb821eadc48ace673031f8265bfd9f4e5638cd7010642ba1f2152100c6c02722c8f54b686433c4d44af0280ab896f17d80da1f2ae4da3f2aec1557896c6e3a0af68daeb988bade6681a838943220fde6a0b8d18f29049369540cadc93afede9fb4403604b7fcac67adf3709c93e40191811095d8d0b65528d196a4341d8feede7775c679b0e8f14e9f5ada2a2e63f3f92101aa698647e6650a92a441c7532f6587757e4e30f90797e8e1c3a18d5468de8db5c32555eb03a7e5f5bd1cc2d6459a82dded9da66bc3699b4fb6a6a02fe6da2235fe6d852a430727629af887e810cedc3ff07026d5ea5063c27bcb20f7e1bf87efab71726eff7f62dd1139651b8155ba0b644f5ceec0637247f9660e74f2efe45069ca32eae6cab48e161677d4c246cb4a33e739d7ee85525754a3feb425adf7927bdc917a6a676574efe0ecf9566bb3cbfa4f3da4002794a3abc7b893bc2510b04a90debf6f188a3f3aab601c71eb97a3726358d4214abee1e53b50625aba226df9d3b0f9fac77c2143e5aad9130ea9b5665869edf4815f02f472410a7c5970cc163d02c7efeeff3a3809ffed503a82f2694e290667f74aed5ab5cbf7dd1eb56bed3965ff6d4b872235248f49cf4b0223ff5e8b03e8b903b01ce0ea1afb1c04bfaea4d31e07041de3b37cc1d6b2d50fcb1812f9eaf6fc632bd0ae1c809255c68dc9b10b4eb64408488f84ee3af01199c96f8c4cf8681e8ab0afc3c7fa8ea769d77899dea1bfe61423d14f51bd938cf58e6c01b1bef7ccaf14bfd47c543de0530af1b28bab56d043ce035deedd19661a8e33da937109b961862a29437fd63f0a049fde4933fb5375f2e4eedf1dbfa6ffa68fa578d9c1202fc810107a84b3dc5ce3d6361891331d2cc6fb7058893e7def1c2270efdc41fbf8f528e99d538764321bc2a5b5179286495d3d21bdb673b91991322e519fb8079f4e2ed80cc05ee7c08f7214d551941b6aea9aff034daba5ab15c2a5a6bf72b74aa37af93cd3abd7a6f742de9af1b9fa48f251ec290e83ebf4be5b722098bd28a4489377489276a30d2003f27e7cdddc47d9334fa946a4b6e2188a8715bda8246b13775b5f5e23ea05ff4cbf2fee8c645d30d1e79179341ba377d50a3c5f230fe05a7bc8a068e2549226a1706c8197586e3d72ef8350198fb12641c9be29cd3aa5a0aeae51d29123f01ce9a4300057d6826e5f32cd2ac7ebdb47f8cd709720cf7686b9020fab2c26b1d3662c86bcef6bdb10aeee3735e6ac34fdd25f3afc4dd90f149872c8a64c789b07e51165b4e9dcc7a6e150ccc3001f1dd26176a258144ea9272d970d215053a0f339fbef90b2dbc014d816802601be855119cd6cf4e68581541b4b50750a474abd7813fd4143d9f7fbcca37ca82c57f45fc803550b23f8ecb070dfcefa361d433c3567bf06df35e51331ca85a9ec273b95213212a66e43cc23f245a9b260ea64b691aea3fcee133a8eadfb4e5adef44710aaeeb1054de8d4fdbf15e312da98accd13a281e23d7aad9697fdd2b27ad117df66b12c5bb12f7b1769ea74c596c13dd17298246e58ec14bcc0b2cf0d91d3a590e0ba1a432dc85545a239c00e44627cf82718ce32e05236e9009daf32c35b7ee5cf5eec8bd60100c8e1ff9f06d4652d259cbc9b5ed451ebed8082fb7aad6cd919bcf75de9a30895f8cd95fce96c320a169fce7255345faaa758f6fec74c07b3301c637aa57560923c7a40e29d3938f1a08eef5e5669bfa1eda9d2961e109feed1f0c42119013f683885e5e65508f66e84ca880b0794eedcdee51c39f73cb6aa381162a84eb273b7d14784af5dcf9dc82a6656fa58e6a61f08ab3dec3d8d246ac44087978b2c0d8fb710787862a881b5f40c91f3c57bddc9a5f6ddebec342e1ecbc6e77736f8343e8b3e7b6b99242c35ab83cb123bae07378dff879fceb6e12d08eff4b495a0ada970fb157b27d1cf76dcbb19e0849267f0081642dac999364226cf341211997ed6c6e46782b8f8d6a9c565e8ecd5cf1c3568826e8f4e2f40f4a230e4b9d2b4b4e71295417e1d00306bdb147d733e13ac6a85f3149a259553eccd14398fd24e</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+              
 
-                
-              </div>
+              
             
             <hr/>
             <div>
@@ -426,7 +422,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>在Tor浏览器中配置Webtunnel网桥</div>
+      <div>加密文章</div>
       <div>https://gaewdfyy.top/2025/10/08/webtunnel/</div>
     </div>
     <div class="license-meta">
@@ -478,6 +474,29 @@
 
 
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/19/about-furry/" title="聊聊我与Furry：你（可能）想知道的关于福瑞的一切">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">聊聊我与Furry：你（可能）想知道的关于福瑞的一切</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/08/12/hexo/" title="完全使用Android手机来搭建并部署Hexo博客">
+                        <span class="hidden-mobile">完全使用Android手机来搭建并部署Hexo博客</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
@@ -605,6 +624,11 @@
     
   </main>
 
+
+<link rel="stylesheet" href="/css/orangemint-live2d.css">
+<script src="https://cdn.jsdelivr.net/gh/gaewdfyy/live2d/js/live2d.js"></script>
+<script src="/js/live2d-widget.js"></script>
+
   <footer>
     <div class="footer-inner">
   
@@ -719,6 +743,23 @@
     }
   });
 </script>
+
+
+  
+  <script defer>
+    if (document.getElementById('hbePass') || document.querySelector('hbe-prefix')) {
+      Fluid.utils.waitElementLoaded('hbe-prefix', function() {
+        var hbePrefix = document.querySelector('hbe-prefix');
+        hbePrefix.parentElement.classList.add('markdown-body');
+        Fluid.utils.retry(function() {
+          if (Fluid.boot && Fluid.boot.refresh) {
+            Fluid.boot.refresh();
+            return true;
+          }
+        }, 100, 10);
+      })
+    }
+  </script>
 
 
   
