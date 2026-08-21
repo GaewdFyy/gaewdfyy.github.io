@@ -245,13 +245,27 @@
   // ---------------- 工具栏 ----------------
   function buildControls() {
     var controls = el(
-      'div',
-      'om-live2d-controls',
-      '<button class="om-live2d-icon" type="button" data-action="motion" title="随机动作">🎲</button>' +
-      '<button class="om-live2d-icon" type="button" data-action="expression" title="表情">😊</button>' +
-      '<button class="om-live2d-icon" type="button" data-action="outfit" title="换衣服">👗</button>' +
-      '<button class="om-live2d-icon" type="button" data-action="theme" title="切换主题">🌓</button>' +
-      '<button class="om-live2d-icon" type="button" data-action="close" title="关闭">✖</button>'
+    'div',
+    'om-live2d-controls',
+    '<button class="om-live2d-icon" type="button" data-action="motion" title="随机动作">' +
+      '<i class="icon icon-animation"></i>' +
+    '</button>' +
+
+    '<button class="om-live2d-icon" type="button" data-action="expression" title="表情">' +
+      '<i class="icon icon-mood"></i>' +
+    '</button>' +
+
+    '<button class="om-live2d-icon" type="button" data-action="outfit" title="换装">' +
+      '<i class="icon icon-checkroom"></i>' +
+    '</button>' +
+
+    '<button class="om-live2d-icon" type="button" data-action="theme" title="切换主题">' +
+      '<i class="icon icon-dark-mode"></i>' +
+    '</button>' +
+
+    '<button class="om-live2d-icon" type="button" data-action="close" title="关闭">' +
+      '<i class="icon icon-close"></i>' +
+    '</button>'
     );
     controls.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
 
@@ -306,6 +320,7 @@
     });
   }
 
+
   // 点击 widget 之外的地方收起所有面板
   document.addEventListener('click', function (e) {
     if (!state.root) return;
@@ -346,9 +361,15 @@
     initTheme();
     initReopenButton();
 
-    waitForModelReady(function () {
-      buildExpressionPanel();
-    });
+// 手机端默认关闭 Live2D
+if (window.matchMedia('(max-width: 640px)').matches) {
+    state.root.hidden = true;
+    document.getElementById('live2d-reopen').style.display = 'block';
+}
+
+waitForModelReady(function () {
+    buildExpressionPanel();
+});
   }
 
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -356,4 +377,5 @@
   } else {
     document.addEventListener('DOMContentLoaded', boot);
   }
+
 })();
