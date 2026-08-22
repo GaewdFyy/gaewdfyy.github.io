@@ -42,7 +42,7 @@
     <published>2026-05-18T16:00:00.000Z</published>
     <summary>如果你经常在互联网冲浪的话，我猜你一定听说过“福瑞”这个词或者有关福瑞的梗，关于我为什么要写这篇文章，大概是我作为入圈两年多的一个观察和圈外人对福瑞误解的解释。什么是福瑞？福瑞控又是什么？.</summary>
     <title>聊聊我与Furry：你（可能）想知道的关于福瑞的一切</title>
-    <updated>2026-08-21T13:48:57.278Z</updated>
+    <updated>2026-08-22T16:54:17.974Z</updated>
   </entry>
   <entry>
     <author>
@@ -104,7 +104,7 @@
     <category term="test" scheme="https://gaewdfyy.top/tags/test/"/>
     <category term="视频" scheme="https://gaewdfyy.top/tags/%E8%A7%86%E9%A2%91/"/>
     <content>
-      <![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-KVMMmAMq" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div><pre><code class="hljs">    &#123;% meting "13834326098" "netease" "playlist" %&#125;</code></pre><div>  <video-js id="videojs-id-91c4ec01-22af-475d-a952-9b98d525d0bc" class="vjs-default-skin vjs-16-9" controls preload="auto" width="100%" height="350px">    <source src="/m3u8/output.m3u8" type="application&#x2F;x-mpegURL">  </video-js>      <script>    const videojsid91c4ec0122af475da9529b98d525d0bc = videojs('videojs-id-91c4ec01-22af-475d-a952-9b98d525d0bc', {      html5: {        hls: {          overrideNative: true        }      }    });  </script>  </div> <pre><code class="hljs">&#123;% videojs "source=m3u8视频链接" %&#125;</code></pre>]]>
+      <![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>163music</strong></p>    <div id="aplayer-yGrTSZEi" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="13834326098" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"></div><pre><code class="hljs">    &#123;% meting "13834326098" "netease" "playlist" %&#125;</code></pre><div>  <video-js id="videojs-id-ee3e8714-1ceb-4ca6-a267-f4471950b4a2" class="vjs-default-skin vjs-16-9" controls preload="auto" width="100%" height="350px">    <source src="/m3u8/output.m3u8" type="application&#x2F;x-mpegURL">  </video-js>      <script>    const videojsidee3e87141ceb4ca6a267f4471950b4a2 = videojs('videojs-id-ee3e8714-1ceb-4ca6-a267-f4471950b4a2', {      html5: {        hls: {          overrideNative: true        }      }    });  </script>  </div> <p><a href="https://cdn.jsdelivr.net/gh/gaewdfyy/gaewdfyy.github.io/m3u8/output.m3u8">https://cdn.jsdelivr.net/gh/gaewdfyy/gaewdfyy.github.io/m3u8/output.m3u8</a></p><pre><code class="hljs">&#123;% videojs "source=m3u8视频链接" %&#125;</code></pre>]]>
     </content>
     <id>https://gaewdfyy.top/2025/01/23/test/</id>
     <link href="https://gaewdfyy.top/2025/01/23/test/"/>
@@ -113,6 +113,6 @@
       <![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" cla]]>
     </summary>
     <title>test</title>
-    <updated>2026-07-20T02:59:47.350Z</updated>
+    <updated>2026-08-22T17:17:53.849Z</updated>
   </entry>
 </feed>

@@ -1,35 +1,34 @@
-.om-live2d {
-    --om-live2d-offset-x: 24px;
-    --om-live2d-offset-y: 24px;
-    --om-live2d-width: 280px;
-    --om-live2d-height: 360px;
+/**
+ * Live2D 看板娘样式表
+ */
+
+/* ================= 基础容器 ================= */
+.nc-live2d {
+    --nc-live2d-offset-x: 24px;
+    --nc-live2d-offset-y: 24px;
+    --nc-live2d-width: 280px;
+    --nc-live2d-height: 360px;
+
     position: fixed;
-    bottom: var(--om-live2d-offset-y);
-    width: var(--om-live2d-width);
-    height: var(--om-live2d-height);
+    bottom: var(--nc-live2d-offset-y);
+    width: var(--nc-live2d-width);
+    height: var(--nc-live2d-height);
     pointer-events: auto;
     isolation: isolate;
     z-index: 9999;
 }
 
-.om-live2d [hidden],
-.om-live2d[hidden] {
+.nc-live2d [hidden],
+.nc-live2d[hidden] {
     display: none !important;
 }
 
-.om-live2d-left {
-    left: var(--om-live2d-offset-x);
-}
+.nc-live2d-left { left: var(--nc-live2d-offset-x); }
+.nc-live2d-right { right: var(--nc-live2d-offset-x); }
+.nc-live2d-returning { transition: inset 0.24s ease; }
 
-.om-live2d-right {
-    right: var(--om-live2d-offset-x);
-}
-
-.om-live2d-returning {
-    transition: left 0.24s ease, top 0.24s ease, right 0.24s ease, bottom 0.24s ease;
-}
-
-.om-live2d-canvas {
+/* ================= Canvas 与 拖拽交互 ================= */
+.nc-live2d-canvas {
     display: block;
     width: 100%;
     height: 100%;
@@ -37,221 +36,166 @@
     pointer-events: auto;
     touch-action: none;
 }
+.nc-live2d-dragging .nc-live2d-canvas { cursor: grabbing; }
+.nc-live2d-page-dragging,
+.nc-live2d-page-dragging * {
+    cursor: grabbing !important;
+    user-select: none !important;
+}
 
-.om-live2d-bubble {
+/* ================= 气泡提示 ================= */
+.nc-live2d-bubble {
     position: absolute;
-    bottom: calc(100% - 28px);
+    bottom: calc(100% - 20px);
     width: max-content;
-    max-width: min(360px, calc(100vw - 24px));
-    max-height: min(260px, 45vh);
-    min-width: 120px;
-    padding: 10px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.52);
-    border-radius: 8px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.34));
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
-    backdrop-filter: blur(18px) saturate(150%);
-    box-shadow: 0 12px 28px rgba(17, 24, 39, 0.18);
-    color: #1f2937;
+    max-width: min(320px, calc(100vw - 32px));
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    color: #333;
     font-size: 14px;
-    line-height: 1.55;
-    overflow: auto;
-    overflow-wrap: break-word;
+    line-height: 1.5;
     word-break: break-word;
     white-space: pre-wrap;
     pointer-events: none;
     transform: translateZ(0);
 }
+.nc-live2d-left .nc-live2d-bubble { left: 0; }
+.nc-live2d-right .nc-live2d-bubble { right: 0; }
 
-.om-live2d-left .om-live2d-bubble {
-    left: 0;
-}
-
-.om-live2d-right .om-live2d-bubble {
-    right: 0;
-}
-
-.om-live2d-controls {
+/* ================= 右侧控制栏 ================= */
+.nc-live2d-controls {
     position: absolute;
     top: 50%;
-    right: -12px;
-    bottom: auto;
-    z-index: 5;
+    right: -14px;
+    transform: translate(12px, -50%);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 8px;
     opacity: 0;
-    pointer-events: auto;
-    transform: translate(8px, -50%);
-    transition: opacity 0.28s ease, transform 0.28s ease;
+    z-index: 5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.om-live2d:hover .om-live2d-controls,
-.om-live2d:focus-within .om-live2d-controls,
-.om-live2d.om-live2d-dragging .om-live2d-controls,
-.om-live2d.om-live2d-controls-open .om-live2d-controls {
+.nc-live2d:hover .nc-live2d-controls,
+.nc-live2d:focus-within .nc-live2d-controls,
+.nc-live2d.nc-live2d-dragging .nc-live2d-controls,
+.nc-live2d.nc-live2d-controls-open .nc-live2d-controls {
     opacity: 1;
     transform: translate(0, -50%);
 }
 
-.om-live2d-icon,
-.om-live2d-panel-item {
-    border: 1px solid rgba(255, 255, 255, 0.54);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.36));
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    backdrop-filter: blur(16px) saturate(150%);
-    box-shadow: 0 8px 20px rgba(17, 24, 39, 0.16);
-    color: #27313f;
+/* 统一拟态按钮外观 */
+.nc-live2d-icon,
+.nc-live2d-panel-item {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #4a5568;
     cursor: pointer;
-    pointer-events: auto;
-    transform: translateZ(0);
+    transition: background 0.2s, color 0.2s;
 }
 
-.om-live2d-icon {
-    /* display: grid; */
+.nc-live2d-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 36px;
     height: 36px;
-    padding: 0;
-    place-items: center;
     border-radius: 50%;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1;
 }
 
-.om-live2d-icon:hover,
-.om-live2d-icon:focus-visible,
-.om-live2d-panel-item:hover,
-.om-live2d-panel-item:focus-visible {
-    background: rgba(255, 255, 255, 0.82);
-    color: #0f766e;
-    outline: none;
+.nc-live2d-icon:hover,
+.nc-live2d-panel-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #3182ce;
 }
 
-.om-live2d-panel {
-    position: absolute;
-    right: 44px;
-    top: 50%;
-    bottom: auto;
-    display: grid;
-    max-width: min(240px, calc(100vw - 24px));
-    max-height: 210px;
-    gap: 6px;
-    padding: 8px;
-    overflow: auto;
-    border: 1px solid rgba(255, 255, 255, 0.48);
-    border-radius: 8px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.34));
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
-    backdrop-filter: blur(18px) saturate(150%);
-    box-shadow: 0 12px 28px rgba(17, 24, 39, 0.18);
-    transform: translateY(-50%);
-}
-
-.om-live2d-expression-panel {
-    right: 44px;
-}
-
-.om-live2d-icon-svg {
+/* SVG 图标属性 */
+.nc-live2d-icon-svg {
     width: 18px;
     height: 18px;
     fill: none;
     stroke: currentColor;
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-width: 2;
 }
 
-.om-live2d-theme-icon-sun {
-    display: none;
+/* ================= 衣柜面板 ================= */
+.nc-live2d-panel {
+    position: absolute;
+    right: 46px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 220px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow-y: auto;
 }
 
-.om-live2d-theme-icon-moon {
-    fill: currentColor;
-    stroke: none;
-}
-
-.om-live2d-theme-dark .om-live2d-theme-icon-sun {
-    display: initial;
-}
-
-.om-live2d-theme-dark .om-live2d-theme-icon-moon {
-    display: none;
-}
-
-.om-live2d.om-live2d-theme-dark .om-live2d-bubble,
-.om-live2d.om-live2d-theme-dark .om-live2d-panel {
-    border-color: rgba(255, 255, 255, 0.14);
-    background: linear-gradient(135deg, rgba(41, 42, 45, 0.92), rgba(28, 29, 32, 0.78));
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
-    color: #f7f8fa;
-}
-
-.om-live2d.om-live2d-theme-dark .om-live2d-icon,
-.om-live2d.om-live2d-theme-dark .om-live2d-panel-item {
-    border-color: rgba(255, 255, 255, 0.14);
-    background: linear-gradient(135deg, rgba(54, 55, 59, 0.92), rgba(41, 42, 45, 0.76));
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
-    color: #f7f8fa;
-}
-
-.om-live2d.om-live2d-theme-dark .om-live2d-icon:hover,
-.om-live2d.om-live2d-theme-dark .om-live2d-icon:focus-visible,
-.om-live2d.om-live2d-theme-dark .om-live2d-panel-item:hover,
-.om-live2d.om-live2d-theme-dark .om-live2d-panel-item:focus-visible {
-    background: rgba(65, 66, 71, 0.96);
-    color: #7db9ff;
-}
-
-.om-live2d-panel-item {
-    min-width: 112px;
-    max-width: 210px;
-    padding: 7px 10px;
-    border-radius: 999px;
+.nc-live2d-panel-item {
+    min-width: 120px;
+    padding: 8px 14px;
+    border-radius: 20px;
     font-size: 12px;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
     text-align: left;
 }
 
-.om-live2d-dragging .om-live2d-canvas {
-    cursor: grabbing;
+/* ================= 暗色模式 (主题联动) ================= */
+.nc-live2d-theme-icon-sun { display: none; }
+.nc-live2d-theme-icon-moon { fill: currentColor; stroke: none; }
+
+.nc-live2d-theme-dark .nc-live2d-theme-icon-sun { display: block; }
+.nc-live2d-theme-dark .nc-live2d-theme-icon-moon { display: none; }
+
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-bubble,
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(30, 30, 30, 0.75);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    color: #e2e8f0;
 }
 
-.om-live2d-page-dragging,
-.om-live2d-page-dragging * {
-    cursor: grabbing !important;
-    user-select: none !important;
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-icon,
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-item {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(45, 55, 72, 0.8);
+    color: #e2e8f0;
 }
 
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-icon:hover,
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-item:hover {
+    background: rgba(74, 85, 104, 0.95);
+    color: #90cdf4;
+}
+
+/* ================= 移动端适配 ================= */
 @media (max-width: 640px) {
-    .om-live2d-mobile-hide {
-        display: none !important;
+    .nc-live2d {
+        --nc-live2d-width: 220px;
+        --nc-live2d-height: 280px;
     }
-
-    .om-live2d-mobile-show {
-        display: block;
-    }
-
-    .om-live2d {
-        --om-live2d-width: min(220px, 52vw);
-        --om-live2d-height: min(300px, 52vh);
-    }
-
-    .om-live2d-bubble {
-        max-width: min(260px, calc(100vw - 16px));
+    .nc-live2d-bubble {
+        max-width: calc(100vw - 32px);
         font-size: 13px;
     }
-
-    .om-live2d-icon {
-        width: 34px;
-        height: 34px;
-    }
-
-    .om-live2d-panel {
-        max-height: 180px;
+    .nc-live2d-panel {
         right: 40px;
+        max-height: 180px;
     }
 }
