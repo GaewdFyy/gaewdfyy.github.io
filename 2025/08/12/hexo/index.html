@@ -76,13 +76,14 @@
   
 <link rel="stylesheet" href="/css/about.css">
 <link rel="stylesheet" href="/css/icon.css">
+<link rel="stylesheet" href="/css/toc.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"gaewdfyy.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#FFE3C7","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"gaewdfyy.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#FFE3C7","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -584,8 +585,138 @@
 
 
 
+<!-- 移动端右侧抽屉目录 开始 -->
+<!-- 1. 右侧悬浮触发按钮 -->
+<div id="mobile-toc-fab" class="d-block d-md-none" title="文章目录">
+  ☰
+</div>
 
+<!-- 2. 全屏半透明遮罩 -->
+<div id="mobile-toc-overlay" class="d-block d-md-none"></div>
 
+<!-- 3. 右侧滑出抽屉面板 -->
+<div id="mobile-toc-drawer" class="d-block d-md-none">
+  <div class="mobile-toc-drawer-header">
+    <strong>文章目录</strong>
+    <span id="mobile-toc-close">&times;</span>
+  </div>
+  <div class="mobile-toc-drawer-body">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%AE%89%E8%A3%85ZeroTermux"><span class="toc-number">2.1.</span> <span class="toc-text">下载并安装ZeroTermux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="toc-number">2.2.</span> <span class="toc-text">配置环境</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+<!-- 4. 交互与滚动高亮脚本 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var fab = document.getElementById('mobile-toc-fab');
+    var drawer = document.getElementById('mobile-toc-drawer');
+    var overlay = document.getElementById('mobile-toc-overlay');
+    var closeBtn = document.getElementById('mobile-toc-close');
+
+    if (!fab || !drawer) return;
+
+    var tocLinks = drawer.querySelectorAll('.toc-link');
+    var targetHeadings = Array.from(document.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]'));
+
+    // --- 核心高亮计算函数 ---
+    function highlightToc() {
+      if (targetHeadings.length === 0) return;
+
+      var scrollY = window.scrollY || window.pageYOffset;
+      var windowHeight = window.innerHeight;
+      var documentHeight = document.documentElement.scrollHeight;
+      
+      var currentId = '';
+
+      // 1. 保底逻辑：如果已经触底（比如滚到了文章末尾），直接高亮最后一个标题
+      if (scrollY + windowHeight >= documentHeight - 20) {
+        currentId = targetHeadings[targetHeadings.length - 1].id;
+      } else {
+        // 2. 正常遍历：寻找当前视口上方或最靠近视口顶部的标题
+        for (var i = 0; i < targetHeadings.length; i++) {
+          var heading = targetHeadings[i];
+          // 85px 为顶部 Header 遮挡补偿值
+          if (heading.offsetTop - 85 <= scrollY) {
+            currentId = heading.id;
+          } else {
+            break; // 找到第一个超过视口的标题就停止
+          }
+        }
+      }
+
+      // 3. 执行样式更新
+      tocLinks.forEach(function(link) {
+        var linkHref = decodeURIComponent(link.getAttribute('href').replace('#', ''));
+        var headingId = decodeURIComponent(currentId);
+
+        if (currentId && linkHref === headingId) {
+          if (!link.classList.contains('active')) {
+            link.classList.add('active');
+            // 打开状态下，自动将高亮项滚动到抽屉视图中间
+            if (drawer.classList.contains('active')) {
+              link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    // --- 抽屉开关控制 ---
+    function openDrawer() {
+      // 每次打开抽屉时，强制立刻重新精准计算一次高亮
+      highlightToc();
+      drawer.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = ''; 
+    }
+
+    fab.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // --- 点击目录项平滑跳转 ---
+    tocLinks.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault(); // 阻止默认的 URL 突跳
+        var targetId = decodeURIComponent(link.getAttribute('href').replace('#', ''));
+        var targetElem = document.getElementById(targetId);
+
+        closeDrawer();
+
+        if (targetElem) {
+          // 延迟一点点等抽屉收起动画完成，体验更平滑
+          setTimeout(function() {
+            var targetPosition = targetElem.offsetTop - 80;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }, 150);
+        }
+      });
+    });
+
+    // --- 监听页面全局滚动 ---
+    window.addEventListener('scroll', function() {
+      if (window.tocScrollTimeout) {
+        window.cancelAnimationFrame(window.tocScrollTimeout);
+      }
+      window.tocScrollTimeout = window.requestAnimationFrame(highlightToc);
+    });
+
+    // 页面加载完成后先计算一次初始高亮
+    highlightToc();
+  });
+</script>
+<!-- 移动端右侧抽屉目录 结束 -->
     
 
     
@@ -625,6 +756,15 @@
 <link rel="stylesheet" href="/css/orangemint-live2d.css">
 <script src="https://cdn.jsdelivr.net/gh/gaewdfyy/live2d/js/live2d.js"></script>
 <script src="/js/live2d-widget.js"></script>
+
+<link
+  rel="stylesheet"
+  href="/css/mobile-toc.css"
+>
+
+<script
+  src="/js/mobile-toc.js"
+></script>
 
   <footer>
     <div class="footer-inner">

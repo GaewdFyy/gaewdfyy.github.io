@@ -77,13 +77,14 @@
   
 <link rel="stylesheet" href="/css/about.css">
 <link rel="stylesheet" href="/css/icon.css">
+<link rel="stylesheet" href="/css/toc.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"gaewdfyy.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#FFE3C7","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"gaewdfyy.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#FFE3C7","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -931,8 +932,138 @@
 
 
 
+<!-- 移动端右侧抽屉目录 开始 -->
+<!-- 1. 右侧悬浮触发按钮 -->
+<div id="mobile-toc-fab" class="d-block d-md-none" title="文章目录">
+  ☰
+</div>
 
+<!-- 2. 全屏半透明遮罩 -->
+<div id="mobile-toc-overlay" class="d-block d-md-none"></div>
 
+<!-- 3. 右侧滑出抽屉面板 -->
+<div id="mobile-toc-drawer" class="d-block d-md-none">
+  <div class="mobile-toc-drawer-header">
+    <strong>文章目录</strong>
+    <span id="mobile-toc-close">&times;</span>
+  </div>
+  <div class="mobile-toc-drawer-body">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D"><span class="toc-number">1.1.</span> <span class="toc-text">在开始之前</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%8F%E7%91%9E"><span class="toc-number">2.1.</span> <span class="toc-text">福瑞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%BD%E5%BA%A6%E9%98%B6%E6%A2%AF"><span class="toc-number">2.1.1.</span> <span class="toc-text">兽度阶梯</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%8F%E7%91%9E%E6%8E%A7"><span class="toc-number">2.2.</span> <span class="toc-text">福瑞控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%BD%E8%AE%BE"><span class="toc-number">2.3.</span> <span class="toc-text">兽设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%BD%E8%A3%85"><span class="toc-number">2.4.</span> <span class="toc-text">兽装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E8%A3%85"><span class="toc-number">2.4.1.</span> <span class="toc-text">出装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%AA%E5%90%8C"><span class="toc-number">2.4.2.</span> <span class="toc-text">陪同</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%BD%E5%B1%95"><span class="toc-number">2.5.</span> <span class="toc-text">兽展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%BD%E5%9C%88"><span class="toc-number">2.6.</span> <span class="toc-text">兽圈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%88%91%E7%9A%84%E7%BB%8F%E5%8E%86"><span class="toc-number">3.</span> <span class="toc-text">关于我的经历</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E6%98%AF%E6%80%8E%E4%B9%88%E6%88%90%E4%B8%BA%E7%A6%8F%E7%91%9E%E6%8E%A7%E7%9A%84%EF%BC%9F"><span class="toc-number">3.1.</span> <span class="toc-text">我是怎么成为福瑞控的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%9C%E5%85%BD%E2%80%9D%E7%94%9F%E6%B4%BB%E7%9A%84%E8%BD%AC%E6%8A%98%E7%82%B9"><span class="toc-number">3.2.</span> <span class="toc-text">“兽”生活的转折点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%A6%E4%B8%80%E9%9D%A2"><span class="toc-number">3.3.</span> <span class="toc-text">另一面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BE%E4%BA%A4"><span class="toc-number">3.4.</span> <span class="toc-text">社交</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%88%E5%A4%96%E4%BA%BA%E6%80%8E%E4%B9%88%E7%9C%8BFurry%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">圈外人怎么看Furry？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E6%9F%A5%E6%8A%A5%E5%91%8A"><span class="toc-number">4.1.</span> <span class="toc-text">调查报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%BB%E6%9D%BF%E5%8D%B0%E8%B1%A1%E4%BB%8E%E4%BD%95%E8%80%8C%E6%9D%A5"><span class="toc-number">4.2.</span> <span class="toc-text">刻板印象从何而来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Furry%E6%9B%B4%E5%AE%B9%E6%98%93%E5%8F%97%E5%88%B0%E5%81%8F%E8%A7%81"><span class="toc-number">4.2.1.</span> <span class="toc-text">Furry更容易受到偏见</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="toc-number">4.2.2.</span> <span class="toc-text">为什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">4.2.3.</span> <span class="toc-text">媒体的作用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FAQ"><span class="toc-number">5.</span> <span class="toc-text">FAQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Q1-Furry%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">Q1: Furry到底是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q2-Furry%E6%98%AF%E4%B8%8D%E6%98%AF%E5%B0%B1%E6%98%AF%E7%A9%BF%E5%85%BD%E8%A3%85%EF%BC%9F"><span class="toc-number">5.2.</span> <span class="toc-text">Q2: Furry是不是就是穿兽装？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q3-Furry%E6%98%AF%E4%B8%8D%E6%98%AF%E9%83%BD%E5%96%9C%E6%AC%A2NSFW%EF%BC%9F"><span class="toc-number">5.3.</span> <span class="toc-text">Q3: Furry是不是都喜欢NSFW？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q4-Furry%E6%98%AF%E4%B8%8D%E6%98%AF%E6%81%8B%E5%85%BD%EF%BC%9F"><span class="toc-number">5.4.</span> <span class="toc-text">Q4: Furry是不是恋兽？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q5-%E2%80%9C%E5%8D%81%E5%85%BD%E4%B9%9D%E5%9F%BA%E2%80%9D%E6%98%AF%E7%9C%9F%E7%9A%84%E5%90%97%EF%BC%9F"><span class="toc-number">5.5.</span> <span class="toc-text">Q5: “十兽九基”是真的吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q6-Furry%E6%98%AF%E6%80%A7%E7%99%96%E5%90%97%EF%BC%9F"><span class="toc-number">5.6.</span> <span class="toc-text">Q6: Furry是性癖吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q7-Furry%E6%98%AF%E4%B8%8D%E6%98%AF%E5%BE%88%E7%83%A7%E9%92%B1%EF%BC%9F"><span class="toc-number">5.7.</span> <span class="toc-text">Q7: Furry是不是很烧钱？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q8-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%BA%E5%96%9C%E6%AC%A2Furry%EF%BC%9F"><span class="toc-number">5.8.</span> <span class="toc-text">Q8: 为什么有人喜欢Furry？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+</div>
+
+<!-- 4. 交互与滚动高亮脚本 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var fab = document.getElementById('mobile-toc-fab');
+    var drawer = document.getElementById('mobile-toc-drawer');
+    var overlay = document.getElementById('mobile-toc-overlay');
+    var closeBtn = document.getElementById('mobile-toc-close');
+
+    if (!fab || !drawer) return;
+
+    var tocLinks = drawer.querySelectorAll('.toc-link');
+    var targetHeadings = Array.from(document.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]'));
+
+    // --- 核心高亮计算函数 ---
+    function highlightToc() {
+      if (targetHeadings.length === 0) return;
+
+      var scrollY = window.scrollY || window.pageYOffset;
+      var windowHeight = window.innerHeight;
+      var documentHeight = document.documentElement.scrollHeight;
+      
+      var currentId = '';
+
+      // 1. 保底逻辑：如果已经触底（比如滚到了文章末尾），直接高亮最后一个标题
+      if (scrollY + windowHeight >= documentHeight - 20) {
+        currentId = targetHeadings[targetHeadings.length - 1].id;
+      } else {
+        // 2. 正常遍历：寻找当前视口上方或最靠近视口顶部的标题
+        for (var i = 0; i < targetHeadings.length; i++) {
+          var heading = targetHeadings[i];
+          // 85px 为顶部 Header 遮挡补偿值
+          if (heading.offsetTop - 85 <= scrollY) {
+            currentId = heading.id;
+          } else {
+            break; // 找到第一个超过视口的标题就停止
+          }
+        }
+      }
+
+      // 3. 执行样式更新
+      tocLinks.forEach(function(link) {
+        var linkHref = decodeURIComponent(link.getAttribute('href').replace('#', ''));
+        var headingId = decodeURIComponent(currentId);
+
+        if (currentId && linkHref === headingId) {
+          if (!link.classList.contains('active')) {
+            link.classList.add('active');
+            // 打开状态下，自动将高亮项滚动到抽屉视图中间
+            if (drawer.classList.contains('active')) {
+              link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    // --- 抽屉开关控制 ---
+    function openDrawer() {
+      // 每次打开抽屉时，强制立刻重新精准计算一次高亮
+      highlightToc();
+      drawer.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = ''; 
+    }
+
+    fab.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // --- 点击目录项平滑跳转 ---
+    tocLinks.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault(); // 阻止默认的 URL 突跳
+        var targetId = decodeURIComponent(link.getAttribute('href').replace('#', ''));
+        var targetElem = document.getElementById(targetId);
+
+        closeDrawer();
+
+        if (targetElem) {
+          // 延迟一点点等抽屉收起动画完成，体验更平滑
+          setTimeout(function() {
+            var targetPosition = targetElem.offsetTop - 80;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }, 150);
+        }
+      });
+    });
+
+    // --- 监听页面全局滚动 ---
+    window.addEventListener('scroll', function() {
+      if (window.tocScrollTimeout) {
+        window.cancelAnimationFrame(window.tocScrollTimeout);
+      }
+      window.tocScrollTimeout = window.requestAnimationFrame(highlightToc);
+    });
+
+    // 页面加载完成后先计算一次初始高亮
+    highlightToc();
+  });
+</script>
+<!-- 移动端右侧抽屉目录 结束 -->
     
 
     
@@ -972,6 +1103,15 @@
 <link rel="stylesheet" href="/css/orangemint-live2d.css">
 <script src="https://cdn.jsdelivr.net/gh/gaewdfyy/live2d/js/live2d.js"></script>
 <script src="/js/live2d-widget.js"></script>
+
+<link
+  rel="stylesheet"
+  href="/css/mobile-toc.css"
+>
+
+<script
+  src="/js/mobile-toc.js"
+></script>
 
   <footer>
     <div class="footer-inner">

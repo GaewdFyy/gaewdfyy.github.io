@@ -1,0 +1,136 @@
+/* =========================================================================
+   移动端右侧抽屉目录 (Mobile Sidebar TOC) - 完整样式
+   ========================================================================= */
+
+/* --- 1. 右侧悬浮按钮 --- */
+#mobile-toc-fab {
+  position: fixed;
+  bottom: 85px;               /* 位于默认返回顶部按钮正上方 */
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  background-color: var(--board-color, #FFF0E8);
+  color: var(--post-text-color, #3B3432);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;          /* 垂直居中 */
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 997;
+  cursor: pointer;
+  border: 1px solid var(--line-color, #F0DDD5);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+#mobile-toc-fab:active {
+  background-color: var(--link-hover-bg-color, #FFE4DA);
+  transform: scale(0.92);
+}
+
+/* --- 2. 半透明背景遮罩 (层级提升至 1050，彻底盖过 Navbar) --- */
+#mobile-toc-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+#mobile-toc-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- 3. 右侧抽屉侧边栏面板 (层级提升至 1051) --- */
+#mobile-toc-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 78vw;                 /* 占据屏幕右侧 78% 宽度 */
+  max-width: 320px;
+  height: 100vh;
+  background-color: var(--board-color, #FFF0E8);
+  z-index: 1051;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  border-left: 1px solid var(--line-color, #F0DDD5);
+  
+  /* 适配刘海屏与全面屏顶部安全距离 */
+  padding-top: max(10px, env(safe-area-inset-top));
+  box-sizing: border-box;
+
+  /* 右侧滑出动画 */
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  display: flex;
+  flex-direction: column;
+}
+
+#mobile-toc-drawer.active {
+  transform: translateX(0);
+}
+
+/* --- 4. 抽屉头部 --- */
+.mobile-toc-drawer-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line-color, #F0DDD5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--post-heading-color, #292321);
+  font-size: 16px;
+}
+
+#mobile-toc-close {
+  font-size: 26px;
+  color: var(--sec-text-color, #80736E);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+/* --- 5. 抽屉列表内容区域 --- */
+.mobile-toc-drawer-body {
+  padding: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+.mobile-toc-drawer-body ol.toc {
+  margin: 0;
+  padding-left: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mobile-toc-drawer-body .toc-item {
+  margin-bottom: 4px;
+}
+
+/* 目录链接文本样式 (防溢出) */
+.mobile-toc-drawer-body .toc-link {
+  color: var(--post-text-color, #3B3432);
+  display: block;
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+/* --- 6. 高亮选中状态 (同步主题链接配色) --- */
+.mobile-toc-drawer-body .toc-link.active {
+  color: var(--post-link-color, #E47F62) !important;
+  font-weight: bold;
+  background-color: var(--link-hover-bg-color, #FFE4DA);
+}
