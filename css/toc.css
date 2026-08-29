@@ -1,5 +1,5 @@
 /* =========================================================================
-   移动端右侧抽屉目录 (Mobile Sidebar TOC) - 完整样式
+   移动端右侧抽屉目录 - 完整样式
    ========================================================================= */
 
 /* --- 1. 右侧悬浮按钮 --- */
@@ -19,7 +19,7 @@
   z-index: 997;
   cursor: pointer;
   border: 1px solid var(--line-color, #F0DDD5);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
   user-select: none;
 }
 
@@ -28,7 +28,7 @@
   transform: scale(0.92);
 }
 
-/* --- 2. 半透明背景遮罩 (层级提升至 1050，彻底盖过 Navbar) --- */
+/* --- 2. 半透明背景遮罩 (层级 1050，彻底盖过 Navbar) --- */
 #mobile-toc-overlay {
   position: fixed;
   top: 0;
@@ -39,7 +39,7 @@
   z-index: 1050;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 #mobile-toc-overlay.active {
@@ -47,7 +47,7 @@
   visibility: visible;
 }
 
-/* --- 3. 右侧抽屉侧边栏面板 (层级提升至 1051) --- */
+/* --- 3. 右侧抽屉侧边栏面板 (层级 1051) --- */
 #mobile-toc-drawer {
   position: fixed;
   top: 0;
@@ -59,15 +59,16 @@
   z-index: 1051;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
   border-left: 1px solid var(--line-color, #F0DDD5);
-  
+
   /* 适配刘海屏与全面屏顶部安全距离 */
   padding-top: max(10px, env(safe-area-inset-top));
   box-sizing: border-box;
 
   /* 右侧滑出动画 */
   transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              background-color 0.3s ease, border-color 0.3s ease;
+
   display: flex;
   flex-direction: column;
 }
@@ -85,6 +86,7 @@
   align-items: center;
   color: var(--post-heading-color, #292321);
   font-size: 16px;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 #mobile-toc-close {
@@ -101,6 +103,23 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   flex: 1;
+
+  /* 抽屉内部滚动条 (浅色) */
+  scrollbar-width: thin;
+  scrollbar-color: #CBB9B2 transparent;
+}
+
+.mobile-toc-drawer-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-toc-drawer-body::-webkit-scrollbar-thumb {
+  background-color: #CBB9B2;
+  border-radius: 2px;
+}
+
+.mobile-toc-drawer-body::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .mobile-toc-drawer-body ol.toc {
@@ -125,7 +144,12 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   border-radius: 6px;
-  transition: all 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+/* 目录链接触摸反馈 */
+.mobile-toc-drawer-body .toc-link:active {
+  background-color: var(--link-hover-bg-color, #FFE4DA);
 }
 
 /* --- 6. 高亮选中状态 (同步主题链接配色) --- */
@@ -134,3 +158,175 @@
   font-weight: bold;
   background-color: var(--link-hover-bg-color, #FFE4DA);
 }
+
+/* =========================================================================
+   深色模式 (data-user-color-scheme="dark")
+   ========================================================================= */
+
+/* --- 1. 悬浮按钮 --- */
+[data-user-color-scheme="dark"] #mobile-toc-fab,
+body[data-user-color-scheme="dark"] #mobile-toc-fab {
+  background-color: #282323;              /* board_color_dark */
+  color: #D8D1CE;                          /* post_text_color_dark */
+  border-color: #463D3A;                  /* line_color_dark */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+[data-user-color-scheme="dark"] #mobile-toc-fab:active,
+body[data-user-color-scheme="dark"] #mobile-toc-fab:active {
+  background-color: #3A2D2D;              /* link_hover_bg_color_dark */
+}
+
+/* --- 2. 遮罩：深色下稍微加深，保证对比度 --- */
+[data-user-color-scheme="dark"] #mobile-toc-overlay,
+body[data-user-color-scheme="dark"] #mobile-toc-overlay {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* --- 3. 抽屉面板 --- */
+[data-user-color-scheme="dark"] #mobile-toc-drawer,
+body[data-user-color-scheme="dark"] #mobile-toc-drawer {
+  background-color: #282323;              /* board_color_dark */
+  border-left-color: #463D3A;             /* line_color_dark */
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.45);
+}
+
+/* --- 4. 抽屉头部 --- */
+[data-user-color-scheme="dark"] .mobile-toc-drawer-header,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-header {
+  color: #EEE7E4;                          /* post_heading_color_dark */
+  border-bottom-color: #463D3A;           /* line_color_dark */
+}
+
+[data-user-color-scheme="dark"] #mobile-toc-close,
+body[data-user-color-scheme="dark"] #mobile-toc-close {
+  color: #AFA6A2;                          /* sec_text_color_dark */
+}
+
+/* --- 5. 列表内容与滚动条 --- */
+[data-user-color-scheme="dark"] .mobile-toc-drawer-body,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-body {
+  scrollbar-color: #6F6460 transparent;   /* scrollbar_color_dark */
+}
+
+[data-user-color-scheme="dark"] .mobile-toc-drawer-body::-webkit-scrollbar-thumb,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-body::-webkit-scrollbar-thumb {
+  background-color: #6F6460;               /* scrollbar_color_dark */
+}
+
+[data-user-color-scheme="dark"] .mobile-toc-drawer-body .toc-link,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-body .toc-link {
+  color: #D8D1CE;                          /* post_text_color_dark */
+}
+
+[data-user-color-scheme="dark"] .mobile-toc-drawer-body .toc-link:active,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-body .toc-link:active {
+  background-color: #3A2D2D;              /* link_hover_bg_color_dark */
+}
+
+/* --- 6. 高亮选中状态 --- */
+[data-user-color-scheme="dark"] .mobile-toc-drawer-body .toc-link.active,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-body .toc-link.active {
+  color: #F2B6A0 !important;              /* post_link_color_dark */
+  background-color: #3A2D2D;              /* link_hover_bg_color_dark */
+}
+
+/* 深色模式头部背景 */
+[data-user-color-scheme="dark"] .mobile-toc-drawer-header,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-header {
+  background-color: #282323;             /* board_color_dark */
+}
+
+
+/* =========================================================================
+   强制展开子级目录 (覆盖 Fluid 主题的折叠规则)
+   ========================================================================= */
+
+/* 子级有序列表强制显示 */
+.mobile-toc-drawer-body ol.toc ol,
+.mobile-toc-drawer-body .toc-child,
+.mobile-toc-drawer-body .toc-item ol {
+  display: block !important;
+  max-height: none !important;
+  overflow: visible !important;
+  visibility: visible !important;
+}
+
+/* 修正折叠箭头等装饰元素（如果主题有渲染） */
+.mobile-toc-drawer-body .toc-item::before,
+.mobile-toc-drawer-body .toc-link::after {
+  display: none !important;
+}
+
+/* 子级列表缩进与层级视觉引导线 */
+.mobile-toc-drawer-body ol.toc ol {
+  padding-left: 12px;
+  margin: 2px 0;
+  border-left: 1px solid var(--line-color, #F0DDD5);
+}
+
+/* 深色模式下引导线颜色同步 */
+[data-user-color-scheme="dark"] .mobile-toc-drawer-body ol.toc ol,
+body[data-user-color-scheme="dark"] .mobile-toc-drawer-body ol.toc ol {
+  border-left-color: #463D3A;             /* line_color_dark */
+}
+
+#mobile-toc-drawer {
+  position: fixed;
+  overflow: hidden;
+}
+
+/* 头部固定高度 */
+.mobile-toc-drawer-header {
+  height: 56px;
+  flex: none;
+  box-sizing: border-box;
+  padding: 0 20px;           /* 改用行高垂直居中 */
+  line-height: 56px;
+}
+
+/* 内容区绝对定位，占满头部以下的全部空间 */
+.mobile-toc-drawer-body {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =========================================================================
+   修复头部透明穿透 + 安全区错位
+   ========================================================================= */
+
+/* 1. 头部显式设置背景色，并置于内容区之上 */
+.mobile-toc-drawer-header {
+  position: relative;                    /* 脱离普通流叠加关系 */
+  z-index: 2;                            /* 盖住绝对定位的内容区 */
+  height: 56px;
+  flex: none;
+  box-sizing: border-box;
+  padding: 0 20px;
+  line-height: 56px;
+  background-color: var(--board-color, #FFF0E8);   /* ★ 显式背景 */
+}
+
+/* 2. 内容区起点对齐：加上安全区高度，紧贴头部底边 */
+.mobile-toc-drawer-body {
+  position: absolute;
+  top: calc(56px + max(10px, env(safe-area-inset-top)));  /* ★ 对齐头部底边 */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 3. 内容滚动时上方被头部截断，顺便让内容区底边也避开底部安全区 */
+.mobile-toc-drawer-body .toc {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
