@@ -1,5 +1,6 @@
 /**
- * Live2D 看板娘样式表
+ * Live2D 看板娘样式表 - nc 前缀版
+ * 已适配主题配色
  */
 
 /* ================= 基础容器 ================= */
@@ -50,13 +51,13 @@
     width: max-content;
     max-width: min(320px, calc(100vw - 32px));
     padding: 10px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(240, 221, 213, 0.8); /* line_color */
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 240, 232, 0.72); /* board_color 半透明 */
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    color: #333;
+    box-shadow: 0 8px 24px rgba(64, 58, 56, 0.08);
+    color: #403A38; /* text_color */
     font-size: 14px;
     line-height: 1.5;
     word-break: break-word;
@@ -92,14 +93,14 @@
 /* 统一拟态按钮外观 */
 .nc-live2d-icon,
 .nc-live2d-panel-item {
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(240, 221, 213, 0.85);
+    background: rgba(255, 240, 232, 0.65);
     backdrop-filter: blur(10px) saturate(140%);
     -webkit-backdrop-filter: blur(10px) saturate(140%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    color: #4a5568;
+    box-shadow: 0 4px 12px rgba(64, 58, 56, 0.08);
+    color: #80736E; /* sec_text_color */
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .nc-live2d-icon {
@@ -113,8 +114,9 @@
 
 .nc-live2d-icon:hover,
 .nc-live2d-panel-item:hover {
-    background: rgba(255, 255, 255, 0.9);
-    color: #3182ce;
+    background: rgba(255, 233, 225, 0.95); /* button_hover_bg_color */
+    color: #E47F62; /* post_link_color / 强调色 */
+    border-color: rgba(228, 127, 98, 0.35);
 }
 
 /* SVG 图标属性 */
@@ -139,12 +141,12 @@
     gap: 6px;
     max-height: 220px;
     padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(240, 221, 213, 0.8);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 240, 232, 0.78);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(64, 58, 56, 0.1);
     overflow-y: auto;
 }
 
@@ -165,23 +167,24 @@
 
 .nc-live2d.nc-live2d-theme-dark .nc-live2d-bubble,
 .nc-live2d.nc-live2d-theme-dark .nc-live2d-panel {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(30, 30, 30, 0.75);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    color: #e2e8f0;
+    border-color: rgba(70, 61, 58, 0.9); /* line_color_dark */
+    background: rgba(40, 35, 35, 0.82); /* board_color_dark */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    color: #D8D1CE; /* text_color_dark */
 }
 
 .nc-live2d.nc-live2d-theme-dark .nc-live2d-icon,
 .nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-item {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(45, 55, 72, 0.8);
-    color: #e2e8f0;
+    border-color: rgba(70, 61, 58, 0.85);
+    background: rgba(58, 45, 45, 0.75); /* 接近 button_hover_bg_color_dark */
+    color: #AFA6A2; /* sec_text_color_dark */
 }
 
 .nc-live2d.nc-live2d-theme-dark .nc-live2d-icon:hover,
 .nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-item:hover {
-    background: rgba(74, 85, 104, 0.95);
-    color: #90cdf4;
+    background: rgba(58, 45, 45, 0.95);
+    color: #F2B6A0; /* post_link_color_dark / navbar_text_color */
+    border-color: rgba(242, 182, 160, 0.4);
 }
 
 /* ================= 移动端适配 ================= */

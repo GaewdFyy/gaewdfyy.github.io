@@ -1,144 +1,802 @@
 <link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>
-<style>
-/* ========= 仅作用于 404 页：黑底 + VeroFess 光束 ========= */
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme="auto">
 
-/* 1. banner 换成纯黑底（去掉图片和遮罩） */
-#banner.banner-404 {
-  background-image: none !important;
-  background-color: #1C1919 !important;
-}
-#banner .mask { display: none !important; }
-/* banner 下沿与正文黑底无缝衔接 */
-#banner::after {
-  content: "";
-  position: absolute; left: 0; right: 0; bottom: -1px;
-  height: 18vh;
-  background: linear-gradient(180deg, rgba(28,25,25,0), #1C1919);
-  pointer-events: none;
-}
+<head>
+  <meta charset="UTF-8">
 
-/* 2. VeroFess 光束：从 banner 顶端垂落 */
-#banner .beam {
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 72%;
-  z-index: 1;
-  background: linear-gradient(180deg, rgba(242,182,160,.9), rgba(242,182,160,0));
-  filter: drop-shadow(0 0 7px rgba(242,160,120,.30));
-  animation: beamBreath 4s ease-in-out infinite;
-}
-#banner .beam::after {
-  content: "";
-  position: absolute;
-  bottom: -60px; left: 50%;
-  transform: translateX(-50%);
-  width: 150px; height: 150px;
-  border-radius: 50%;
-  filter: blur(10px);
-  background: radial-gradient(circle, rgba(242,160,120,.30), transparent 70%);
-}
-@keyframes beamBreath { 0%,100%{opacity:.85} 50%{opacity:1} }
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.svg">
+  <link rel="icon" href="/img/ico.svg">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#00000000">
+  <meta name="author" content="GaewdFyy">
+  <meta name="keywords" content>
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="页面不存在">
+  <meta property="og:url" content="https://gaewdfyy.top/404.html">
+  <meta property="og:site_name" content="GaewdFyy的部落格">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:author" content="GaewdFyy">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  <title>页面不存在 - GaewdFyy的部落格</title>
 
-/* 3. 正文：黑底 + VeroFess 主体 */
-body {
-  background:
-    radial-gradient(1.6px 1.6px at 20% 30%, rgba(242,182,160,.35), transparent 60%),
-    radial-gradient(1.1px 1.1px at 40% 70%, rgba(242,182,160,.28), transparent 60%),
-    radial-gradient(1.7px 1.7px at 65% 25%, rgba(242,182,160,.30), transparent 60%),
-    radial-gradient(1.4px 1.4px at 10% 80%, rgba(242,182,160,.28), transparent 60%),
-    #1C1919 !important;
-}
-main { padding-bottom: 0 !important; }
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
 
-/* 404 大数字 */
-.vf-code {
-  font-size: clamp(90px, 20vw, 160px);
-  font-weight: 800;
-  letter-spacing: 6px;
-  line-height: 1;
-  text-align: center;
-  margin-top: -8vh;             /* 往上靠，正对光束落点 */
-  background: linear-gradient(180deg, #F5EDE9 15%, #F2B6A0 65%, #CC7B62 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 26px rgba(242,150,110,.22));
-  animation: vfFloat 6s ease-in-out infinite;
-}
-@keyframes vfFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  <!-- 主题依赖的图标库，不要自行修改 -->
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
 
-/* 文案 */
-.vf-slogan {
-  margin-top: 22px;
-  font-size: clamp(18px, 3vw, 24px);
-  font-weight: 600;
-  text-align: center;
-  color: #EEE7E4;
-}
-.vf-desc {
-  margin-top: 10px;
-  max-width: 520px;
-  margin-left: auto; margin-right: auto;
-  font-size: 15px;
-  line-height: 1.8;
-  text-align: center;
-  color: #AFA6A2;
-}
+  <link rel="stylesheet" href="/css/main.css">
 
-/* 按钮 */
-.vf-actions {
-  margin-top: 30px;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.vf-btn {
-  padding: 12px 26px;
-  border-radius: 999px;
-  font-size: 15px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: .25s;
-  border: 1px solid transparent;
-  display: inline-block;
-}
-.vf-btn.primary {
-  color: #1C1919;
-  font-weight: 700;
-  background: linear-gradient(135deg, #F2B6A0, #D97B5E);
-  box-shadow: 0 0 20px rgba(242,150,110,.22), 0 6px 18px rgba(0,0,0,.35);
-}
-.vf-btn.primary:hover { background: linear-gradient(135deg, #FF9D84, #CC7B62); transform: translateY(-1px); }
-.vf-btn.ghost {
-  color: #F2B6A0;
-  border-color: #F2B6A0;
-  background: transparent;
-}
-.vf-btn.ghost:hover { background: #3A2D2D; color: #FF9D84; }
-</style>
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css">
+  <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css">
 
-<div id="vf-404">
-  <h1 class="vf-code">404</h1>
-  <p class="vf-slogan">路途到此为止。</p>
-  <p class="vf-desc">这里没有页面。循着光返回，或者选一条自己的路。</p>
+  <link rel="stylesheet" href="/css/about.css">
+  <link rel="stylesheet" href="/css/live2d.css">
 
-  <div class="vf-actions">
-    <a class="vf-btn primary" href="/">循光返回首页</a>
-    <a class="vf-btn ghost" href="javascript:history.back()">返回上一页</a>
+  <!-- 404 page hero: scoped styles -->
+  <style id="notfound-styles">
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    header {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 10;
+    }
+
+    .nf-hero-wrap {
+      --nf-ink: #1E1917; 
+      --nf-mut: #594D48; 
+      --nf-border: #E8D1C7;
+      --nf-accent: #E47F62;
+      --nf-accent-hover: #CC6248;
+      --nf-btn-hover-bg: #FFE9E1;
+      --nf-sky-top: #2E211C;
+      --nf-sky-mid: #FFDCC4;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: visible; 
+      background: linear-gradient(180deg, var(--nf-sky-top) 0%, var(--nf-sky-mid) 80%, rgba(0, 0, 0, 0) 100%);
+      z-index: 1;
+    }
+
+    html[data-user-color-scheme="dark"] .nf-hero-wrap {
+      --nf-ink: #D8D1CE;
+      --nf-mut: #AFA6A2;
+      --nf-border: #463D3A;
+      --nf-accent: #F2B6A0;
+      --nf-accent-hover: #FF9D84;
+      --nf-btn-hover-bg: #3A2D2D;
+      --nf-sky-top: #120E0D;
+      --nf-sky-mid: #241D1B;
+    }
+
+    .nf-hero {
+      position: relative;
+      z-index: 999;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 16px 50px;
+    }
+
+    @media (max-width: 768px) {
+      .nf-hero {
+        padding: 64px 14px 40px;
+        align-items: center;
+      }
+      .nf-hero-wrap {
+        min-height: 100dvh;
+      }
+    }
+
+    .nf-hero-inner {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 99999 !important;
+      pointer-events: auto !important;
+    }
+
+    .nf-content {
+      color: var(--nf-ink);
+      animation: nf-rise .7s cubic-bezier(.22, .68, 0, 1) both;
+      position: relative;
+      z-index: 99999;
+    }
+
+    .nf-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin: 0 0 12px;
+      font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--nf-mut);
+    }
+
+    .nf-eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--nf-accent);
+      box-shadow: 0 0 0 4px var(--nf-btn-hover-bg);
+      flex: none;
+    }
+
+    .nf-title {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -.01em;
+      color: var(--nf-ink);
+    }
+
+    .nf-lede {
+      margin: 0 auto 18px;
+      max-width: 34em;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--nf-mut);
+    }
+
+    .nf-search-box {
+      position: relative;
+      max-width: 480px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      z-index: 100005; /* 提高搜索框层级，确保下拉列表压在按钮上方 */
+      pointer-events: auto;
+    }
+
+    .nf-search-input {
+      width: 100%;
+      padding: 0.65rem 3rem 0.65rem 1.15rem;
+      border-radius: 999px;
+      border: 1px solid var(--nf-border);
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--nf-ink);
+      font-size: 0.9rem;
+      outline: none;
+      backdrop-filter: blur(6px);
+      transition: all 0.2s ease;
+    }
+
+    html[data-user-color-scheme="dark"] .nf-search-input {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .nf-search-input::placeholder {
+      color: var(--nf-mut);
+      opacity: 0.85;
+    }
+
+    .nf-search-input:focus {
+      border-color: var(--nf-accent);
+      box-shadow: 0 0 0 3px rgba(228, 127, 98, 0.25);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    html[data-user-color-scheme="dark"] .nf-search-input:focus {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .nf-search-submit {
+      position: absolute;
+      right: 6px;
+      background: transparent;
+      border: none;
+      color: var(--nf-mut);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      z-index: 10;
+    }
+
+    .nf-search-submit:hover {
+      color: var(--nf-accent);
+      background: var(--nf-btn-hover-bg);
+    }
+
+    .nf-search-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%;
+      max-height: 260px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--nf-border);
+      border-radius: 14px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+      display: none;
+      z-index: 100006;
+      text-align: left;
+    }
+
+    .nf-search-dropdown::-webkit-scrollbar {
+      width: 5px;
+    }
+    .nf-search-dropdown::-webkit-scrollbar-thumb {
+      background: var(--nf-mut);
+      border-radius: 3px;
+    }
+
+    html[data-user-color-scheme="dark"] .nf-search-dropdown {
+      background: rgba(36, 29, 27, 0.98);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+    }
+
+    .nf-search-result-item {
+      display: block;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--nf-border);
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .nf-search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .nf-search-result-item:hover {
+      background: var(--nf-btn-hover-bg);
+      text-decoration: none;
+    }
+
+    .nf-search-title {
+      color: var(--nf-ink);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .nf-search-content {
+      color: var(--nf-mut);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nf-search-empty {
+      padding: 16px;
+      color: var(--nf-mut);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .nf-highlight {
+      color: var(--nf-accent);
+      font-weight: bold;
+    }
+
+    .nf-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1; /* 降低按钮层级，防止挡住下拉列表 */
+      pointer-events: auto;
+    }
+
+    .nf-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .6rem 1.15rem;
+      border-radius: 999px;
+      font-size: .85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid transparent;
+      transition: border-color .18s ease, color .18s ease, background .18s ease;
+      pointer-events: auto;
+    }
+
+    .nf-btn:hover {
+      text-decoration: none;
+      background: var(--nf-btn-hover-bg);
+    }
+
+    .nf-btn:focus-visible {
+      outline: 2px solid var(--nf-accent);
+      outline-offset: 3px;
+    }
+
+    .nf-btn-primary {
+      color: var(--nf-accent);
+      border-color: var(--nf-accent);
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    html[data-user-color-scheme="dark"] .nf-btn-primary {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .nf-btn-primary:hover {
+      color: var(--nf-accent-hover);
+      border-color: var(--nf-accent-hover);
+    }
+
+    .nf-btn-ghost {
+      color: var(--nf-mut);
+      border-color: var(--nf-border);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    html[data-user-color-scheme="dark"] .nf-btn-ghost {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .nf-btn-ghost:hover {
+      border-color: var(--nf-accent);
+      color: var(--nf-accent);
+    }
+
+    .nf-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 20px;
+      margin: 0;
+      padding-top: 12px;
+      border-top: 1px solid var(--nf-border);
+      font: 500 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+      position: relative;
+      z-index: 99999;
+    }
+
+    .nf-meta[hidden] {
+      display: none;
+    }
+
+    .nf-meta-row {
+      display: flex;
+      gap: 6px;
+      margin: 0;
+    }
+
+    .nf-meta dt {
+      color: var(--nf-mut);
+    }
+
+    .nf-meta dd {
+      margin: 0;
+      color: var(--nf-ink);
+    }
+
+    @keyframes nf-rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"gaewdfyy.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":55,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#FFE3C7","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/js/videojs/video-js.css">
+<script src="/js/videojs/video.min.js"></script>
+<script src="/js/videojs/videojs-http-streaming.min.js"></script></head>
+
+<body data-page="not-found">
+
+  <header>
+
+<div class="header-inner nf-hero-wrap">
+  <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GaewdFyy的部落格</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/message/" target="_self">
+                <i class="iconfont icon-speakernotes"></i>
+                <span>留言板</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/update/" target="_self">
+                <i class="iconfont icon-code"></i>
+                <span>更新日志</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-switch-fill"></i>
+                <span>其他</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/furry-img/" target="_self">
+                    <span>Furry随机图片</span>
+                  </a>
+                  <a class="dropdown-item" href="/ai-chat/" target="_self">
+                    <span>AI聊天</span>
+                  </a>
+                  <a class="dropdown-item" href="/gallery/" target="_self">
+                    <span>图廊</span>
+                  </a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="nf-hero">
+  <div class="nf-hero-inner">
+    <div class="nf-content">
+      <p class="nf-eyebrow"><span class="nf-eyebrow-dot" aria-hidden="true"></span>错误 404</p>
+      <h1 class="nf-title">小径到此为止</h1>
+      <p class="nf-lede">这个地址没有对应的页面。尝试搜搜看，或者返回首页。</p>
+      
+      <!-- 搜索框与下拉列表 -->
+      <div class="nf-search-box">
+        <input type="text" id="nf-search-input" class="nf-search-input" placeholder="搜索文章标题或关键词..." autocomplete="off" aria-label="搜索文章">
+        <button type="button" id="nf-search-submit" class="nf-search-submit" aria-label="搜索">
+          <i class="iconfont icon-search"></i>
+        </button>
+        <!-- 下拉结果容器 -->
+        <div id="nf-search-dropdown" class="nf-search-dropdown"></div>
+      </div>
+
+      <div class="nf-actions">
+        <a class="nf-btn nf-btn-primary" href="/">返回首页</a>
+        <button class="nf-btn nf-btn-ghost" type="button" data-action="nf-back">返回上一页</button>
+      </div>
+      <dl class="nf-meta" id="nf-meta" hidden>
+        <div class="nf-meta-row">
+          <dt>IP</dt>
+          <dd id="nf-meta-ip">—</dd>
+        </div>
+        <div class="nf-meta-row">
+          <dt>位置</dt>
+          <dd id="nf-meta-loc">—</dd>
+        </div>
+      </dl>
+    </div>
   </div>
 </div>
 
-<script>
-/* 注入光束：插进主题 banner 里，顶端垂落 */
-document.addEventListener('DOMContentLoaded', function () {
-  var banner = document.getElementById('banner');
-  if (banner && !banner.querySelector('.beam')) {
-    var beam = document.createElement('div');
-    beam.className = 'beam';
-    banner.appendChild(beam);
-  }
-});
-</script>
+</div>
+
+  </header>
+
+  <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+    <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+  </a>
+
+  <!-- 保持 Navbar 的 Fluid 默认搜索模态框 -->
+  <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+          <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input type="text" id="local-search-input" class="form-control validate">
+            <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+          </div>
+          <div class="list-group" id="local-search-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+    <div class="footer-content">
+<div>Powered by Cloudflare | 由Cloudflare提供支持</div>
+<div> <i class="iconfont icon-github-fill"></i> <a target="_blank" rel="noopener" href="https://github.com/GaewdFyy/gaewdfyy.github.io"> Github 仓库链接 </a> </div>
+
+<a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<div><a href="https://icp.gov.moe/?keyword=20250939" target="_blank">萌ICP备20250939号</a><div> 
+    </div>
+    <div class="statistics">
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+</div>
+</div>
+  </div></div></footer>
+
+  <!-- Scripts -->
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+<script src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      typing(text);
+    })(window, document);
+  </script>
+
+  <script src="/js/img-lazyload.js"></script>
+  <script src="/js/local-search.js"></script>
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script src="/js/busuanzi.js"></script>
+
+  <!-- 主题启动项 -->
+  <script src="/js/boot.js"></script>
+
+  <!-- Live2D widget scripts -->
+  <script src="https://cdn.jsdelivr.net/gh/imuncle/live2d/js/live2d.js"></script>
+  <script src="/js/live2d-widget.js"></script>
+
+  <!-- 404 交互及内联实时搜索逻辑 -->
+  <script>
+    (function () {
+      // 1. 返回上一页按钮
+      var backBtn = document.querySelector('[data-action="nf-back"]');
+      if (backBtn) {
+        backBtn.addEventListener('click', function () {
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            window.location.href = '/';
+          }
+        });
+      }
+
+      // 2. 实时内联搜索逻辑
+      var searchInput = document.getElementById('nf-search-input');
+      var searchDropdown = document.getElementById('nf-search-dropdown');
+      var searchData = null;
+      var isFetching = false;
+
+      function fetchSearchData() {
+        if (searchData) return Promise.resolve(searchData);
+        if (isFetching) return Promise.resolve(null);
+        isFetching = true;
+        
+        var pathStr = CONFIG.search_path || 'local-search.xml';
+        var cleanStr = pathStr.replace(/^https?:\/\/[^\/]+/, '').replace(/^\/+/, '');
+        var rootStr = (CONFIG.root || '/').replace(/\/+$/, '') + '/';
+        var finalSearchPath = window.location.origin + rootStr + cleanStr;
+
+        return fetch(finalSearchPath)
+          .then(res => res.text())
+          .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+          .then(data => {
+            searchData = Array.from(data.querySelectorAll('entry')).map(entry => {
+              var titleNode = entry.querySelector('title');
+              var urlNode = entry.querySelector('url');
+              var contentNode = entry.querySelector('content');
+              return {
+                title: titleNode ? titleNode.textContent : '',
+                url: urlNode ? urlNode.textContent : '',
+                content: contentNode ? contentNode.textContent : ''
+              };
+            });
+            isFetching = false;
+            return searchData;
+          }).catch(err => {
+            isFetching = false;
+            return [];
+          });
+      }
+
+      function highlightText(text, keyword) {
+        if (!text) return '';
+        var regex = new RegExp(keyword, 'gi');
+        return text.replace(regex, match => `<span class="nf-highlight">${match}</span>`);
+      }
+
+      function getSnippet(text, keyword) {
+        if (!text) return '';
+        var plainText = text.replace(/<[^>]+>/g, '');
+        var index = plainText.toLowerCase().indexOf(keyword.toLowerCase());
+        if (index === -1) return plainText.substring(0, 70) + '...';
+        
+        var start = Math.max(0, index - 25);
+        var end = Math.min(plainText.length, index + keyword.length + 45);
+        var snippet = plainText.substring(start, end);
+        
+        if (start > 0) snippet = '...' + snippet;
+        if (end < plainText.length) snippet = snippet + '...';
+        
+        return highlightText(snippet, keyword);
+      }
+
+      function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+      }
+
+      var handleSearch = debounce(function() {
+        var query = searchInput.value.trim();
+        if (!query) {
+          searchDropdown.style.display = 'none';
+          return;
+        }
+
+        searchDropdown.style.display = 'block';
+        searchDropdown.innerHTML = `<div class="nf-search-empty">搜索中...</div>`;
+
+        fetchSearchData().then(data => {
+          if (!data || data.length === 0) {
+            searchDropdown.innerHTML = `<div class="nf-search-empty">未获取到搜索数据或网络错误</div>`;
+            return;
+          }
+          var keyword = query.toLowerCase();
+          
+          var results = data.filter(item => 
+            item.title.toLowerCase().includes(keyword) || 
+            item.content.toLowerCase().includes(keyword)
+          );
+
+          if (results.length > 0) {
+            searchDropdown.innerHTML = results.slice(0, 6).map(item => {
+              var link = (CONFIG.root || '/') + item.url.replace(/^\//, '');
+              return `
+                <a href="${link}" class="nf-search-result-item">
+                  <div class="nf-search-title">${highlightText(item.title, query)}</div>
+                  <div class="nf-search-content">${getSnippet(item.content, query)}</div>
+                </a>
+              `;
+            }).join('');
+          } else {
+            searchDropdown.innerHTML = `<div class="nf-search-empty">未找到与 “${query}” 相关的文章</div>`;
+          }
+        });
+      }, 250);
+
+      if (searchInput) {
+        searchInput.addEventListener('input', handleSearch);
+        searchInput.addEventListener('focus', function() {
+          if (this.value.trim()) handleSearch();
+        });
+      }
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nf-search-box') && searchDropdown) {
+          searchDropdown.style.display = 'none';
+        }
+      });
+    })();
+  </script>
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
