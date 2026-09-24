@@ -1,0 +1,568 @@
+/* ==========================================================================
+   首页文章列表左右侧栏 / Homepage sidebars
+   由 scripts/homepage-sidebar.js + layout-injects/homepage-sidebar/*.ejs 注入
+   仅在 >=1200px 的宽屏出现，窄屏自动隐藏，文章列表恢复原样
+   ========================================================================== */
+
+/* 只有左右侧栏都启用时才会挂上这个 class（见 head.ejs） */
+@media (min-width: 1200px) {
+  .hs-home-container {
+    max-width: var(--hs-home-width, 1400px);
+  }
+}
+
+.hs-home-row {
+  align-items: flex-start;
+}
+
+/* --------------------------------------------------------------------------
+   侧栏列：跟随滚动，超高时列内滚动
+   -------------------------------------------------------------------------- */
+.hs-side-col {
+  align-self: flex-start;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 78px;
+  z-index: 4;
+  margin-top: -2rem;
+  max-height: calc(100vh - 100px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
+}
+
+/* banner 满屏时 #board 不再上浮，侧栏跟着贴顶 */
+.hs-home-row.is-flat .hs-side-col {
+  margin-top: 0;
+}
+
+.hs-side-col::-webkit-scrollbar {
+  width: 4px;
+}
+
+.hs-side-col::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.hs-side-col::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+  border-radius: 2px;
+}
+
+.hs-side-col::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-hover-color);
+}
+
+/* --------------------------------------------------------------------------
+   卡片
+   -------------------------------------------------------------------------- */
+.hs-card {
+  margin-bottom: 1rem;
+  padding: .85rem .9rem;
+  border: 1px solid var(--line-color);
+  border-radius: .5rem;
+  background-color: var(--board-bg-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .12);
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+}
+
+.hs-side-col > .hs-card:last-child {
+  margin-bottom: 0;
+}
+
+.hs-card-title {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: .65rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--line-color);
+  color: var(--text-color);
+  font-size: .95rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hs-card-title .iconfont {
+  color: var(--post-link-color);
+  font-size: 1rem;
+}
+
+/* 站点统计 ---------------------------------------------------------------- */
+.hs-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+.hs-stat {
+  padding: .5rem .2rem;
+  border-radius: .375rem;
+  background-color: rgba(128, 128, 128, .08);
+  text-align: center;
+}
+
+.hs-stat-value {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hs-stat-label {
+  margin-top: .15rem;
+  color: var(--sec-text-color);
+  font-size: .72rem;
+}
+
+/* 已运行时间：前端每秒刷新，数字宽度固定避免抖动 */
+.hs-stat-span2 {
+  grid-column: span 2;
+}
+
+.hs-uptime-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .2rem;
+}
+
+.hs-uptime-unit {
+  color: var(--sec-text-color);
+  font-size: .8rem;
+}
+
+.hs-uptime-clock {
+  margin-left: .3rem;
+  color: var(--post-link-color);
+  font-size: .95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+
+/* 年进度条 ---------------------------------------------------------------- */
+.hs-year-label {
+  color: var(--sec-text-color);
+  font-size: .78rem;
+}
+
+.hs-year-percent {
+  display: flex;
+  align-items: baseline;
+  gap: .1rem;
+  margin: .2rem 0 .55rem;
+  color: var(--text-color);
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums; /* 每秒都在变，等宽数字才不抖 */
+  letter-spacing: -.01em;
+}
+
+.hs-year-unit {
+  color: var(--sec-text-color);
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.hs-progress {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background-color: rgba(128, 128, 128, .18);
+}
+
+.hs-progress-bar {
+  height: 100%;
+  border-radius: 3px;
+  background-image: linear-gradient(90deg, var(--post-link-color), #f2b6a0);
+}
+
+.hs-year-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: .5rem;
+  color: var(--sec-text-color);
+  font-size: .72rem;
+}
+
+.hs-year-foot b {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* 公告 -------------------------------------------------------------------- */
+.hs-notice-body {
+  color: var(--sec-text-color);
+  font-size: .85rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.hs-notice-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.hs-notice-body a {
+  color: var(--post-link-color);
+}
+
+/* 一言 -------------------------------------------------------------------- */
+.hs-hitokoto-text {
+  margin: 0;
+  color: var(--sec-text-color);
+  font-size: .85rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* 图廊预览 ---------------------------------------------------------------- */
+.hs-gallery-grid {
+  display: grid;
+  gap: .45rem;
+}
+
+.hs-gallery-grid--1col {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hs-gallery-grid--2col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hs-gallery-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: .375rem;
+  background-color: rgba(128, 128, 128, .12);
+}
+
+/* 比例用 padding-top 撑开，兼容不支持 aspect-ratio 的浏览器 */
+.hs-gallery-grid--1col .hs-gallery-item {
+  padding-top: 66.6667%; /* 3:2，和照片自身比例一致，不裁切 */
+}
+
+.hs-gallery-grid--2col .hs-gallery-item {
+  padding-top: 100%;
+}
+
+.hs-gallery-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+
+.hs-gallery-item::after {
+  content: attr(data-title);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  padding: .3rem .4rem .25rem;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, .78), rgba(0, 0, 0, 0));
+  color: #fff;
+  font-size: .68rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.hs-gallery-grid--1col .hs-gallery-item::after {
+  padding: .5rem .55rem .4rem;
+  font-size: .78rem;
+}
+
+.hs-gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+.hs-gallery-item:hover::after {
+  opacity: 1;
+}
+
+/* 最新那张的标题常驻显示 */
+.hs-gallery-item.is-featured::after {
+  opacity: 1;
+}
+
+.hs-gallery-badge {
+  position: absolute;
+  top: .4rem;
+  left: .4rem;
+  z-index: 1;
+  padding: .1rem .4rem;
+  border-radius: .25rem;
+  background-color: rgba(0, 0, 0, .55);
+  color: #fff;
+  font-size: .65rem;
+  line-height: 1.5;
+  letter-spacing: .02em;
+}
+
+.hs-gallery-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .6rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--line-color);
+  color: var(--sec-text-color);
+  font-size: .78rem;
+}
+
+.hs-gallery-more:hover {
+  color: var(--post-link-color);
+}
+
+.hs-gallery-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+}
+
+.hs-gallery-more-link .iconfont {
+  font-size: .8rem;
+}
+
+/* 音乐播放器：把 APlayer 压窄，别撑破 233px 的侧栏 ------------------------- */
+.hs-music-body .aplayer {
+  margin: 0;
+  border-radius: .375rem;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: inherit;
+  box-shadow: none;
+}
+
+.hs-music-body .aplayer .aplayer-info {
+  padding: 6px 6px 0;
+}
+
+.hs-music-body .aplayer .aplayer-info .aplayer-music {
+  margin-bottom: 0;
+}
+
+.hs-music-body .aplayer .aplayer-info .aplayer-music .aplayer-title {
+  font-size: 12px;
+}
+
+.hs-music-body .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  font-size: 11px;
+}
+
+.hs-music-body .aplayer .aplayer-info .aplayer-controller .aplayer-time,
+.hs-music-body .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap {
+  display: none;
+}
+
+.hs-music-body .aplayer .aplayer-list {
+  background-color: transparent;
+}
+
+.hs-music-body .aplayer .aplayer-list ol li {
+  border-top-color: var(--line-color);
+  font-size: 12px;
+}
+
+.hs-music-body .aplayer .aplayer-list ol li .aplayer-list-author {
+  display: none;
+}
+
+.hs-music-body .aplayer .aplayer-list ol li:hover {
+  background-color: rgba(128, 128, 128, .12);
+}
+
+.hs-music-body .aplayer .aplayer-list ol li.aplayer-list-light {
+  background-color: rgba(128, 128, 128, .16);
+}
+
+.hs-music-body .aplayer .aplayer-lrc {
+  display: none;
+}
+
+[data-user-color-scheme="dark"] .hs-music-body .aplayer,
+[data-user-color-scheme="dark"] .hs-music-body .aplayer .aplayer-list ol li {
+  color: var(--text-color);
+}
+
+/* AI 助手入口 -------------------------------------------------------------- */
+.hs-ai-entry {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  width: 100%;
+  padding: .55rem .6rem;
+  border: 1px solid var(--line-color);
+  border-radius: .5rem;
+  background-color: rgba(128, 128, 128, .08);
+  color: var(--text-color);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out, transform .15s ease;
+}
+
+.hs-ai-entry:hover {
+  border-color: var(--post-link-color);
+  background-color: var(--link-hover-bg-color);
+}
+
+.hs-ai-entry:active {
+  transform: scale(.98);
+}
+
+/* 右侧箭头靠边；用 > .iconfont 而不是具体图标名，换图标也不会失效 */
+.hs-ai-entry > .iconfont {
+  margin-left: auto;
+  color: var(--sec-text-color);
+  font-size: 1rem;
+}
+
+.hs-ai-entry-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hs-ai-entry-text strong {
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.hs-ai-entry-text em {
+  overflow: hidden;
+  color: var(--sec-text-color);
+  font-size: .72rem;
+  font-style: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   AI 聊天浮窗（挂在 body 上，避免被侧栏的 overflow 裁掉）
+   -------------------------------------------------------------------------- */
+.hs-ai-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10040;
+  background-color: rgba(0, 0, 0, .45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+.hs-ai-mask.hs-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hs-ai-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10050;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 580px;
+  max-height: calc(100vh - 48px);
+  overflow: hidden;
+  border-radius: .75rem;
+  background-color: var(--board-bg-color);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(.98);
+  transition: transform .25s ease, opacity .25s ease, visibility .25s ease;
+}
+
+.hs-ai-panel.hs-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.hs-ai-panel-bar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem .75rem;
+  border-bottom: 1px solid var(--line-color);
+  color: var(--text-color);
+  font-size: .9rem;
+}
+
+.hs-ai-panel-title {
+  font-weight: 600;
+}
+
+.hs-ai-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.hs-ai-panel-link {
+  color: var(--sec-text-color);
+  font-size: .78rem;
+}
+
+.hs-ai-panel-link:hover {
+  color: var(--post-link-color);
+}
+
+.hs-ai-panel-close {
+  padding: 0 .2rem;
+  border: 0;
+  background-color: transparent;
+  color: var(--sec-text-color);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.hs-ai-panel-close:hover {
+  color: var(--post-link-color);
+}
+
+.hs-ai-panel-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  background-color: #fff;
+}
+
+.hs-ai-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  .hs-ai-panel {
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+
+  html.hs-ai-lock,
+  body.hs-ai-lock {
+    overflow: hidden;
+  }
+}

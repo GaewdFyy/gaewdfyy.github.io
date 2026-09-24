@@ -93,6 +93,13 @@
 
 
   
+
+  
+  <style>:root { --hs-home-width: 1400px; }</style>
+  
+  <link rel="stylesheet" href="/css/homepage-sidebar.css">
+
+
 <meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="GaewdFyy的部落格" type="application/atom+xml">
 <link rel="alternate" href="/rss2.xml" title="GaewdFyy的部落格" type="application/rss+xml">
 <link rel="stylesheet" href="/js/videojs/video-js.css">
@@ -300,13 +307,190 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
+      
+      <div class="container nopadding-x-md hs-home-container">
+        
+        <div class="row hs-home-row is-flat">
+          
+            <div class="hs-side-col hs-side-col-left d-none d-xl-block col-xl-2">
+              
+
+<div class="hs-card hs-stats-card">
+  <div class="hs-card-title">
+    <i class="iconfont icon-chart" aria-hidden="true"></i>
+    <span>站点统计</span>
+  </div>
+  <div class="hs-stats">
+    <div class="hs-stat">
+      <div class="hs-stat-value">6</div>
+      <div class="hs-stat-label">文章</div>
+    </div>
+    <div class="hs-stat">
+      <div class="hs-stat-value">12</div>
+      <div class="hs-stat-label">标签</div>
+    </div>
+    
+    <div class="hs-stat hs-stat-span2 hs-uptime" data-start-ms="1737590400000">
+      <div class="hs-uptime-main">
+        <span class="hs-stat-value" data-role="days">609</span>
+        <span class="hs-uptime-unit">天</span>
+        <span class="hs-uptime-clock" data-role="clock">00:00:00</span>
+      </div>
+      <div class="hs-stat-label">已运行</div>
+    </div>
+    
+  </div>
+</div>
+
+
+<script>
+(function () {
+  var el = document.querySelector('.hs-uptime');
+  if (!el) return;
+  var start = parseInt(el.getAttribute('data-start-ms'), 10);
+  if (!start) return;
+
+  var daysEl = el.querySelector('[data-role="days"]');
+  var clockEl = el.querySelector('[data-role="clock"]');
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+  function tick() {
+    var diff = Date.now() - start;
+    if (diff < 0) diff = 0;
+    daysEl.textContent = Math.floor(diff / 86400000);
+    var rest = diff % 86400000;
+    clockEl.textContent = pad(Math.floor(rest / 3600000)) + ':' +
+      pad(Math.floor((rest % 3600000) / 60000)) + ':' +
+      pad(Math.floor((rest % 60000) / 1000));
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
+
+
+<div class="hs-card hs-year-card" id="hs-year"
+     data-decimals="6" data-interval="1000">
+  <div class="hs-card-title">
+    <i class="iconfont icon-clock-fill" aria-hidden="true"></i>
+    <span>年进度</span>
+  </div>
+
+  <div class="hs-year-label"><span data-role="year">2026</span> 年已过去</div>
+
+  <div class="hs-year-percent">
+    <span data-role="percent">73.175552</span><span class="hs-year-unit">%</span>
+  </div>
+
+  <div class="hs-progress">
+    <div class="hs-progress-bar" data-role="bar" style="width: 73.1756%"></div>
+  </div>
+
+  <div class="hs-year-foot">
+    <span>第 <b data-role="day">268</b> 天</span>
+    <span>还剩 <b data-role="left">97</b> 天</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  var box = document.getElementById('hs-year');
+  if (!box) return;
+
+  var decimals = parseInt(box.getAttribute('data-decimals'), 10);
+  var interval = parseInt(box.getAttribute('data-interval'), 10) || 100;
+  var percentEl = box.querySelector('[data-role="percent"]');
+  var barEl = box.querySelector('[data-role="bar"]');
+  var yearEl = box.querySelector('[data-role="year"]');
+  var dayEl = box.querySelector('[data-role="day"]');
+  var leftEl = box.querySelector('[data-role="left"]');
+  var DAY = 86400000;
+  var cachedYear = 0, start = 0, end = 0, totalDays = 0;
+
+  function tick() {
+    var now = new Date();
+    var year = now.getFullYear();
+
+    // 跨年时（页面挂着过零点）自动换到新的一年
+    if (year !== cachedYear) {
+      cachedYear = year;
+      start = new Date(year, 0, 1).getTime();
+      end = new Date(year + 1, 0, 1).getTime();
+      totalDays = Math.round((end - start) / DAY);
+      if (yearEl) yearEl.textContent = year;
+    }
+
+    var t = now.getTime();
+    var percent = (t - start) / (end - start) * 100;
+
+    if (percentEl) percentEl.textContent = percent.toFixed(decimals);
+    if (barEl) barEl.style.width = percent.toFixed(4) + '%';
+
+    var dayOfYear = Math.floor((t - start) / DAY) + 1;
+    if (dayEl) dayEl.textContent = dayOfYear;
+    if (leftEl) leftEl.textContent = totalDays - dayOfYear;
+  }
+
+  tick();
+  setInterval(tick, interval);
+})();
+</script>
+
+
+
+<div class="hs-card hs-notice-card">
+  <div class="hs-card-title">
+    <i class="iconfont icon-speakernotes" aria-hidden="true"></i>
+    <span>公告</span>
+  </div>
+  <div class="hs-notice-body">欢迎来到我的部落格<br>
+这里记录折腾日常与技术笔记<br>
+......只是兴趣！ 
+</div>
+</div>
+
+
+
+<div class="hs-card hs-hitokoto-card" id="hs-hitokoto" data-api="https://api.furry.ist/hitokoto?cat=h">
+  <div class="hs-card-title">
+    <i class="iconfont icon-love" aria-hidden="true"></i>
+    <span>一言</span>
+  </div>
+  <p class="hs-hitokoto-text" id="hs-hitokoto-text">正在加载…</p>
+</div>
+
+<script>
+(function () {
+  var box = document.getElementById('hs-hitokoto');
+  if (!box) return;
+
+  var textEl = document.getElementById('hs-hitokoto-text');
+  var api = box.getAttribute('data-api');
+  if (!api || !textEl) return;
+
+  fetch(api, { cache: 'no-store' })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var text = typeof data === 'string' ? data : (data.hitokoto || data.text || '');
+      if (text) textEl.textContent = text;
+    })
+    .catch(function () { textEl.textContent = '一言获取失败'; });
+})();
+</script>
+
+            </div>
+          
+          <div class="col-12 col-xl-8">
+        
+
         <div id="board"
           style="margin-top: 0">
           
           <div class="container">
             <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+              <div class="col-12">
                 
 
 
@@ -568,7 +752,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/01/23/test/" target="_blank">
         <div>
-          163music            &#123;% meting "13834326098" "netease" "playlist" %&#125;                          const videojsid585a4f9fc1674b3ca34371c74544e34d = videojs('videojs-id-585a4f9f-c167-4b3c-a343-71c
+          163music            &#123;% meting "13834326098" "netease" "playlist" %&#125;                          const videojsidff09e7fbe30e46bc926ed1117c3a3b7c = videojs('videojs-id-ff09e7fb-e30e-46bc-926e-d11
         </div>
       </a>
 
@@ -606,6 +790,138 @@
             </div>
           </div>
         </div>
+
+        
+          </div>
+          
+            <div class="hs-side-col hs-side-col-right d-none d-xl-block col-xl-2">
+              
+
+<div class="hs-card hs-ai-card">
+  <div class="hs-card-title">
+    <i class="iconfont icon-user-fill" aria-hidden="true"></i>
+    <span>AI 助手</span>
+  </div>
+  <button type="button" class="hs-ai-entry" id="hs-ai-entry" data-url="/ai-chat">
+    <span class="hs-ai-entry-text">
+      <strong>开始对话</strong>
+      <em>有问题随时问我</em>
+    </span>
+    <i class="iconfont icon-arrowright" aria-hidden="true"></i>
+  </button>
+</div>
+
+<template id="hs-ai-tpl">
+  <div class="hs-ai-mask"></div>
+  <div class="hs-ai-panel" role="dialog" aria-modal="true" aria-label="AI Chat">
+    <div class="hs-ai-panel-bar">
+      <span class="hs-ai-panel-title">AI 助手</span>
+      <span class="hs-ai-panel-actions">
+        <a class="hs-ai-panel-link" href="/ai-chat" target="_blank" rel="noopener">全屏</a>
+        <button type="button" class="hs-ai-panel-close" aria-label="关闭">&times;</button>
+      </span>
+    </div>
+    <div class="hs-ai-panel-body"></div>
+  </div>
+</template>
+
+<script>
+(function () {
+  var entry = document.getElementById('hs-ai-entry');
+  var tpl = document.getElementById('hs-ai-tpl');
+  if (!entry || !tpl || !tpl.content) return;
+
+  var panel = null, mask = null, body = null, loaded = false;
+
+  function mount() {
+    if (panel) return;
+    document.body.appendChild(tpl.content.cloneNode(true));
+
+    panel = document.querySelector('.hs-ai-panel');
+    mask = document.querySelector('.hs-ai-mask');
+    body = panel.querySelector('.hs-ai-panel-body');
+
+    panel.querySelector('.hs-ai-panel-close').addEventListener('click', close);
+    mask.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.keyCode === 27) close();
+    });
+  }
+
+  function open() {
+    mount();
+    // 懒加载：第一次打开才真正拉 /ai-chat（那是个 1.3MB 的 Vue 应用）
+    if (!loaded) {
+      var frame = document.createElement('iframe');
+      frame.className = 'hs-ai-frame';
+      frame.setAttribute('title', 'AI Chat');
+      frame.setAttribute('allow', 'clipboard-write');
+      frame.src = entry.getAttribute('data-url') || '/ai-chat';
+      body.appendChild(frame);
+      loaded = true;
+    }
+    panel.classList.add('hs-open');
+    mask.classList.add('hs-open');
+    document.documentElement.classList.add('hs-ai-lock');
+    document.body.classList.add('hs-ai-lock');
+  }
+
+  function close() {
+    if (!panel) return;
+    panel.classList.remove('hs-open');
+    mask.classList.remove('hs-open');
+    document.documentElement.classList.remove('hs-ai-lock');
+    document.body.classList.remove('hs-ai-lock');
+  }
+
+  entry.addEventListener('click', open);
+})();
+</script>
+
+
+<div class="hs-card hs-gallery-card">
+  <div class="hs-card-title">
+    <i class="iconfont icon-eye" aria-hidden="true"></i>
+    <span>图廊</span>
+  </div>
+
+  
+  <div class="hs-gallery-grid hs-gallery-grid--1col">
+    
+      
+      <a class="hs-gallery-item is-featured" href="/gallery"
+         data-title="蓝与白 · 2026-08-23" title="蓝与白 · 2026-08-23">
+        <img src="https://pic1.imgdb.cn/i/034C1OGAOveGL1o1p08sVk.webp" srcset="/img/loading.gif" lazyload alt="蓝与白" loading="lazy">
+        <span class="hs-gallery-badge">最新</span>
+      </a>
+    
+      
+      <a class="hs-gallery-item" href="/gallery"
+         data-title="蒜苗 - 星绒会 2026" title="蒜苗 - 星绒会 2026">
+        <img src="https://pic1.imgdb.cn/i/0347U0FvGGQgpMGThjR7Pb.webp" srcset="/img/loading.gif" lazyload alt="蒜苗 - 星绒会 2026" loading="lazy">
+        
+      </a>
+    
+      
+      <a class="hs-gallery-item" href="/gallery"
+         data-title="凌霄 - 星绒会 2026" title="凌霄 - 星绒会 2026">
+        <img src="https://pic1.imgdb.cn/i/0347U0EBqC8cFZMck8i4yw.webp" srcset="/img/loading.gif" lazyload alt="凌霄 - 星绒会 2026" loading="lazy">
+        
+      </a>
+    
+  </div>
+  
+
+  <a class="hs-gallery-more" href="/gallery">
+    <span>共 13 张</span>
+    <span class="hs-gallery-more-link">查看全部<i class="iconfont icon-arrowright" aria-hidden="true"></i></span>
+  </a>
+</div>
+
+            </div>
+          
+        </div>
+        
       </div>
     
 
