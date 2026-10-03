@@ -11,6 +11,27 @@
   }
 }
 
+/* --------------------------------------------------------------------------
+   手机端横向溢出修复
+   主题的 .nopadding-x-md 在 max-width:767px 时把 container 的左右内边距清零，
+   而 Bootstrap 的 .row 仍带 -15px 左右外边距 → 整行比视口宽 30px，
+   页面就能被横向拖动（往右一滑看到 #board 的边）。headless 实测：390px 视口下
+   文档宽 399px、.row 宽 414px。
+   这里在这一档把负外边距和列的对应内边距一起归零：
+   board 仍然满宽，正文缩进由 board 内部的 .container 提供，视觉不变。
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .container.nopadding-x-md > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .container.nopadding-x-md > .row > [class*="col-"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .hs-home-row {
   align-items: flex-start;
 }
@@ -569,7 +590,8 @@
 
 /* --------------------------------------------------------------------------
    MD3 动态取色卡片（/md3-palette/ 入口）
-   卡片色阶是用种子色现场 color-mix 出来的示意图，真实取色在页面里算
+   排版对齐上面的「AI 助手」卡片：一块可点的入口 + 右侧箭头；
+   中间那条色阶是用种子色现场 color-mix 出来的示意图，真实取色在页面里算
    -------------------------------------------------------------------------- */
 .hs-md3-icon {
   width: 1rem;
@@ -578,20 +600,36 @@
   color: var(--post-link-color);
 }
 
-.hs-md3-body {
-  display: block;
-  color: inherit;
-  text-decoration: none;
+/* 入口本体：和 .hs-ai-entry 同一套观感 */
+.hs-md3-entry {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  width: 100%;
+  padding: .55rem .6rem;
+  border: 1px solid var(--line-color);
   border-radius: .5rem;
+  background-color: rgba(128, 128, 128, .08);
+  color: var(--text-color);
+  text-decoration: none;
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out, transform .15s ease;
+}
+
+.hs-md3-entry:hover {
+  border-color: var(--post-link-color);
+  background-color: var(--link-hover-bg-color);
+}
+
+.hs-md3-entry:active {
+  transform: scale(.98);
 }
 
 .hs-md3-strip {
   display: flex;
-  height: 44px;
+  height: 34px;
   overflow: hidden;
   border: 1px solid var(--line-color);
-  border-radius: .45rem;
-  transition: border-color .2s ease-in-out, transform .2s ease-in-out;
+  border-radius: .4rem;
 }
 
 .hs-md3-strip i {
@@ -599,53 +637,41 @@
   min-width: 0;
 }
 
-.hs-md3-body:hover .hs-md3-strip {
-  border-color: var(--post-link-color);
-  transform: translateY(-1px);
-}
-
+/* 文案 + 箭头：跟 AI 卡片一样一行放下 */
 .hs-md3-foot {
   display: flex;
   align-items: center;
   gap: .5rem;
-  margin-top: .6rem;
+  width: 100%;
 }
 
-.hs-md3-text {
+.hs-md3-entry-text {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  flex: 1 1 auto;
 }
 
-.hs-md3-text strong {
-  color: var(--text-color);
-  font-size: .82rem;
+.hs-md3-entry-text strong {
+  font-size: .88rem;
   font-weight: 600;
-  line-height: 1.3;
 }
 
-.hs-md3-text em {
+.hs-md3-entry-text em {
+  overflow: hidden;
   color: var(--sec-text-color);
   font-size: .72rem;
   font-style: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.hs-md3-go {
-  display: inline-flex;
-  align-items: center;
-  gap: .15rem;
-  flex: none;
-  color: var(--post-link-color);
-  font-size: .74rem;
-  font-weight: 600;
-}
-
-.hs-md3-go .iconfont {
-  font-size: .8rem;
+.hs-md3-foot > .iconfont {
+  margin-left: auto;
+  color: var(--sec-text-color);
+  font-size: 1rem;
   transition: transform .2s ease-in-out;
 }
 
-.hs-md3-body:hover .hs-md3-go .iconfont {
+.hs-md3-entry:hover .hs-md3-foot > .iconfont {
   transform: translateX(2px);
 }
