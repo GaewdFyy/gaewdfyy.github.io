@@ -37,6 +37,15 @@
     pointer-events: auto;
     touch-action: none;
 }
+
+/* Cubism 3 (v3) 模型由 iframe 内的示例页渲染 */
+.nc-live2d-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: transparent;
+}
 .nc-live2d-dragging .nc-live2d-canvas { cursor: grabbing; }
 .nc-live2d-page-dragging,
 .nc-live2d-page-dragging * {
@@ -130,16 +139,17 @@
     stroke-linejoin: round;
 }
 
-/* ================= 衣柜面板 ================= */
+/* ================= 角色 / 装扮面板（位于模型右侧） ================= */
 .nc-live2d-panel {
     position: absolute;
-    right: 46px;
-    top: 50%;
-    transform: translateY(-50%);
+    /* 贴着容器上沿向下展开，与垂直居中的右侧按钮列完全错开 */
+    top: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    max-height: 220px;
+    width: max-content;
+    /* 运行时由 JS 依据可用空间收窄；此处只是兜底上限 */
+    max-width: 220px;
+    max-height: 260px;
     padding: 8px;
     border: 1px solid rgba(240, 221, 213, 0.8);
     border-radius: 12px;
@@ -147,15 +157,90 @@
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     box-shadow: 0 8px 24px rgba(64, 58, 56, 0.1);
+    z-index: 6;
+}
+
+/* 展开在模型右侧：让开右侧按钮列（按钮位于容器右缘外侧约 26px） */
+.nc-live2d-panel-right {
+    left: calc(100% + 42px);
+    right: auto;
+}
+
+/* 右侧空间不足时翻到模型左侧，同样不压住按钮列 */
+.nc-live2d-panel-left {
+    left: auto;
+    right: calc(100% + 42px);
+}
+
+.nc-live2d-panel-header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 6px 8px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(240, 221, 213, 0.7);
+}
+
+.nc-live2d-panel-back {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 1px solid rgba(240, 221, 213, 0.85);
+    border-radius: 50%;
+    background: rgba(255, 240, 232, 0.65);
+    color: #80736E;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.nc-live2d-panel-back:hover {
+    background: rgba(255, 233, 225, 0.95);
+    color: #E47F62;
+    border-color: rgba(228, 127, 98, 0.35);
+}
+
+.nc-live2d-panel-back[hidden] {
+    display: none;
+}
+
+.nc-live2d-panel-title {
+    flex: 1 1 auto;
+    color: #E47F62;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nc-live2d-panel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .nc-live2d-panel-item {
-    min-width: 120px;
+    min-width: 112px;
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 12px;
+    line-height: 1.4;
     text-align: left;
+    white-space: nowrap;
+}
+
+.nc-live2d-panel-item-active {
+    border-color: rgba(228, 127, 98, 0.45);
+    background: rgba(255, 233, 225, 0.95);
+    color: #E47F62;
+    font-weight: 600;
 }
 
 /* ================= 暗色模式 (主题联动) ================= */
@@ -187,6 +272,32 @@
     border-color: rgba(242, 182, 160, 0.4);
 }
 
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-header {
+    border-bottom-color: rgba(70, 61, 58, 0.9);
+}
+
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-title {
+    color: #F2B6A0;
+}
+
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-back {
+    border-color: rgba(70, 61, 58, 0.85);
+    background: rgba(58, 45, 45, 0.75);
+    color: #AFA6A2;
+}
+
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-back:hover {
+    background: rgba(58, 45, 45, 0.95);
+    color: #F2B6A0;
+    border-color: rgba(242, 182, 160, 0.4);
+}
+
+.nc-live2d.nc-live2d-theme-dark .nc-live2d-panel-item-active {
+    border-color: rgba(242, 182, 160, 0.45);
+    background: rgba(58, 45, 45, 0.95);
+    color: #F2B6A0;
+}
+
 /* ================= 移动端适配 ================= */
 @media (max-width: 640px) {
     .nc-live2d {
@@ -198,7 +309,13 @@
         font-size: 13px;
     }
     .nc-live2d-panel {
-        right: 40px;
-        max-height: 180px;
+        /* 左右定位统一交给 JS（.nc-live2d-panel-right / -left），这里只管尺寸 */
+        max-height: 190px;
+        padding: 6px;
+    }
+    .nc-live2d-panel-item {
+        min-width: 96px;
+        padding: 7px 12px;
+        font-size: 11px;
     }
 }

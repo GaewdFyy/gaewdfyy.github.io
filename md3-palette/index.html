@@ -1,0 +1,2535 @@
+<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MD3 动态取色 · GaewdFyy</title>
+  <meta name="description" content="上传一张图片，用 Google Material Design 3（HCT）动态取色算法取出主色、强调色与完整色调板，含浅色与深色两套配色。">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#FEF7FF" id="metaThemeColor">
+
+  <!-- 与站点一致的字体（见 layout-injects/fonts/head.ejs） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+
+  <style>
+    /* ══════════════════════════════════════════════════════════════════
+       MD3 动态取色 · 设计令牌
+       这里的值是 M3 基准配色（seed #6750A4），只为「JS 还没跑」和
+       「取色引擎加载失败」时兜底；正常情况下由脚本按图片提取的配色覆盖。
+       ══════════════════════════════════════════════════════════════════ */
+    :root {
+      --md-primary: #6750A4;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #EADDFF;
+      --md-on-primary-container: #21005D;
+      --md-secondary: #625B71;
+      --md-on-secondary: #FFFFFF;
+      --md-secondary-container: #E8DEF8;
+      --md-on-secondary-container: #1D192B;
+      --md-tertiary: #7D5260;
+      --md-on-tertiary: #FFFFFF;
+      --md-tertiary-container: #FFD8E4;
+      --md-on-tertiary-container: #31111D;
+      --md-error: #B3261E;
+      --md-on-error: #FFFFFF;
+      --md-error-container: #F9DEDC;
+      --md-on-error-container: #410E0B;
+      --md-background: #FEF7FF;
+      --md-on-background: #1D1B20;
+      --md-surface: #FEF7FF;
+      --md-on-surface: #1D1B20;
+      --md-surface-variant: #E7E0EC;
+      --md-on-surface-variant: #49454F;
+      --md-surface-dim: #DED8E1;
+      --md-surface-bright: #FEF7FF;
+      --md-surface-container-lowest: #FFFFFF;
+      --md-surface-container-low: #F7F2FA;
+      --md-surface-container: #F3EDF7;
+      --md-surface-container-high: #ECE6F0;
+      --md-surface-container-highest: #E6E0E9;
+      --md-outline: #79747E;
+      --md-outline-variant: #CAC4D0;
+      --md-inverse-surface: #322F35;
+      --md-inverse-on-surface: #F5EFF7;
+      --md-inverse-primary: #D0BCFF;
+      --md-shadow: #000000;
+      --md-scrim: #000000;
+      --md-surface-tint: #6750A4;
+
+      /* 版式与动效 */
+      --font-sans: 'M PLUS Code Latin', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+                   'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      --font-mono: 'M PLUS Code Latin', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --ease-emphasized: cubic-bezier(.2, 0, 0, 1);
+      --ease-standard: cubic-bezier(.2, 0, 0, 1);
+      --radius-xs: 8px;
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 28px;
+      --appbar-h: 60px;
+      --hero-blur: 4px;
+      --hero-fade: 1200ms;
+      --state-hover: .08;
+      --state-press: .12;
+    }
+
+    /* M3 基准深色配色（同样是兜底值） */
+    html[data-theme="dark"] {
+      --md-primary: #D0BCFF;
+      --md-on-primary: #381E72;
+      --md-primary-container: #4F378B;
+      --md-on-primary-container: #EADDFF;
+      --md-secondary: #CCC2DC;
+      --md-on-secondary: #332D41;
+      --md-secondary-container: #4A4458;
+      --md-on-secondary-container: #E8DEF8;
+      --md-tertiary: #EFB8C8;
+      --md-on-tertiary: #492532;
+      --md-tertiary-container: #633B48;
+      --md-on-tertiary-container: #FFD8E4;
+      --md-error: #F2B8B5;
+      --md-on-error: #601410;
+      --md-error-container: #8C1D18;
+      --md-on-error-container: #F9DEDC;
+      --md-background: #141218;
+      --md-on-background: #E6E0E9;
+      --md-surface: #141218;
+      --md-on-surface: #E6E0E9;
+      --md-surface-variant: #49454F;
+      --md-on-surface-variant: #CAC4D0;
+      --md-surface-dim: #141218;
+      --md-surface-bright: #3B383E;
+      --md-surface-container-lowest: #0F0D13;
+      --md-surface-container-low: #1D1B20;
+      --md-surface-container: #211F26;
+      --md-surface-container-high: #2B2930;
+      --md-surface-container-highest: #36343B;
+      --md-outline: #938F99;
+      --md-outline-variant: #49454F;
+      --md-inverse-surface: #E6E0E9;
+      --md-inverse-on-surface: #322F35;
+      --md-inverse-primary: #6750A4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      /* 双保险：布局本身已经不允许横向溢出，这里再兜一层，
+         防止以后新增的元素把页面推出可视区（手机上往右一滑就露馅） */
+      overflow-x: hidden;
+      overflow-x: clip;
+    }
+
+    body {
+      margin: 0;
+      background: var(--md-surface);
+      color: var(--md-on-surface);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color .4s var(--ease-standard), color .4s var(--ease-standard);
+      overflow-x: hidden;
+      overflow-x: clip;
+    }
+
+    img { max-width: 100%; display: block; }
+    button { font: inherit; color: inherit; }
+    a { color: var(--md-primary); }
+
+    ::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+    /* ── 顶栏 ───────────────────────────────────────────────────── */
+    .app-bar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 40;
+      /* 刘海屏：把状态栏高度加进来，内容不会被挖孔挡住 */
+      height: calc(var(--appbar-h) + env(safe-area-inset-top, 0px));
+      padding: env(safe-area-inset-top, 0px) clamp(.5rem, 2vw, 1rem) 0;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: color-mix(in srgb, var(--md-surface-container) 86%, transparent);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      border-bottom: 1px solid color-mix(in srgb, var(--md-outline-variant) 60%, transparent);
+      transition: background-color .4s var(--ease-standard), border-color .4s var(--ease-standard);
+    }
+
+    .app-bar__title {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      min-width: 0;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .app-bar__title svg { width: 22px; height: 22px; flex: none; color: var(--md-primary); }
+
+    .app-bar__title span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-bar__spacer { flex: 1 1 auto; }
+
+    .app-bar__chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      height: 28px;
+      padding: 0 .6rem;
+      border-radius: 99px;
+      font-size: .7rem;
+      letter-spacing: .02em;
+      white-space: nowrap;
+      background: var(--md-surface-container-highest);
+      color: var(--md-on-surface-variant);
+    }
+
+    .app-bar__chip i {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--md-outline);
+      flex: none;
+    }
+
+    .app-bar__chip[data-engine="ready"] i { background: #2e7d32; }
+    .app-bar__chip[data-engine="fallback"] i { background: var(--md-error); }
+
+    @media (max-width: 640px) {
+      .app-bar__chip { display: none; }
+    }
+
+    /* 通用图标按钮 */
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      flex: none;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      transition: background-color .2s var(--ease-standard);
+    }
+
+    .icon-btn svg { width: 22px; height: 22px; }
+    .icon-btn:hover { background: color-mix(in srgb, var(--md-on-surface) calc(var(--state-hover) * 100%), transparent); }
+    .icon-btn:active { background: color-mix(in srgb, var(--md-on-surface) calc(var(--state-press) * 100%), transparent); }
+
+    .icon-btn--wide {
+      width: auto;
+      gap: .4rem;
+      padding: 0 .9rem 0 .7rem;
+      border-radius: 99px;
+      font-size: .82rem;
+    }
+
+    /* ── Hero：API 背景图（整屏）+ 左下角大标题 ─────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;   /* 移动端地址栏收放时高度不跳 */
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      isolation: isolate;
+      /* 背景图没加载出来时的兜底底纹 */
+      background:
+        radial-gradient(120% 120% at 12% 88%, color-mix(in srgb, var(--md-primary) 55%, transparent) 0%, transparent 60%),
+        linear-gradient(150deg, var(--md-surface-container-highest), var(--md-surface-dim));
+    }
+
+    .hero-stage { position: absolute; inset: 0; z-index: 0; }
+
+    .hero-layer {
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-size: cover;
+      opacity: 0;
+      transition: opacity var(--hero-fade) var(--ease-standard);
+      will-change: opacity;
+    }
+
+    /* 虚化默认关闭（CONFIG.blur = 0）：全屏层的 blur 在手机上很贵，
+       需要时把 blur 调大，这里才会挂上滤镜并放大一点盖住虚化边缘 */
+    .hero.has-blur .hero-layer {
+      filter: blur(var(--hero-blur));
+      transform: scale(1.06);
+    }
+
+    .hero-layer.is-active { opacity: 1; }
+
+    .hero.is-empty .hero-stage { display: none; }
+
+    /* 遮罩：整体压暗 + 左下角再补一层，保证大字可读 */
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(to top,
+          color-mix(in srgb, var(--md-scrim) 88%, transparent) 0%,
+          color-mix(in srgb, var(--md-scrim) 55%, transparent) 38%,
+          color-mix(in srgb, var(--md-scrim) 12%, transparent) 72%,
+          transparent 100%),
+        radial-gradient(115% 95% at 0% 100%,
+          color-mix(in srgb, var(--md-scrim) 70%, transparent) 0%,
+          transparent 62%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      /* 标题直接贴最左边：不套居中容器，只留一点安全边距 */
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 5vw, 3.5rem);
+      color: #fff;
+      text-align: left;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin: 0 0 .8rem;
+      padding: .28rem .7rem;
+      border-radius: 99px;
+      background: color-mix(in srgb, var(--md-primary-container) 92%, transparent);
+      color: var(--md-on-primary-container);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      transition: background-color .4s var(--ease-standard), color .4s var(--ease-standard);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .75;
+    }
+
+    .hero-title {
+      margin: 0;
+      max-width: 22ch;
+      font-size: clamp(2.1rem, 6.2vw, 4.1rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -.01em;
+      text-shadow: 0 2px 18px color-mix(in srgb, var(--md-scrim) 55%, transparent);
+    }
+
+    .hero-sub {
+      margin: .85rem 0 0;
+      max-width: 46ch;
+      font-size: clamp(.85rem, 1.6vw, 1rem);
+      color: rgba(255, 255, 255, .86);
+      text-shadow: 0 1px 12px color-mix(in srgb, var(--md-scrim) 60%, transparent);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .6rem;
+      margin-top: 1.4rem;
+    }
+
+    /* ── 按钮 ───────────────────────────────────────────────────── */
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      height: 40px;
+      padding: 0 1.15rem;
+      border: none;
+      border-radius: 99px;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .01em;
+      cursor: pointer;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: box-shadow .2s var(--ease-standard), background-color .2s var(--ease-standard),
+                  color .4s var(--ease-standard);
+    }
+
+    .btn svg { width: 18px; height: 18px; flex: none; }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity .2s var(--ease-standard);
+      pointer-events: none;
+    }
+
+    .btn:hover::after { opacity: var(--state-hover); }
+    .btn:active::after { opacity: var(--state-press); }
+
+    .btn--filled { background: var(--md-primary); color: var(--md-on-primary); }
+    .btn--filled:hover { box-shadow: 0 1px 3px color-mix(in srgb, var(--md-shadow) 30%, transparent); }
+    .btn--tonal { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+    .btn--outlined {
+      background: transparent;
+      color: var(--md-primary);
+      box-shadow: inset 0 0 0 1px var(--md-outline);
+    }
+    .btn--text { background: transparent; color: var(--md-primary); padding: 0 .8rem; }
+    .btn--glass {
+      background: rgba(255, 255, 255, .16);
+      color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .32);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .btn--glass::after { background: #fff; }
+
+    /* ── 布局 ───────────────────────────────────────────────────── */
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: clamp(1.4rem, 4vw, 2.6rem) clamp(1.1rem, 4vw, 2.5rem) 4rem;
+      display: grid;
+      /* 关键：显式单列 + 最小 0。
+         隐式 auto 轨道不会小于内容的 min-content，而调色板条 21 格有 630px
+         的内在宽度，会把整列撑宽 → 所有卡片一起变宽 → 手机上往右滑就露馅。 */
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.1rem;
+    }
+
+    /* 让每一层容器都允许被压缩，内在宽度不再往外顶 */
+    .card,
+    .grid-2 > *,
+    .palette-list,
+    .palette,
+    .role,
+    .hero-inner { min-width: 0; }
+
+    .card {
+      background: var(--md-surface-container-low);
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 70%, transparent);
+      border-radius: var(--radius-lg);
+      padding: clamp(1rem, 2.4vw, 1.5rem);
+      transition: background-color .4s var(--ease-standard), border-color .4s var(--ease-standard);
+    }
+
+    .card--plain { background: var(--md-surface-container); }
+
+    .card__head {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-bottom: .9rem;
+    }
+
+    .card__title {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: .01em;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .card__title svg { width: 20px; height: 20px; color: var(--md-primary); }
+
+    .card__desc {
+      margin: 0;
+      color: var(--md-on-surface-variant);
+      font-size: .8rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      height: 26px;
+      padding: 0 .6rem;
+      border-radius: 99px;
+      font-size: .72rem;
+      font-family: var(--font-mono);
+      background: var(--md-secondary-container);
+      color: var(--md-on-secondary-container);
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 1.1rem;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    }
+
+    @media (max-width: 820px) {
+      .grid-2 { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* ── 上传区 ─────────────────────────────────────────────────── */
+    .drop {
+      display: grid;
+      gap: .9rem;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      cursor: pointer;
+      border-style: dashed;
+      border-width: 1.5px;
+      border-color: color-mix(in srgb, var(--md-outline) 75%, transparent);
+      background: var(--md-surface-container-low);
+      transition: background-color .25s var(--ease-standard), border-color .25s var(--ease-standard),
+                  transform .25s var(--ease-standard);
+    }
+
+    .drop:hover { background: var(--md-surface-container); }
+
+    .drop.is-over {
+      border-color: var(--md-primary);
+      background: color-mix(in srgb, var(--md-primary-container) 55%, var(--md-surface-container-low));
+      transform: scale(1.004);
+    }
+
+    .drop:focus-visible { outline: 3px solid var(--md-primary); outline-offset: 3px; }
+
+    .drop__icon {
+      display: grid;
+      place-items: center;
+      width: 56px; height: 56px;
+      border-radius: var(--radius-md);
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      flex: none;
+      transition: background-color .4s var(--ease-standard), color .4s var(--ease-standard);
+    }
+
+    .drop__icon svg { width: 26px; height: 26px; }
+
+    .drop__title { margin: 0; font-weight: 700; }
+
+    .drop__hint {
+      margin: .15rem 0 0;
+      color: var(--md-on-surface-variant);
+      font-size: .8rem;
+    }
+
+    .drop__hint kbd {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      padding: .05rem .3rem;
+      border-radius: 5px;
+      background: var(--md-surface-container-highest);
+      border: 1px solid var(--md-outline-variant);
+    }
+
+    .drop__preview {
+      grid-column: 1 / -1;
+      display: none;
+      gap: .9rem;
+      align-items: center;
+      padding-top: .9rem;
+      border-top: 1px solid color-mix(in srgb, var(--md-outline-variant) 70%, transparent);
+    }
+
+    .drop__preview.is-visible { display: flex; }
+
+    .drop__preview img {
+      width: 96px; height: 96px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--md-outline-variant);
+      background: var(--md-surface-container-highest);
+    }
+
+    .drop__preview-meta { min-width: 0; }
+    .drop__preview-meta b { display: block; font-size: .85rem; }
+    .drop__preview-meta span {
+      display: block;
+      color: var(--md-on-surface-variant);
+      font-size: .75rem;
+      word-break: break-all;
+    }
+
+    /* ── 种子色 / 模式 ──────────────────────────────────────────── */
+    .seed {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .seed__swatch {
+      position: relative;
+      width: 92px; height: 92px;
+      border-radius: var(--radius-md);
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 80%, transparent);
+      background: var(--md-primary);
+      cursor: pointer;
+      flex: none;
+      transition: background-color .45s var(--ease-standard), transform .2s var(--ease-standard);
+    }
+
+    .seed__swatch:hover { transform: scale(1.02); }
+
+    .seed__hex {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .seed__facts {
+      margin: .35rem 0 0;
+      color: var(--md-on-surface-variant);
+      font-size: .76rem;
+      font-family: var(--font-mono);
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .seed__row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .5rem;
+      margin-top: .75rem;
+    }
+
+    /* 分段按钮 */
+    .segmented {
+      display: inline-flex;
+      padding: 3px;
+      gap: 2px;
+      border-radius: 99px;
+      background: var(--md-surface-container-highest);
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 70%, transparent);
+    }
+
+    .segmented button {
+      border: none;
+      background: transparent;
+      color: var(--md-on-surface-variant);
+      height: 34px;
+      padding: 0 .95rem;
+      border-radius: 99px;
+      font-size: .8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      transition: background-color .25s var(--ease-standard), color .25s var(--ease-standard);
+    }
+
+    .segmented button svg { width: 16px; height: 16px; }
+
+    .segmented button[aria-checked="true"] {
+      background: var(--md-secondary-container);
+      color: var(--md-on-secondary-container);
+      font-weight: 700;
+    }
+
+    .segmented button:hover:not([aria-checked="true"]) {
+      background: color-mix(in srgb, var(--md-on-surface) 6%, transparent);
+    }
+
+    /* ── 手动输入色号 ───────────────────────────────────────────── */
+    .seed__input-row {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: .6rem;
+    }
+
+    .seed__input-field {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 40px;
+      padding: 0 .75rem;
+      border-radius: 99px;
+      background: var(--md-surface-container-highest);
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 80%, transparent);
+      transition: border-color .2s var(--ease-standard), background-color .4s var(--ease-standard);
+    }
+
+    .seed__input-field:focus-within { border-color: var(--md-primary); }
+    .seed__input-field[data-invalid="1"] { border-color: var(--md-error); }
+
+    .seed__input-dot {
+      width: 18px; height: 18px;
+      flex: none;
+      border-radius: 50%;
+      background: var(--md-primary);
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 70%, transparent);
+      transition: background-color .2s var(--ease-standard);
+    }
+
+    .seed__input-field input {
+      flex: 1 1 auto;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      color: inherit;
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: .88rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 0;
+    }
+
+    .seed__input-field input::placeholder {
+      color: var(--md-on-surface-variant);
+      opacity: .65;
+      letter-spacing: .04em;
+    }
+
+    /* ── 角色卡片 ───────────────────────────────────────────────── */
+    .role-group { margin-top: 1.2rem; }
+    .role-group:first-child { margin-top: 0; }
+
+    .role-group__head {
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      margin-bottom: .55rem;
+      padding-bottom: .35rem;
+      border-bottom: 1px dashed color-mix(in srgb, var(--md-outline-variant) 80%, transparent);
+    }
+
+    .role-group__head h3 { margin: 0; font-size: .88rem; font-weight: 700; }
+
+    .role-group__head span {
+      color: var(--md-on-surface-variant);
+      font-size: .72rem;
+      font-family: var(--font-mono);
+    }
+
+    .roles {
+      display: grid;
+      gap: .6rem;
+      grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+    }
+
+    .role {
+      position: relative;
+      border-radius: var(--radius-md);
+      background: var(--md-surface-container);
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 60%, transparent);
+      overflow: hidden;
+      transition: background-color .4s var(--ease-standard), border-color .4s var(--ease-standard);
+    }
+
+    .role__swatch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .4rem;
+      width: 100%;
+      height: 62px;
+      padding: 0 .7rem;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      transition: background-color .45s var(--ease-standard), color .45s var(--ease-standard);
+    }
+
+    .role__swatch svg { width: 15px; height: 15px; opacity: .0; transition: opacity .2s var(--ease-standard); }
+    .role__swatch:hover svg { opacity: .75; }
+
+    .role__body { padding: .55rem .7rem .65rem; }
+
+    .role__name {
+      font-size: .82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .4rem;
+    }
+
+    /* 标签太长时自己省略，不要挤到右边的「重新取色」按钮 */
+    .role__name > span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .role__id {
+      color: var(--md-on-surface-variant);
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      word-break: break-all;
+    }
+
+    .role__modes {
+      margin-top: .35rem;
+      display: flex;
+      gap: .35rem;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: .66rem;
+    }
+
+    .role__modes i {
+      font-style: normal;
+      padding: .08rem .35rem;
+      border-radius: 6px;
+      background: var(--md-surface-container-highest);
+      color: var(--md-on-surface-variant);
+    }
+
+    .role__modes i.is-current {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-weight: 700;
+    }
+
+    /* 「用这个色当种子」：放在卡片下方文字行里，不再压在色块上 —— 
+       原先它绝对定位在右上角，和色块（复制 HEX）贴得太近，容易点错 */
+    .role__reseed {
+      flex: none;
+      width: 26px; height: 26px;
+      margin-left: auto;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 55%, transparent);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      background: color-mix(in srgb, var(--md-surface-container-highest) 70%, transparent);
+      color: var(--md-on-surface-variant);
+      opacity: .7;
+      transition: opacity .2s var(--ease-standard), background-color .2s var(--ease-standard),
+                  color .2s var(--ease-standard), border-color .2s var(--ease-standard);
+    }
+
+    .role:hover .role__reseed,
+    .role__reseed:focus-visible { opacity: 1; }
+
+    .role__reseed:hover {
+      background: var(--md-primary-container);
+      border-color: transparent;
+      color: var(--md-on-primary-container);
+    }
+
+    .role__reseed svg { width: 14px; height: 14px; }
+
+    /* ── 调色板条 ───────────────────────────────────────────────── */
+    .palette-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);   /* 同上：别让轨道被内容撑开 */
+      gap: 1rem;
+    }
+
+    .palette__head {
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      margin-bottom: .4rem;
+    }
+
+    .palette__head b { font-size: .84rem; }
+
+    .palette__head span {
+      color: var(--md-on-surface-variant);
+      font-size: .72rem;
+      font-family: var(--font-mono);
+    }
+
+    .palette__strip {
+      display: flex;
+      min-width: 0;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      overscroll-behavior-x: contain;   /* 条内横滑不要触发页面级回退手势 */
+      border: 1px solid color-mix(in srgb, var(--md-outline-variant) 60%, transparent);
+    }
+
+    .tone {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 30px;
+      height: 46px;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      font-weight: 700;
+      transition: transform .18s var(--ease-standard);
+    }
+
+    .tone span { padding-bottom: 3px; opacity: .85; }
+    .tone:hover { transform: translateY(-2px); }
+    .tone:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
+
+    /* ── 页脚 / 提示 ────────────────────────────────────────────── */
+    .page-foot {
+      margin-top: .4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--md-on-surface-variant);
+      font-size: .76rem;
+    }
+
+    .page-foot a { color: var(--md-primary); text-decoration: none; }
+    .page-foot a:hover { text-decoration: underline; }
+
+    .snackbar {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 90;
+      transform: translate(-50%, 140%);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      max-width: min(90vw, 460px);
+      padding: .7rem 1rem;
+      border-radius: var(--radius-xs);
+      background: var(--md-inverse-surface);
+      color: var(--md-inverse-on-surface);
+      font-size: .82rem;
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--md-shadow) 35%, transparent);
+      opacity: 0;
+      transition: transform .35s var(--ease-emphasized), opacity .35s var(--ease-standard),
+                  background-color .4s var(--ease-standard), color .4s var(--ease-standard);
+      pointer-events: none;
+    }
+
+    .snackbar.is-open { transform: translate(-50%, 0); opacity: 1; }
+    .snackbar svg { width: 17px; height: 17px; flex: none; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* 触摸端：去掉 iOS 点按时的蓝色方块，交给状态层自己表现 */
+    button, a, [role="button"], .drop, .seed__swatch, .tone, .role__swatch {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       手机 / 窄屏适配
+       ══════════════════════════════════════════════════════════════ */
+
+    /* 触摸设备：可点区域一律不小于 44px */
+    @media (pointer: coarse) {
+      .icon-btn { width: 44px; height: 44px; }
+      .segmented button { height: 40px; }
+      .btn { height: 44px; }
+      .hero-actions .btn { min-width: 44%; flex: 1 1 auto; }
+      .role__reseed { width: 32px; height: 32px; opacity: 1; }
+    }
+
+    /* 780 而不是 720：调色板条 21 格的内在宽度约 630px，
+       窄于这个宽度就该让它横滑而不是被裁掉 */
+    @media (max-width: 780px) {
+      body { font-size: 14.5px; }
+
+      /* 背景图占满一屏时，手机上别让文字被地址栏切掉 */
+      .hero { min-height: 100svh; }
+      .hero-title { max-width: none; }
+      .hero-sub { max-width: none; }
+
+      .hero-actions { gap: .5rem; }
+
+      /* 选择图片 / 换张背景：手机上也排在同一行，各占一半 */
+      .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 0 .7rem; }
+      .hero-actions .btn svg { width: 17px; height: 17px; }
+
+      .wrap { padding: 1.1rem .85rem 3rem; gap: .85rem; }
+      .card { border-radius: 20px; }
+
+      /* 上传区：右侧那个「浏览文件」挪到第二行，别把说明文字挤成一条 */
+      .drop { grid-template-columns: auto minmax(0, 1fr); row-gap: .7rem; }
+      .drop .btn--outlined { grid-column: 1 / -1; justify-self: start; }
+      .drop__icon { width: 46px; height: 46px; }
+      .drop__icon svg { width: 22px; height: 22px; }
+      .drop__preview img { width: 72px; height: 72px; }
+
+      /* 角色卡：两列更省滚动 */
+      .roles { grid-template-columns: repeat(auto-fill, minmax(138px, 1fr)); gap: .5rem; }
+      .role__swatch { height: 54px; font-size: .74rem; }
+      .role__body { padding: .5rem .55rem .55rem; }
+      .role__modes { font-size: .62rem; }
+
+      /* 调色板条：横向滑动，隐藏滚动条（纯 CSS 判断，旋转屏幕自动生效） */
+      .palette__strip {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .palette__strip::-webkit-scrollbar { display: none; }
+      .palette__strip .tone { flex: 0 0 30px; }
+      /* 窄屏下 21 格放不下，提示一下能横滑 */
+      .palette__head span::after { content: ' · 左右滑动'; }
+
+      .snackbar { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+    }
+
+    @media (max-width: 380px) {
+      .roles { grid-template-columns: repeat(auto-fill, minmax(122px, 1fr)); }
+      .segmented button { padding: 0 .6rem; font-size: .76rem; }
+      .hero-eyebrow { font-size: .66rem; letter-spacing: .1em; }
+    }
+
+    /* 横屏手机那种矮屏：Hero 里塞不下这么多行，砍掉副标题、缩小标题 */
+    @media (max-height: 520px) {
+      .hero-title { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+      .hero-sub { display: none; }
+      .hero-eyebrow { margin-bottom: .5rem; }
+      .hero-actions { margin-top: .8rem; }
+      .hero-actions .btn { height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ── 顶栏 ─────────────────────────────────────────────────── -->
+  <header class="app-bar">
+    <a class="icon-btn" href="/" title="返回主站" aria-label="返回主站">
+      <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+      </svg>
+    </a>
+
+    <div class="app-bar__title">
+      <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <circle cx="9" cy="9.5" r="1.4" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="9.5" r="1.4" fill="currentColor" stroke="none"/>
+        <circle cx="9.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>MD3 动态取色</span>
+    </div>
+
+    <div class="app-bar__spacer"></div>
+
+    <span class="app-bar__chip" id="engineChip" data-engine="loading" title="Material Color Utilities 加载状态">
+      <i></i><span id="engineChipText">引擎加载中…</span>
+    </span>
+
+    <button class="icon-btn" id="themeIconBtn" type="button" title="切换浅色 / 深色" aria-label="切换浅色 / 深色"></button>
+  </header>
+
+  <!-- ── Hero：整屏背景图（API 图）+ 左下角大标题 ──────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-stage" id="heroStage" aria-hidden="true">
+      <div class="hero-layer" data-layer="0"></div>
+      <div class="hero-layer" data-layer="1"></div>
+    </div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Material Design 3</p>
+      <h1 class="hero-title">上传一张图，<br>取出整套配色</h1>
+      <p class="hero-sub">
+        用 Google 官方的 HCT 动态取色算法，从图片里算出主色、强调色、容器色与完整色调板，
+        浅色与深色一次给齐，连这个页面本身的颜色也跟着一起变。
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn--filled" id="heroPick" type="button">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+          </svg>
+          选择图片
+        </button>
+        <button class="btn btn--tonal" id="heroShuffle" type="button">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/>
+          </svg>
+          换张背景
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 主体 ─────────────────────────────────────────────────── -->
+  <main class="wrap">
+    <!-- 上传 -->
+    <section class="card drop" id="drop" tabindex="0" role="button" aria-label="上传图片：点击选择、拖拽到此处，或按 Ctrl+V 粘贴">
+      <span class="drop__icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <circle cx="8.5" cy="9" r="1.6"/>
+          <path d="m4 17 4.5-4.5 3.5 3.5 3-2.5L20 17"/>
+        </svg>
+      </span>
+      <div>
+        <p class="drop__title">把图片拖进来，或点击选择</p>
+        <p class="drop__hint">支持 JPG / PNG / WebP / GIF 首帧；也可以直接按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 粘贴剪贴板里的图 —— 图片只在浏览器本地计算，不会上传。</p>
+      </div>
+      <span class="btn btn--outlined" aria-hidden="true">浏览文件</span>
+      <input type="file" id="fileInput" accept="image/*" class="sr-only">
+    </section>
+
+    <div class="grid-2">
+      <!-- 种子色 -->
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H13a2 2 0 0 1 0-4h6a2 2 0 0 0 2-2 7 7 0 0 0-7-7z"/>
+              <circle cx="7.5" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+              <circle cx="10" cy="8" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+            种子色 Source
+          </h2>
+          <span class="chip" id="seedOrigin">默认种子</span>
+        </div>
+
+        <div class="seed">
+          <button class="seed__swatch" id="seedSwatch" type="button" title="点击复制种子色"></button>
+          <div>
+            <div class="seed__hex"><span id="seedHex">#F9CAA3</span></div>
+            <p class="seed__facts" id="seedFacts">HCT — / — / —<br>RGB —</p>
+          </div>
+        </div>
+
+        <div class="seed__row">
+          <button class="btn btn--tonal" id="seedCopy" type="button">复制 HEX</button>
+          <button class="btn btn--text" id="seedRandom" type="button">随机一个种子色</button>
+          <button class="btn btn--text" id="seedFollow" type="button" hidden>改回跟随背景取色</button>
+        </div>
+
+        <!-- 手动输入色号：支持 #6750A4 / 6750A4 / #6A4 三种写法 -->
+        <div class="seed__input-row">
+          <label class="sr-only" for="seedInput">手动输入种子色号</label>
+          <span class="seed__input-field" id="seedInputField">
+            <i class="seed__input-dot" id="seedInputDot" aria-hidden="true"></i>
+            <input id="seedInput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="7" placeholder="#6750A4">
+          </span>
+          <button class="btn btn--tonal" id="seedApply" type="button">应用</button>
+        </div>
+
+        <p class="card__desc" id="seedHint" style="margin-top:.5rem">
+          打开页面时按背景图取色；手动选图或输入色号后改为跟着你的选择走，不会再被背景覆盖。
+        </p>
+      </section>
+
+      <!-- 显示模式 -->
+      <section class="card card--plain">
+        <div class="card__head">
+          <h2 class="card__title">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4.2"/>
+              <path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/>
+            </svg>
+            显示模式
+          </h2>
+        </div>
+        <div class="segmented" role="radiogroup" aria-label="显示模式">
+          <button type="button" role="radio" data-mode="system" aria-checked="true">跟随系统</button>
+          <button type="button" role="radio" data-mode="light" aria-checked="false">浅色</button>
+          <button type="button" role="radio" data-mode="dark" aria-checked="false">深色</button>
+        </div>
+        <p class="card__desc" style="margin-top:.8rem">
+          配色数值按当前模式显示，卡片里同时标出另一种模式的 HEX；切换只影响这个页面，和「图廊」共用同一个主题记忆。
+        </p>
+      </section>
+    </div>
+
+    <!-- 角色 -->
+    <section class="card">
+      <div class="card__head">
+        <h2 class="card__title">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
+            <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
+            <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/>
+            <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
+          </svg>
+          配色角色 Roles
+        </h2>
+        <span class="chip" id="roleCount">—</span>
+        <p class="card__desc">点色块复制当前模式的 HEX，右上角小按钮可以把该色当作新种子再算一套。</p>
+      </div>
+      <div id="roleGroups"></div>
+    </section>
+
+    <!-- 调色板 -->
+    <section class="card">
+      <div class="card__head">
+        <h2 class="card__title">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 5h16M4 10h16M4 15h16M4 20h16"/>
+          </svg>
+          色调调色板 Tonal Palettes
+        </h2>
+        <p class="card__desc">每条 0–100 全色调（步进 5），点任意一格复制 HEX。</p>
+      </div>
+      <div class="palette-list" id="paletteList"></div>
+    </section>
+
+    <footer class="page-foot">
+      <span>取色与配色全部在浏览器本地完成 · Material Color Utilities (HCT / CAM16)</span>
+      <span><a href="/gallery/">图廊</a> · <a href="/">返回首页</a></span>
+    </footer>
+  </main>
+
+  <div class="snackbar" id="snackbar" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    /* ══════════════════════════════════════════════════════════════════
+       MD3 动态取色 · 页面逻辑
+
+       1. 取色引擎：和「图廊」页同一套引入方式 —— 官方
+          @material/material-color-utilities，走 esm.sh CDN。
+          这里用动态 import + 特性探测，CDN 挂了或版本里没有某个 API 时
+          自动降级成本地近似算法，页面不会白屏。
+       2. 背景图：图片来自 API（默认 Bing 每日一图随机接口）。先 fetch 成 blob
+          再显示，这样能读像素 → 界面跟着背景图取色；「换张背景」换图并同步换色。
+       3. 用户一旦手动选图，配色就锁成「跟着我选的图」，背景再换也不覆盖，
+          直到点「改回跟随背景取色」。
+       4. 界面本身用提取出来的 --md-* 令牌渲染（动态取色的设计）。
+       ══════════════════════════════════════════════════════════════════ */
+
+    /* ── 可调配置：也可以用 URL 参数临时覆盖 ─────────────────────
+       ?blur=6           背景虚化 px
+       ?preload=3        预加载张数（含正在显示的那张）
+       ?api=<url>        换图片接口
+       ?proxy=<url>      跨域代理前缀（接口不带 CORS 头时用，见下面 corsProxy）
+       ?seed=6750A4      指定初始种子色（同时锁成不跟随背景）
+       ──────────────────────────────────────────────────────────── */
+    const CONFIG = {
+      m3Url: 'https://esm.sh/@material/material-color-utilities@0.3.0',
+      api: 'https://api.timelessq.com/bing/random',
+      preload: 2,        // 预加载张数：当前 + 下一张（让「换张背景」几乎瞬切）
+      blur: 4,           // 轻微虚化，标题可读性优先
+      fade: 1200,        // 交叉淡入时长 ms
+      defaultSeed: '#F9CAA3',
+      // 背景虚化：默认关闭。全屏大图做 blur 在手机上很贵（GPU 合成 + 掉帧），
+      // 标题可读性交给遮罩渐变保证。想开：改成 4，或临时用 ?blur=4
+      blur: 0,
+      // 交给取色算法前先把图缩到这个长边：官方量化器的耗时跟「唯一颜色数」走，
+      // 1920×1080 缩到 256 能让最重的那一步快一个数量级，颜色结果基本不变
+      analysisEdge: 256,
+      // 取色 Worker（见 source/js/md3/color-worker.js）：把量化放到别的线程，主线程不卡
+      workerUrl: '/js/md3/color-worker.js',
+      // 接口不带 CORS 头时，浏览器读不到图片像素（canvas 会被判成跨域污染），
+      // 界面就没法跟着背景取色。这里默认套一层支持 CORS 的图片代理兜底，
+      // 代理不通会自动回退成直连（只显示、不取色），不会白屏。
+      // 换/关：改 CONFIG.corsProxy，或临时用 ?proxy=<前缀> / ?proxy=（空值）。
+      corsProxy: 'https://images.weserv.nl/?url=',
+      corsProxySuffix: '&w=1600&output=jpg&q=82'   // 顺手缩个图：加载和取色都更快
+    };
+
+    const params = new URLSearchParams(location.search);
+    const numParam = (key, min, fallback) => {
+      if (!params.has(key)) return fallback;
+      const v = Number(params.get(key));
+      return Number.isFinite(v) && v >= min ? v : fallback;
+    };
+    CONFIG.blur = numParam('blur', 0, CONFIG.blur);
+    CONFIG.preload = Math.max(2, Math.round(numParam('preload', 2, CONFIG.preload)));
+    if (params.get('api')) CONFIG.api = params.get('api');
+    if (params.has('proxy')) CONFIG.corsProxy = params.get('proxy') || '';   // ?proxy= 空值 = 关掉代理
+
+    const LS_MODE = 'md3-theme';            // 与图廊共用
+    const LS_SEED = 'md3-palette-seed';
+    const LS_FOLLOW = 'md3-palette-follow'; // '0' = 已锁成用户自己的图，不再跟随背景
+
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    /* ── 小工具 ───────────────────────────────────────────────── */
+    const $ = (id) => document.getElementById(id);
+
+    // 手动输入色号相关的节点：提前取好，renderSeed() 里会用到
+    const seedInput = $('seedInput');
+    const seedInputDot = $('seedInputDot');
+    const seedInputField = $('seedInputField');
+
+    function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+
+    function normalizeHex(input) {
+      let h = String(input || '').trim().replace(/^#/, '');
+      if (/^[0-9a-fA-F]{3}$/.test(h)) h = h.split('').map((c) => c + c).join('');
+      return /^[0-9a-fA-F]{6}$/.test(h) ? '#' + h.toUpperCase() : null;
+    }
+
+    function hexToRgb(hex) {
+      const h = normalizeHex(hex) || '#000000';
+      return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+    }
+
+    function rgbToHex(r, g, b) {
+      const f = (v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0');
+      return ('#' + f(r) + f(g) + f(b)).toUpperCase();
+    }
+
+    // 相对亮度 → 决定叠在色块上的文字用黑还是白
+    function idealTextColor(hex) {
+      const [r, g, b] = hexToRgb(hex).map((v) => {
+        const s = v / 255;
+        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      });
+      const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      return L > 0.42 ? 'rgba(0,0,0,.87)' : 'rgba(255,255,255,.95)';
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      const l = (max + min) / 2;
+      let h = 0, s = 0;
+      if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === r) h = ((g - b) / d + (g < b ? 6 : 0));
+        else if (max === g) h = (b - r) / d + 2;
+        else h = (r - g) / d + 4;
+        h /= 6;
+      }
+      return [h * 360, s * 100, l * 100];
+    }
+
+    function hslToHex(h, s, l) {
+      h = ((h % 360) + 360) % 360 / 360;
+      s = clamp01(s / 100);
+      l = clamp01(l / 100);
+      const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      let r, g, b;
+      if (s === 0) { r = g = b = l; }
+      else {
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+      }
+      return rgbToHex(r * 255, g * 255, b * 255);
+    }
+
+    const TOAST_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+    let toastTimer = null;
+    function toast(message, iconMarkup) {
+      const bar = $('snackbar');
+      // 用建节点的方式而不是 innerHTML 拼接：message 走 textContent，永远只是文本
+      bar.textContent = '';
+      const icon = document.createElement('span');
+      icon.className = 'snackbar__icon';
+      icon.innerHTML = iconMarkup || TOAST_ICON;
+      const label = document.createElement('span');
+      label.textContent = message;
+      bar.appendChild(icon);
+      bar.appendChild(label);
+      bar.classList.add('is-open');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => bar.classList.remove('is-open'), 2200);
+    }
+
+    async function copyText(text, label) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        toast((label || '已复制') + ' ' + text);
+      } catch (err) {
+        toast('复制失败：' + (err && err.message ? err.message : err));
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       1. 取色引擎
+       ══════════════════════════════════════════════════════════ */
+    let M3 = null;                 // 官方库命名空间
+    let engineState = 'loading';   // loading | ready | fallback
+    const schemeCache = new Map();
+
+    const m3Ready = import(CONFIG.m3Url)
+      .then((mod) => { M3 = mod; engineState = 'ready'; return true; })
+      .catch((err) => {
+        console.warn('[md3] 官方取色引擎加载失败，改用本地近似算法：', err);
+        engineState = 'fallback';
+        return false;
+      });
+
+    function setEngineChip() {
+      const chip = $('engineChip');
+      const text = $('engineChipText');
+      if (!chip || !text) return;
+      chip.dataset.engine = engineState;
+      text.textContent = engineState === 'ready' ? 'MD3 引擎已就绪'
+        : engineState === 'fallback' ? '引擎离线 · 近似配色'
+        : '引擎加载中…';
+    }
+
+    // 官方库的 Scheme 对象：own 属性 + 原型 getter 都收一遍，兼容不同版本
+    function schemeNumbers(scheme) {
+      const out = new Map();
+      if (!scheme) return out;
+      for (const [k, v] of Object.entries(scheme)) {
+        if (typeof v === 'number') out.set(k, v);
+      }
+      const proto = Object.getPrototypeOf(scheme);
+      if (proto) {
+        for (const name of Object.getOwnPropertyNames(proto)) {
+          if (out.has(name)) continue;
+          const desc = Object.getOwnPropertyDescriptor(proto, name);
+          if (!desc || typeof desc.get !== 'function') continue;
+          try {
+            const v = scheme[name];
+            if (typeof v === 'number') out.set(name, v);
+          } catch (err) { /* 该 getter 在这版里可能抛错，跳过 */ }
+        }
+      }
+      return out;
+    }
+
+    function argbToHex(argb) {
+      if (M3 && typeof M3.hexFromArgb === 'function') {
+        try { return normalizeHex(M3.hexFromArgb(argb)); } catch (err) { /* 落到下面自己算 */ }
+      }
+      const n = argb >>> 0;
+      return rgbToHex((n >> 16) & 255, (n >> 8) & 255, n & 255);
+    }
+
+    function hexToArgb(hex) {
+      if (M3 && typeof M3.argbFromHex === 'function') {
+        try { return M3.argbFromHex(hex); } catch (err) { /* 落到下面自己算 */ }
+      }
+      const [r, g, b] = hexToRgb(hex);
+      return (0xFF000000 | (r << 16) | (g << 8) | b) >>> 0;
+    }
+
+    /* ── 本地近似配色：CDN 不可用时的兜底 ───────────────────────
+       用 HSL 近似 HCT 的「色相 + 彩度 + 色调」：色调直接当亮度用，
+       角色到色调的映射与 M3 官方一致，所以层次关系仍然对。
+       ──────────────────────────────────────────────────────────── */
+    const FALLBACK_SOURCES = {
+      primary: { dh: 0, s: 42 },
+      secondary: { dh: 0, s: 18 },
+      tertiary: { dh: 60, s: 26 },
+      neutral: { dh: 0, s: 8 },
+      neutralVariant: { dh: 0, s: 12 },
+      error: { dh: 0, s: 62, fixedHue: 25 }
+    };
+
+    function fallbackRamp(seedHex, key) {
+      const [h0] = rgbToHsl.apply(null, hexToRgb(seedHex));
+      const conf = FALLBACK_SOURCES[key] || FALLBACK_SOURCES.neutral;
+      const hue = conf.fixedHue != null ? conf.fixedHue : h0 + conf.dh;
+      return (tone) => hslToHex(hue, conf.s, tone);
+    }
+
+    function fallbackScheme(seedHex, dark) {
+      const P = fallbackRamp(seedHex, 'primary');
+      const S = fallbackRamp(seedHex, 'secondary');
+      const T = fallbackRamp(seedHex, 'tertiary');
+      const N = fallbackRamp(seedHex, 'neutral');
+      const V = fallbackRamp(seedHex, 'neutralVariant');
+      const E = fallbackRamp(seedHex, 'error');
+      const t = (ramp, light, darkTone) => ramp(dark ? darkTone : light);
+      return new Map(Object.entries({
+        primary: t(P, 40, 80), onPrimary: t(P, 100, 20),
+        primaryContainer: t(P, 90, 30), onPrimaryContainer: t(P, 10, 90),
+        secondary: t(S, 40, 80), onSecondary: t(S, 100, 20),
+        secondaryContainer: t(S, 90, 30), onSecondaryContainer: t(S, 10, 90),
+        tertiary: t(T, 40, 80), onTertiary: t(T, 100, 20),
+        tertiaryContainer: t(T, 90, 30), onTertiaryContainer: t(T, 10, 90),
+        error: t(E, 40, 80), onError: t(E, 100, 20),
+        errorContainer: t(E, 90, 30), onErrorContainer: t(E, 10, 90),
+        background: t(N, 99, 6), onBackground: t(N, 10, 90),
+        surface: t(N, 99, 6), onSurface: t(N, 10, 90),
+        surfaceVariant: t(V, 90, 30), onSurfaceVariant: t(V, 30, 80),
+        surfaceDim: t(N, 87, 6), surfaceBright: t(N, 99, 24),
+        surfaceContainerLowest: t(N, 100, 4), surfaceContainerLow: t(N, 96, 10),
+        surfaceContainer: t(N, 94, 12), surfaceContainerHigh: t(N, 92, 17),
+        surfaceContainerHighest: t(N, 90, 22),
+        outline: t(V, 50, 60), outlineVariant: t(V, 80, 30),
+        inverseSurface: t(N, 20, 90), inverseOnSurface: t(N, 95, 20),
+        inversePrimary: t(P, 80, 40), surfaceTint: t(P, 40, 80),
+        shadow: '#000000', scrim: '#000000',
+        primaryFixed: P(90), primaryFixedDim: P(80), onPrimaryFixed: P(10), onPrimaryFixedVariant: P(30),
+        secondaryFixed: S(90), secondaryFixedDim: S(80), onSecondaryFixed: S(10), onSecondaryFixedVariant: S(30),
+        tertiaryFixed: T(90), tertiaryFixedDim: T(80), onTertiaryFixed: T(10), onTertiaryFixedVariant: T(30)
+      }));
+    }
+
+    /* ── 从图片里取种子色 ─────────────────────────────────────── */
+    function loadImageElement(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('图片解码失败'));
+        img.src = src;
+      });
+    }
+
+    // 官方引擎不可用时的兜底取色：缩到 64px 做颜色直方图，按「数量 × 鲜艳度」挑
+    function localSourceColor(img) {
+      const size = 64;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, size, size);
+      const { data } = ctx.getImageData(0, 0, size, size);
+
+      const buckets = new Map();
+      for (let i = 0; i < data.length; i += 4) {
+        const a = data[i + 3];
+        if (a < 128) continue;
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        const sat = max === 0 ? 0 : (max - min) / max;
+        const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        if (lum < 0.06 || lum > 0.97) continue;               // 纯黑纯白不算
+        const key = ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4);
+        const weight = (0.35 + sat * sat * 2.2) * (1 - Math.abs(lum - 0.55) * 0.7);
+        const cur = buckets.get(key) || { w: 0, r: 0, g: 0, b: 0, n: 0 };
+        cur.w += weight; cur.r += r; cur.g += g; cur.b += b; cur.n += 1;
+        buckets.set(key, cur);
+      }
+      let best = null;
+      for (const bucket of buckets.values()) {
+        if (!best || bucket.w > best.w) best = bucket;
+      }
+      if (!best) return normalizeHex(CONFIG.defaultSeed);
+      return rgbToHex(best.r / best.n, best.g / best.n, best.b / best.n);
+    }
+
+    /* ── 取色管线 ───────────────────────────────────────────────
+       顺序：Worker（官方算法，别的线程）→ 主线程官方 API → 本地近似。
+       图片先缩到 analysisEdge，官方量化器的开销和「唯一颜色数」强相关，
+       1920×1080 缩到 256 长边能让最重的那步快一个数量级。
+       ──────────────────────────────────────────────────────────── */
+    let worker = null;
+    let workerBroken = false;
+    const pendingWorkerJobs = new Set();
+
+    function getWorker() {
+      if (worker || workerBroken) return worker;
+      if (typeof Worker !== 'function') { workerBroken = true; return null; }
+      try {
+        worker = new Worker(CONFIG.workerUrl, { type: 'module' });
+        // Worker 脚本本身加载失败（老浏览器 / 路径不对）时，
+        // 别让正在等它的调用方干等到超时：立刻放行，退回主线程
+        worker.addEventListener('error', () => {
+          console.info('[md3] 取色 Worker 不可用，退回主线程');
+          workerBroken = true;
+          worker = null;
+          pendingWorkerJobs.forEach((release) => release());
+          pendingWorkerJobs.clear();
+        });
+      } catch (err) {
+        console.info('[md3] 建不了取色 Worker，改用主线程：', err && err.message);
+        workerBroken = true;
+        worker = null;
+      }
+      return worker;
+    }
+
+    let workerSeq = 0;
+    function workerSeed(bitmap) {
+      return new Promise((resolve) => {
+        const w = getWorker();
+        if (!w) { resolve(null); return; }
+        const id = (workerSeq += 1);
+        let settled = false;
+        const finish = (value) => {
+          if (settled) return;
+          settled = true;
+          pendingWorkerJobs.delete(finish);
+          w.removeEventListener('message', onMessage);
+          resolve(value);
+        };
+        const onMessage = (e) => {
+          const data = e.data || {};
+          if (data.id !== id) return;
+          if (typeof data.argb === 'number') finish(argbToHex(data.argb));
+          else {
+            console.info('[md3] Worker 取色失败，退回主线程：', data.error);
+            finish(null);
+          }
+        };
+        w.addEventListener('message', onMessage);
+        pendingWorkerJobs.add(finish);
+        try {
+          w.postMessage({ id, bitmap, m3Url: CONFIG.m3Url }, [bitmap]);
+        } catch (err) {
+          finish(null);
+          return;
+        }
+        // 万一 Worker 卡住：超时后走主线程，不让调用方一直等
+        setTimeout(() => finish(null), 4000);
+      });
+    }
+
+    // 缩到分析尺寸：省内存，也让官方量化器快一个数量级
+    function drawAnalysisCanvas(img) {
+      const w = img.naturalWidth || img.width || 0;
+      const h = img.naturalHeight || img.height || 0;
+      if (!w || !h) return null;
+      const scale = Math.min(1, CONFIG.analysisEdge / Math.max(w, h));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(w * scale));
+      canvas.height = Math.max(1, Math.round(h * scale));
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      if (!ctx) return null;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      return canvas;
+    }
+
+    // 官方 API 只认 <img>，所以把缩好的画布再包成一个图片对象（只在退回主线程时用）
+    function canvasToImage(canvas) {
+      return new Promise((resolve) => {
+        if (typeof canvas.toDataURL !== 'function') { resolve(null); return; }
+        try {
+          const url = canvas.toDataURL('image/jpeg', 0.92);
+          if (!url || url.length < 64) { resolve(null); return; }
+          loadImageElement(url).then(resolve, () => resolve(null));
+        } catch (err) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function extractSeedHex(img) {
+      const canvas = drawAnalysisCanvas(img);
+
+      // 1) Worker：官方 QuantizerCelebi + Score 跑在别的线程，主线程不卡
+      if (canvas && typeof createImageBitmap === 'function' && getWorker()) {
+        try {
+          const hex = await workerSeed(await createImageBitmap(canvas));
+          if (hex) return hex;
+        } catch (err) {
+          console.info('[md3] Worker 路线不可用：', err && err.message);
+        }
+      }
+
+      // 2) 主线程官方 API（需要等库加载完）
+      const target = (canvas && await canvasToImage(canvas)) || img;
+      if (M3 && typeof M3.sourceColorFromImage === 'function') {
+        try { return argbToHex(await M3.sourceColorFromImage(target)); } catch (err) {
+          console.warn('[md3] sourceColorFromImage 失败，尝试 themeFromImage：', err);
+        }
+      }
+      if (M3 && typeof M3.themeFromImage === 'function') {
+        try {
+          const theme = await M3.themeFromImage(target);
+          const argb = theme && (typeof theme.source === 'number'
+            ? theme.source
+            : theme.schemes && theme.schemes.light && theme.schemes.light.primary);
+          if (typeof argb === 'number') return argbToHex(argb);
+        } catch (err) {
+          console.warn('[md3] themeFromImage 失败，改用本地算法：', err);
+        }
+      }
+
+      // 3) 本地直方图近似：几毫秒出结果，保证一定有颜色
+      return localSourceColor(canvas || img);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       2. 配色状态与渲染
+       ══════════════════════════════════════════════════════════ */
+    const forcedSeed = normalizeHex(params.get('seed'));
+    const savedSeed = normalizeHex(localStorage.getItem(LS_SEED));
+    // 跟随背景取色：默认开；用户选过图 / 用 ?seed= 指定过 就默认关（除非他点「改回跟随背景」）
+    let followsBackground = !forcedSeed && localStorage.getItem(LS_FOLLOW) !== '0';
+
+    const state = {
+      seed: forcedSeed || savedSeed || CONFIG.defaultSeed,
+      seedOrigin: forcedSeed ? '指定种子' : (savedSeed ? '上次的种子' : '默认种子'),
+      mode: localStorage.getItem(LS_MODE) === 'dark' ? 'dark'
+        : localStorage.getItem(LS_MODE) === 'light' ? 'light' : 'system'
+    };
+
+    const ROLE_LABELS = {
+      primary: '主色', onPrimary: '主色上的内容', primaryContainer: '主色容器', onPrimaryContainer: '容器上的内容',
+      surfaceTint: '表面着色', inversePrimary: '反转主色',
+      secondary: '次色 / 强调', onSecondary: '次色上的内容', secondaryContainer: '次色容器', onSecondaryContainer: '次色容器上的内容',
+      tertiary: '第三色', onTertiary: '第三色上的内容', tertiaryContainer: '第三色容器', onTertiaryContainer: '第三色容器上的内容',
+      error: '错误色', onError: '错误色上的内容', errorContainer: '错误容器', onErrorContainer: '错误容器上的内容',
+      background: '背景', onBackground: '背景上的内容',
+      surface: '表面', onSurface: '表面上的内容', surfaceVariant: '表面变体', onSurfaceVariant: '表面变体上的内容',
+      surfaceDim: '表面 · 暗', surfaceBright: '表面 · 亮',
+      surfaceContainerLowest: '容器 · 最低', surfaceContainerLow: '容器 · 低', surfaceContainer: '容器',
+      surfaceContainerHigh: '容器 · 高', surfaceContainerHighest: '容器 · 最高',
+      outline: '描边', outlineVariant: '描边变体',
+      inverseSurface: '反转表面', inverseOnSurface: '反转表面上的内容', shadow: '阴影', scrim: '遮罩',
+      primaryFixed: '主色固定', primaryFixedDim: '主色固定 · 暗', onPrimaryFixed: '主色固定上的内容', onPrimaryFixedVariant: '主色固定 · 变体',
+      secondaryFixed: '次色固定', secondaryFixedDim: '次色固定 · 暗', onSecondaryFixed: '次色固定上的内容', onSecondaryFixedVariant: '次色固定 · 变体',
+      tertiaryFixed: '第三色固定', tertiaryFixedDim: '第三色固定 · 暗', onTertiaryFixed: '第三色固定上的内容', onTertiaryFixedVariant: '第三色固定 · 变体',
+      primaryPaletteKeyColor: '主色关键色', secondaryPaletteKeyColor: '次色关键色', tertiaryPaletteKeyColor: '第三色关键色',
+      neutralPaletteKeyColor: '中性关键色', neutralVariantPaletteKeyColor: '中性变体关键色'
+    };
+
+    const ROLE_GROUPS = [
+      ['主色 Primary', 'primary', ['primary', 'onPrimary', 'primaryContainer', 'onPrimaryContainer', 'surfaceTint', 'inversePrimary']],
+      ['次色 / 强调色 Secondary', 'secondary', ['secondary', 'onSecondary', 'secondaryContainer', 'onSecondaryContainer']],
+      ['第三色 Tertiary', 'tertiary', ['tertiary', 'onTertiary', 'tertiaryContainer', 'onTertiaryContainer']],
+      ['错误色 Error', 'error', ['error', 'onError', 'errorContainer', 'onErrorContainer']],
+      ['表面 / 背景 Surface', 'neutral', ['surface', 'onSurface', 'surfaceDim', 'surfaceBright', 'surfaceContainerLowest',
+        'surfaceContainerLow', 'surfaceContainer', 'surfaceContainerHigh', 'surfaceContainerHighest',
+        'surfaceVariant', 'onSurfaceVariant', 'background', 'onBackground']],
+      ['描边 Outline', 'neutralVariant', ['outline', 'outlineVariant']],
+      ['反转与其它', 'neutral', ['inverseSurface', 'inverseOnSurface', 'shadow', 'scrim']],
+      ['固定色 Fixed', 'primary', ['primaryFixed', 'primaryFixedDim', 'onPrimaryFixed', 'onPrimaryFixedVariant',
+        'secondaryFixed', 'secondaryFixedDim', 'onSecondaryFixed', 'onSecondaryFixedVariant',
+        'tertiaryFixed', 'tertiaryFixedDim', 'onTertiaryFixed', 'onTertiaryFixedVariant']],
+      ['调色板关键色 Key Colors', 'neutralVariant', ['primaryPaletteKeyColor', 'secondaryPaletteKeyColor',
+        'tertiaryPaletteKeyColor', 'neutralPaletteKeyColor', 'neutralVariantPaletteKeyColor']]
+    ];
+
+    const PALETTE_ROWS = [
+      ['主色 primary', 'primary'], ['次色 secondary', 'secondary'], ['第三色 tertiary', 'tertiary'],
+      ['中性 neutral', 'neutral'], ['中性变体 neutral-variant', 'neutralVariant'], ['错误 error', 'error']
+    ];
+
+    const TONES = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+    const PALETTE_TONE_KEYS = { primary: 'primary', secondary: 'secondary', tertiary: 'tertiary', neutral: 'neutral', neutralVariant: 'neutralVariant', error: 'error' };
+
+    function tokenName(role) {
+      return '--md-' + role.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+    }
+
+    function isDarkNow() {
+      return state.mode === 'dark' || (state.mode === 'system' && prefersDark.matches);
+    }
+
+    /* ── 官方配色对象 ───────────────────────────────────────────
+       优先用现代 M3 方案：SchemeTonalSpot（DynamicScheme）+ MaterialDynamicColors。
+       为什么不用 themeFromSourceColor 里的 schemes：那套 Scheme 是老版，
+       只有 29 个角色，缺 surfaceContainer* / surfaceDim / Bright / 固定色，
+       深色表面用的还是旧的 tone 10（现代是 6）。实测基准种子 #6750A4：
+         现代  light primary=#65558F surface=#FDF7FF surfaceContainerHighest=#E6E0E9
+         现代  dark  surface=#141218 outline=#948F99
+       与 M3 2023 基准一致；而老 Scheme 给的是 M2 时代的映射。
+       老版本库没有 SchemeTonalSpot 时，自动退回 themeFromSourceColor。
+       ──────────────────────────────────────────────────────────── */
+    const PALETTE_PROPS = {
+      primary: 'primaryPalette', secondary: 'secondaryPalette', tertiary: 'tertiaryPalette',
+      neutral: 'neutralPalette', neutralVariant: 'neutralVariantPalette', error: 'errorPalette'
+    };
+
+    function palettesFromScheme(scheme) {
+      const out = {};
+      if (!scheme) return out;
+      for (const key of Object.keys(PALETTE_PROPS)) {
+        const palette = scheme[PALETTE_PROPS[key]];
+        if (palette && typeof palette.tone === 'function') out[key] = palette;
+      }
+      return out;
+    }
+
+    // 生成（并缓存）某个种子色对应的一套官方 scheme；失败返回 null
+    function buildSchemes(seedHex) {
+      const cacheKey = seedHex + '|' + engineState;
+      if (schemeCache.has(cacheKey)) return schemeCache.get(cacheKey);
+      if (!M3) return null;
+
+      let built = null;
+
+      // 1) 现代 M3：SchemeTonalSpot（M3 默认变体，等价 Material Theme Builder）
+      if (typeof M3.SchemeTonalSpot === 'function' && M3.Hct && typeof M3.Hct.fromInt === 'function') {
+        try {
+          const hct = M3.Hct.fromInt(hexToArgb(seedHex));
+          const light = new M3.SchemeTonalSpot(hct, false, 0);
+          const dark = new M3.SchemeTonalSpot(hct, true, 0);
+          built = { light, dark, palettes: palettesFromScheme(light) };
+        } catch (err) {
+          console.warn('[md3] SchemeTonalSpot 失败，退回 themeFromSourceColor：', err);
+        }
+      }
+
+      // 2) 老版本兜底
+      if (!built && typeof M3.themeFromSourceColor === 'function') {
+        try {
+          const theme = M3.themeFromSourceColor(hexToArgb(seedHex));
+          built = {
+            light: theme.schemes && theme.schemes.light,
+            dark: theme.schemes && theme.schemes.dark,
+            palettes: palettesFromScheme(theme.schemes && theme.schemes.light).primary
+              ? palettesFromScheme(theme.schemes.light)
+              : (theme.palettes || {})
+          };
+        } catch (err) {
+          console.warn('[md3] themeFromSourceColor 失败：', err);
+        }
+      }
+
+      // 只缓存成功结果：引擎还没加载完时不能把 null 缓存住
+      if (built) schemeCache.set(cacheKey, built);
+      return built;
+    }
+
+    // 一个 scheme → 角色名到 HEX 的表。
+    // 现代库走 MaterialDynamicColors（54 个角色），老库退回 Scheme 自己的 getter。
+    function schemeHexMap(scheme) {
+      if (!scheme) return null;
+      const map = new Map();
+
+      const mdc = M3 && M3.MaterialDynamicColors;
+      if (mdc) {
+        for (const name of Object.getOwnPropertyNames(mdc)) {
+          const color = mdc[name];
+          if (!color || typeof color.getArgb !== 'function') continue;
+          try {
+            const argb = color.getArgb(scheme);
+            if (typeof argb === 'number') map.set(name, argbToHex(argb));
+          } catch (err) { /* 个别角色算不出来就跳过，不影响其它 */ }
+        }
+      }
+      if (map.size) return map;
+
+      const nums = schemeNumbers(scheme);
+      if (!nums.size) return null;
+      for (const [role, argb] of nums) map.set(role, argbToHex(argb));
+      return map;
+    }
+
+    function paletteToneHex(palettes, key, tone, seedHex) {
+      const palette = palettes && palettes[key];
+      if (palette && typeof palette.tone === 'function') {
+        try { return argbToHex(palette.tone(tone)); } catch (err) { /* 落到近似 */ }
+      }
+      if (engineState === 'ready' && M3 && typeof M3.Hct === 'function' && typeof M3.TonalPalette === 'function') {
+        try {
+          const conf = { primary: [0, 36], secondary: [0, 16], tertiary: [60, 24], neutral: [0, 6], neutralVariant: [0, 8], error: [25, 84] }[key];
+          const [h0] = rgbToHsl.apply(null, hexToRgb(seedHex));
+          const hct = M3.Hct.fromInt(hexToArgb(seedHex));
+          const hue = key === 'error' ? 25 : (hct && typeof hct.hue === 'number' ? hct.hue + conf[0] : h0);
+          return argbToHex(M3.TonalPalette.fromHueAndChroma(hue, conf[1]).tone(tone));
+        } catch (err) { /* 落到下面 */ }
+      }
+      return fallbackRamp(seedHex, key)(tone);
+    }
+
+    const appliedTokens = new Set();   // 记录已经写进 :root 的令牌，换配色时清掉多余的
+
+    function applyTokens(map) {
+      for (const role of Array.from(appliedTokens)) {
+        if (!map.has(role)) {
+          root.style.removeProperty(tokenName(role));
+          appliedTokens.delete(role);
+        }
+      }
+      for (const [role, hex] of map) {
+        root.style.setProperty(tokenName(role), hex);
+        appliedTokens.add(role);
+      }
+      const meta = $('metaThemeColor');
+      if (meta && map.get('surface')) meta.setAttribute('content', map.get('surface'));
+    }
+
+    function updateThemeIcon() {
+      const btn = $('themeIconBtn');
+      const dark = isDarkNow();
+      btn.innerHTML = dark
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+      btn.setAttribute('aria-pressed', String(dark));
+      document.querySelectorAll('.segmented [data-mode]').forEach((b) => {
+        b.setAttribute('aria-checked', String(b.dataset.mode === state.mode));
+      });
+    }
+
+    /* ── 渲染：种子色卡片 ─────────────────────────────────────── */
+    function renderSeed() {
+      const hex = state.seed;
+      $('seedHex').textContent = hex;
+      $('seedSwatch').style.background = hex;
+      $('seedOrigin').textContent = state.seedOrigin;
+
+      const [r, g, b] = hexToRgb(hex);
+      const lines = [];
+      if (M3 && typeof M3.Hct === 'function') {
+        try {
+          const hct = M3.Hct.fromInt(hexToArgb(hex));
+          lines.push('HCT ' + hct.hue.toFixed(1) + '° / ' + hct.chroma.toFixed(1) + ' / ' + hct.tone.toFixed(1));
+        } catch (err) { /* 忽略 */ }
+      }
+      const [h, s, l] = rgbToHsl(r, g, b);
+      if (!lines.length) lines.push('HSL ' + h.toFixed(0) + '° / ' + s.toFixed(0) + '% / ' + l.toFixed(0) + '%');
+      lines.push('RGB ' + r + ', ' + g + ', ' + b);
+      $('seedFacts').innerHTML = lines.map((t) => t.replace(/</g, '&lt;')).join('<br />');
+
+      // 跟随背景时不给「改回」按钮；锁定后给出口
+      $('seedFollow').hidden = followsBackground;
+      $('seedHint').textContent = followsBackground
+        ? '现在跟着背景图取色：点「换张背景」会一起换色。'
+        : '现在用你自己选的图或输入的色号，背景图不会再覆盖它。';
+      syncSeedInput();   // 让输入框/取色点跟着当前种子走
+    }
+
+    /* ── 渲染：角色卡片 ───────────────────────────────────────── */
+    function renderRoles(lightMap, darkMap, dark) {
+      const host = $('roleGroups');
+      const known = new Set();
+      ROLE_GROUPS.forEach(([, , roles]) => roles.forEach((r) => known.add(r)));
+
+      // 官方库新增的角色（例如以后多出来的字段）也要能看到
+      const extras = [];
+      for (const key of new Set([...lightMap.keys(), ...darkMap.keys()])) {
+        if (!known.has(key)) extras.push(key);
+      }
+
+      const groups = ROLE_GROUPS.map(([label, key, roles]) => [label, key, roles.filter((r) => lightMap.has(r) || darkMap.has(r))]);
+      if (extras.length) groups.push(['其它角色', 'neutral', extras]);
+
+      let count = 0;
+      const html = groups.map(([label, key, roles]) => {
+        if (!roles.length) return '';
+        count += roles.length;
+        const cards = roles.map((role) => {
+          const lightHex = lightMap.get(role) || darkMap.get(role) || '#000000';
+          const darkHex = darkMap.get(role) || lightMap.get(role) || '#000000';
+          const current = dark ? darkHex : lightHex;
+          const label2 = ROLE_LABELS[role] || role;
+          return `
+            <div class="role" data-role="${role}">
+              <button class="role__swatch" type="button" data-copy="${current}"
+                      style="background:${current};color:${idealTextColor(current)}"
+                      title="复制 ${role} · ${current}">
+                <span>${current}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+              </button>
+              <div class="role__body">
+                <div class="role__name">
+                  <span>${label2}</span>
+                  <button class="role__reseed" type="button" data-seed="${current}"
+                          title="用 ${current} 当种子重新算一套" aria-label="用 ${current} 当种子重新算一套">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2M21 12a9 9 0 0 1-15.5 6.2"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+                  </button>
+                </div>
+                <div class="role__id">${role}</div>
+                <div class="role__modes">
+                  <i class="${dark ? '' : 'is-current'}">浅 ${lightHex}</i>
+                  <i class="${dark ? 'is-current' : ''}">深 ${darkHex}</i>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+        return `
+          <div class="role-group">
+            <div class="role-group__head"><h3>${label}</h3><span>${roles.length} 个角色</span></div>
+            <div class="roles">${cards}</div>
+          </div>`;
+      }).join('');
+
+      host.innerHTML = html;
+      $('roleCount').textContent = count + ' 个角色 · ' + (dark ? '深色' : '浅色');
+    }
+
+    /* ── 渲染：色调调色板 ─────────────────────────────────────── */
+    function renderPalettes(palettes, seedHex) {
+      const host = $('paletteList');
+      host.innerHTML = PALETTE_ROWS.map(([label, key]) => {
+        const cells = TONES.map((tone) => {
+          const hex = paletteToneHex(palettes, PALETTE_TONE_KEYS[key], tone, seedHex);
+          const showLabel = tone % 10 === 0;
+          return `<button class="tone" type="button" data-copy="${hex}" title="${key} · tone ${tone} · ${hex}"
+                    style="background:${hex};color:${idealTextColor(hex)}">
+                    ${showLabel ? `<span>${tone}</span>` : ''}
+                  </button>`;
+        }).join('');
+        return `
+          <div class="palette">
+            <div class="palette__head"><b>${label}</b><span>0 → 100</span></div>
+            <div class="palette__strip">${cells}</div>
+          </div>`;
+      }).join('');
+    }
+
+    /* ── 总渲染：分两段，先换色，再慢慢铺列表 ───────────────────
+       角色卡 + 6×21 格调色板要算上百次 HCT、拼 60 多 KB HTML，
+       放在「换背景」那一瞬间做，就是用户感觉到的卡顿。
+       所以：第一段只算当前模式的一套配色 → 整页立刻变色；
+       第二段（空闲时）再补角色卡和调色板条，并且用 token 丢弃过期任务。
+       ──────────────────────────────────────────────────────────── */
+    let renderToken = 0;
+
+    function scheduleHeavy(work) {
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(() => work(), { timeout: 800 });
+      } else {
+        setTimeout(work, 0);
+      }
+    }
+
+    function render() {
+      const dark = isDarkNow();
+      root.dataset.theme = dark ? 'dark' : 'light';
+      updateThemeIcon();
+
+      const schemes = buildSchemes(state.seed);
+      const nowMap = schemeHexMap(schemes && (dark ? schemes.dark : schemes.light))
+        || fallbackScheme(state.seed, dark);
+      applyTokens(nowMap);     // ← 「整页换色」就这一步，先做
+      renderSeed();
+
+      const token = (renderToken += 1);
+      scheduleHeavy(() => {
+        if (token !== renderToken) return;    // 期间又换了配色，这份就不做了
+        const lightMap = schemeHexMap(schemes && schemes.light) || fallbackScheme(state.seed, false);
+        const darkMap = schemeHexMap(schemes && schemes.dark) || fallbackScheme(state.seed, true);
+        if (token !== renderToken) return;
+        renderRoles(lightMap, darkMap, dark);
+        renderPalettes(schemes && schemes.palettes, state.seed);
+      });
+    }
+
+    /**
+     * source = 'user'       用户自己的选择（选图 / 随机 / 拿角色色当种子）：
+     *                       记到本地，并且从此不再被背景图覆盖
+     * source = 'background' 背景图取色：只改内存不落盘，免得下次打开先闪一版旧色
+     */
+    function setSeed(hex, origin, source) {
+      const normalized = normalizeHex(hex);
+      if (!normalized) return;
+      state.seed = normalized;
+      state.seedOrigin = origin || '自定义种子';
+      if (source === 'user') {
+        try {
+          localStorage.setItem(LS_SEED, normalized);
+          localStorage.setItem(LS_FOLLOW, '0');
+        } catch (err) { /* 隐私模式忽略 */ }
+        followsBackground = false;
+      }
+      render();
+    }
+
+    function setFollow(on) {
+      followsBackground = !!on;
+      try {
+        if (followsBackground) localStorage.removeItem(LS_FOLLOW);
+        else localStorage.setItem(LS_FOLLOW, '0');
+      } catch (err) { /* 忽略 */ }
+      render();
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       3. 背景图（API 取图 · 换一张 · 界面跟着背景取色）
+       ══════════════════════════════════════════════════════════ */
+    const heroEl = $('hero');
+    const heroStage = $('heroStage');
+    const layers = Array.from(document.querySelectorAll('.hero-layer'));
+    let activeLayer = 0;
+    let pool = [];          // 预加载好的「下一张」
+    let current = null;     // 正在显示的那张（entry）
+    let retired = null;     // 上一张，等淡出结束再回收 blob
+
+    root.style.setProperty('--hero-blur', CONFIG.blur + 'px');
+    root.style.setProperty('--hero-fade', CONFIG.fade + 'ms');
+    heroEl.classList.toggle('has-blur', CONFIG.blur > 0);   // 关了就完全不挂滤镜
+
+    function apiUrl() {
+      const sep = CONFIG.api.includes('?') ? '&' : '?';
+      return CONFIG.api + sep + '_t=' + Date.now() + Math.random().toString(36).slice(2, 7);
+    }
+
+    // 纯预加载（不读像素），用作最后一种兜底：只要能看到图就行
+    function preload(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const finish = async (ok) => {
+          img.onload = img.onerror = null;
+          if (ok && typeof img.decode === 'function') {
+            // 等解码完再交差，交叉淡入时不会闪一下旧图
+            try { await img.decode(); } catch (err) { /* 能显示就行 */ }
+          }
+          resolve(ok ? url : null);
+        };
+        img.onload = () => finish(true);
+        img.onerror = () => finish(false);
+        img.decoding = 'async';
+        img.src = url;
+      });
+    }
+
+    // 拿到 blob 就能同时「显示」+「读像素」：object URL 属于同源，canvas 不会被污染
+    async function entryFromBlob(blob, source) {
+      if (!blob || blob.size < 512) return null;
+      const objectUrl = URL.createObjectURL(blob);
+      try {
+        const image = await loadImageElement(objectUrl);
+        return { displayUrl: objectUrl, objectUrl, image, extractable: true, source };
+      } catch (err) {
+        URL.revokeObjectURL(objectUrl);
+        return null;
+      }
+    }
+
+    /**
+     * 取一张背景图。
+     * 优先级：直连 CORS → 代理 CORS → 只能显示（读不到像素）。
+     * 跨域图片没带 CORS 头时 canvas 会被污染，getImageData 直接抛错，
+     * 所以先试可读路径，实在不行也保证背景图能显示出来。
+     */
+    async function loadBackground() {
+      const raw = apiUrl();
+
+      try {
+        const res = await fetch(raw, { mode: 'cors', cache: 'no-store' });
+        if (res.ok) {
+          const entry = await entryFromBlob(await res.blob(), 'direct');
+          if (entry) return entry;
+        }
+      } catch (err) {
+        console.info('[md3] 背景图直连不满足 CORS，试代理 / 仅显示：', err && err.message);
+      }
+
+      if (CONFIG.corsProxy) {
+        try {
+          const proxied = CONFIG.corsProxy + encodeURIComponent(raw) + (CONFIG.corsProxySuffix || '');
+          const res = await fetch(proxied, { cache: 'no-store' });
+          if (res.ok) {
+            const entry = await entryFromBlob(await res.blob(), 'proxy');
+            if (entry) return entry;
+          }
+        } catch (err) {
+          console.info('[md3] 代理取图也失败了：', err && err.message);
+        }
+      }
+
+      const shown = await preload(raw);
+      if (shown) return { displayUrl: shown, objectUrl: null, image: null, extractable: false, source: 'display' };
+      return null;
+    }
+
+    function showLayer(index) {
+      layers.forEach((el, i) => el.classList.toggle('is-active', i === index));
+      activeLayer = index;
+    }
+
+    function setLayer(index, url) {
+      const el = layers[index];
+      if (el) el.style.backgroundImage = 'url("' + url.replace(/"/g, '%22') + '")';
+    }
+
+    function releaseEntry(entry) {
+      if (entry && entry.objectUrl) URL.revokeObjectURL(entry.objectUrl);
+    }
+
+    // 上一张先留着：它还在做淡出动画，立刻 revoke 会让那层图"啪"地消失。
+    // 等下一轮换图时，它早就淡完了，再回收。
+    function retire(entry) {
+      if (retired) releaseEntry(retired);
+      retired = entry;
+    }
+
+    /* ── 提前把「这张图的种子色」算好 ───────────────────────────
+       池里那张待用图在后台就把颜色算出来（Worker 里跑，不占主线程），
+       于是点「换张背景」时图和色都是现成的，点下去立刻变色。
+       ──────────────────────────────────────────────────────────── */
+    function seedHexForEntry(entry) {
+      if (!entry || !entry.extractable || !entry.image) return Promise.resolve(null);
+      if (!entry.seedPending) {
+        entry.seedPending = extractSeedHex(entry.image)
+          .then((hex) => { entry.seedHex = hex; return hex; })
+          .catch((err) => {
+            console.warn('[md3] 背景图取色失败：', err);
+            entry.seedPending = null;
+            return null;
+          });
+      }
+      return entry.seedPending;
+    }
+
+    // 引擎从「近似」升级到「官方」后，之前用近似算出的背景色要重算
+    function resetEntrySeeds() {
+      [current, retired].concat(pool).forEach((entry) => {
+        if (!entry) return;
+        entry.seedPending = null;
+        entry.seedHex = null;
+      });
+    }
+
+    // 轻量调试环：把关键判断记下来，排查时在控制台看 window.__md3Debug
+    const debugLog = [];
+    function note(message) {
+      debugLog.push(new Date().toISOString().slice(11, 19) + ' ' + message);
+      if (debugLog.length > 60) debugLog.shift();
+      window.__md3Debug = debugLog;
+    }
+
+    // 池里始终留 (preload - 1) 张：默认 preload=2 → 当前显示 1 张 + 待用 1 张
+    let poolFill = null;
+    async function fillPool() {
+      if (poolFill) return poolFill;
+      const job = (async () => {
+        const target = Math.max(1, CONFIG.preload - 1);
+        while (pool.length < target) {
+          const entry = await loadBackground();
+          if (!entry) break;
+          // 预加载阶段就把「读不到像素」的图换掉，这样点击时是真的瞬切
+          const good = await preferExtractable(entry);
+          pool.push(good);
+          seedHexForEntry(good);       // 后台先把颜色算好，别等到点击那一刻
+        }
+      })();
+      poolFill = job;
+      try { await job; } finally { if (poolFill === job) poolFill = null; }
+    }
+
+    // 背景图读不到像素时（Bing 的镜像域名 CORS 头时有时无），
+    // 再抓一张试试，尽量挑一张能取色的：否则「换张背景」会只换图不换色
+    async function preferExtractable(entry) {
+      if (!followsBackground || !entry || entry.extractable) return entry;
+      const retry = await loadBackground();
+      if (retry && retry.extractable) {
+        note('原图读不到像素，已换成可读的一张');
+        releaseEntry(entry);
+        return retry;
+      }
+      if (retry) releaseEntry(retry);
+      note('这张背景图读不到像素，只能显示');
+      return entry;
+    }
+
+    // 背景图的来源只在控制台留痕，界面上不再挂标签
+    function logSource(entry) {
+      let host = CONFIG.api;
+      try { host = new URL(CONFIG.api).hostname; } catch (err) { /* 相对地址不改写 */ }
+      const how = !entry ? '没取到图'
+        : entry.source === 'proxy' ? '经代理读取'
+        : entry.extractable ? '直连读取'
+        : '跨域读不到像素，配色未跟随';
+      note('背景图：' + host + ' · ' + how);
+      console.info('[md3] 背景图：' + host + ' · ' + how);
+    }
+
+    // 让界面跟着当前背景图取色（force = 用户点了「改回跟随背景取色」）
+    async function applyBackgroundColor(force) {
+      const entry = current;
+      if (!followsBackground && !force) return false;
+      if (!entry || !entry.extractable || !entry.image) { note('取色跳过：这张图读不到像素'); return false; }
+      const hex = entry.seedHex || await seedHexForEntry(entry);
+      if (!hex) { note('取色失败：算不出颜色'); return false; }
+      if (entry !== current) { note('取色作废：期间又换图了'); return false; }
+      note('背景取色 → ' + hex);
+      setSeed(hex, '背景图', 'background');
+      return true;
+    }
+
+    // 等浏览器把新图刷出来（rAF 在绘制前，setTimeout 在绘制后），别让重活抢在它前面
+    function nextPaint() {
+      return new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+    }
+
+    // 换一张：图立刻换，颜色用提前算好的结果立刻跟
+    async function shuffleBackground() {
+      if (!pool.length) await fillPool();
+      let entry = pool.shift();
+
+      if (!entry) {
+        // 池空了（多半是接口抽风）：现场再试一次
+        await fillPool();
+        entry = pool.shift();
+      }
+      if (!entry) {
+        if (!current) heroEl.classList.add('is-empty');
+        note('换背景失败：取不到新图');
+        toast('背景图接口暂时取不到新图，稍后再试');
+        return false;
+      }
+
+      entry = await preferExtractable(entry);
+
+      const target = 1 - activeLayer;
+      setLayer(target, entry.displayUrl);
+      showLayer(target);                 // 直接开始交叉淡入
+
+      retire(current);                   // 上一张淡出后再回收
+      current = entry;
+      heroEl.classList.remove('is-empty');
+      logSource(entry);
+
+      fillPool();                        // 立刻补位 + 后台预算下一张的颜色
+      await nextPaint();                 // 先把新背景画出来
+      return applyBackgroundColor(false);
+    }
+
+    async function initBackground() {
+      let first = await loadBackground();
+      if (!first) {
+        heroEl.classList.add('is-empty');   // 只剩兜底渐变底纹
+        logSource(null);
+        note('首屏取图失败');
+        toast('背景图接口暂时不可用，已用动态渐变打底');
+        return;
+      }
+      first = await preferExtractable(first);
+      current = first;
+      heroEl.classList.remove('is-empty');
+      logSource(first);
+      setLayer(0, first.displayUrl);
+      showLayer(0);
+      fillPool();
+      await nextPaint();                  // 图先出来，再动配色
+      await applyBackgroundColor(false);
+    }
+
+    $('heroShuffle').addEventListener('click', async () => {
+      await shuffleBackground();
+    });
+
+    /* ══════════════════════════════════════════════════════════
+       4. 上传 / 拖拽 / 粘贴 / 交互
+       ══════════════════════════════════════════════════════════ */
+    const drop = $('drop');
+    const fileInput = $('fileInput');
+    const previewWrap = document.createElement('div');
+    previewWrap.className = 'drop__preview';
+    previewWrap.innerHTML = '<img alt="已选图片预览" id="previewImg" /><div class="drop__preview-meta"><b id="previewName"></b><span id="previewSize"></span></div>';
+    drop.appendChild(previewWrap);
+
+    let previewObjectUrl = null;
+
+    async function handleFile(file) {
+      if (!file || !/^image\//.test(file.type)) {
+        toast('请选择图片文件');
+        return;
+      }
+      const objectUrl = URL.createObjectURL(file);
+      try {
+        const img = await loadImageElement(objectUrl);
+        if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);   // 回收上一张预览
+        previewObjectUrl = objectUrl;
+        $('previewImg').src = objectUrl;
+        $('previewName').textContent = file.name || '剪贴板图片';
+        $('previewSize').textContent = img.naturalWidth + ' × ' + img.naturalHeight + ' · ' +
+          (file.size ? (file.size / 1024).toFixed(0) + ' KB' : '未知大小');
+        previewWrap.classList.add('is-visible');
+
+        const hex = await extractSeedHex(img);
+        // 用户自己选的图：以后背景再换也不覆盖它
+        setSeed(hex, '来自图片', 'user');
+        toast('已从图片取出种子色 ' + hex);
+      } catch (err) {
+        console.error('[md3] 图片处理失败：', err);
+        toast('图片处理失败：' + (err && err.message ? err.message : err));
+      }
+    }
+
+    $('heroPick').addEventListener('click', () => fileInput.click());
+    drop.addEventListener('click', () => fileInput.click());
+    drop.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+    });
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files && fileInput.files[0];
+      fileInput.value = '';
+      if (file) handleFile(file);
+    });
+
+    ['dragenter', 'dragover'].forEach((type) => {
+      drop.addEventListener(type, (e) => {
+        e.preventDefault();
+        drop.classList.add('is-over');
+      });
+    });
+    ['dragleave', 'dragend'].forEach((type) => {
+      drop.addEventListener(type, () => drop.classList.remove('is-over'));
+    });
+    drop.addEventListener('drop', (e) => {
+      e.preventDefault();
+      drop.classList.remove('is-over');
+      const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+
+    // 拖到页面别处不要触发浏览器直接打开图片
+    ['dragover', 'drop'].forEach((type) => {
+      window.addEventListener(type, (e) => {
+        if (!drop.contains(e.target)) e.preventDefault();
+      });
+    });
+
+    document.addEventListener('paste', (e) => {
+      const items = e.clipboardData && e.clipboardData.items;
+      if (!items) return;
+      for (const item of items) {
+        if (item.type && item.type.indexOf('image') === 0) {
+          const file = item.getAsFile();
+          if (file) { handleFile(file); break; }
+        }
+      }
+    });
+
+    // 色块统一委托：复制
+    document.addEventListener('click', (e) => {
+      const copyTarget = e.target.closest('[data-copy]');
+      if (copyTarget) {
+        copyText(copyTarget.dataset.copy, '已复制');
+        return;
+      }
+      const seedTarget = e.target.closest('[data-seed]');
+      if (seedTarget) {
+        setSeed(seedTarget.dataset.seed, '来自角色色', 'user');
+        toast('已用 ' + seedTarget.dataset.seed + ' 作为新种子');
+      }
+    });
+
+    $('seedSwatch').addEventListener('click', () => copyText(state.seed, '已复制种子色'));
+    $('seedCopy').addEventListener('click', () => copyText(state.seed, '已复制'));
+    $('seedRandom').addEventListener('click', () => {
+      const hex = rgbToHex(Math.random() * 255, Math.random() * 255, Math.random() * 255);
+      setSeed(hex, '随机种子', 'user');
+      toast('随机种子色 ' + hex);
+    });
+
+    // 手动选过图之后想回到「跟着背景走」，从这里放行
+    $('seedFollow').addEventListener('click', async () => {
+      setFollow(true);
+      const ok = await applyBackgroundColor(true);
+      if (ok) toast('已改回跟随背景图取色');
+      else if (current && !current.extractable) toast('这张背景图跨域读不到像素，只能沿用当前配色');
+      else toast('暂时没拿到背景图，稍后点「换张背景」再试');
+    });
+
+    // 模式控制
+    $('themeIconBtn').addEventListener('click', () => {
+      const nextMode = isDarkNow() ? 'light' : 'dark';
+      setMode(nextMode);
+    });
+
+    document.querySelectorAll('.segmented [data-mode]').forEach((btn) => {
+      btn.addEventListener('click', () => setMode(btn.dataset.mode));
+    });
+
+    function setMode(mode) {
+      state.mode = ['system', 'light', 'dark'].includes(mode) ? mode : 'system';
+      try {
+        if (state.mode === 'system') localStorage.removeItem(LS_MODE);
+        else localStorage.setItem(LS_MODE, state.mode);
+      } catch (err) { /* 忽略 */ }
+      render();
+    }
+
+    prefersDark.addEventListener('change', () => { if (state.mode === 'system') render(); });
+
+    /* ── 手动输入种子色号 ───────────────────────────────────────
+       接受 #6750A4 / 6750A4 / #6A4；回车或点「应用」生效。
+       生效后按「用户自己的选择」处理：记到本地，并且不再被背景图覆盖。
+       ──────────────────────────────────────────────────────────── */
+    // 只刷新「取色点 + 非法状态」，绝不动输入框里的文字
+    function refreshSeedInputPreview() {
+      if (!seedInput) return;
+      const parsed = normalizeHex(seedInput.value);
+      if (seedInputDot) seedInputDot.style.background = parsed || state.seed;
+      if (seedInputField) seedInputField.dataset.invalid = (seedInput.value.trim() && !parsed) ? '1' : '0';
+    }
+
+    // 种子变了：把输入框同步成当前种子。
+    // 正在输入时不动 —— 而且 blur 里也不回写，
+    // 否则「点应用 → 输入框先失焦 → 回写覆盖 → 应用了个旧色号」。
+    function syncSeedInput() {
+      if (!seedInput) return;
+      if (document.activeElement !== seedInput) seedInput.value = state.seed;
+      refreshSeedInputPreview();
+    }
+
+    function applySeedInput() {
+      if (!seedInput) return;
+      const hex = normalizeHex(seedInput.value);
+      if (!hex) {
+        if (seedInputField) seedInputField.dataset.invalid = '1';
+        toast('色号要写成 #6750A4 或 6750A4 这样（三或六位十六进制）');
+        seedInput.focus();
+        return;
+      }
+      setSeed(hex, '手动输入', 'user');
+      seedInput.value = hex;
+      if (seedInputField) seedInputField.dataset.invalid = '0';
+      seedInput.blur();
+      toast('已套用种子色 ' + hex);
+    }
+
+    if (seedInput) {
+      seedInput.addEventListener('input', refreshSeedInputPreview);
+      seedInput.addEventListener('blur', refreshSeedInputPreview);
+      seedInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); applySeedInput(); }
+      });
+    }
+    $('seedApply').addEventListener('click', applySeedInput);
+
+    /* ══════════════════════════════════════════════════════════
+       5. 启动
+       ══════════════════════════════════════════════════════════ */
+    setEngineChip();
+    render();            // 先用兜底配色渲染，页面秒开
+    initBackground();    // 取背景图，拿到后界面跟着背景图取色
+
+    m3Ready.then((ok) => {
+      setEngineChip();
+      if (!ok) {
+        toast('取色引擎加载失败，已切换到本地近似配色');
+        return;
+      }
+      resetEntrySeeds();                              // 背景色要换成官方引擎重算
+      applyBackgroundColor(true).then((applied) => {
+        if (!applied) render();                       // 没背景色可跟，就把当前种子用官方引擎重算
+      });
+    });
+  </script>
+</body>
+</html>

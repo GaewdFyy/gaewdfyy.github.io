@@ -1,0 +1,312 @@
+<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Live2D Cubism 3 · 迪莫</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+    }
+    #stage { position: absolute; inset: 0; }
+    #stage canvas { display: block; }
+    #host-error {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-height: 60%;
+      overflow: auto;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #c0392b;
+      font: 12px/1.5 -apple-system, "Segoe UI", sans-serif;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    #host-error:empty { display: none; }
+  </style>
+</head>
+<body>
+  <!--
+    自包含的 Cubism 3 宿主页：只用厂商运行库（Pixi + CubismCore + CubismFramework + CubismPixi），
+    模型加载逻辑由本页自己实现，不依赖仓库示例里的 l2d.js / main.js。
+    这样即使那些示例脚本因为 CSP、CDN 索引或版本差异无法执行，也不影响这里。
+
+    用到的接口（读自仓库 v3/js/live2dcubismpixi.js 源码）：
+      new LIVE2DCUBISMPIXI.ModelBuilder()
+        .setMoc(Live2DCubismCore.Moc.fromArrayBuffer(buf))
+        .setPhysics3Json(json)
+        .addTexture(index, PIXI.Texture)
+        .addAnimatorLayer('base', LIVE2DCUBISMFRAMEWORK.BuiltinAnimationBlenders.OVERRIDE, 1)
+        .build()
+  -->
+  <div id="stage"></div>
+  <div id="host-error"></div>
+
+  <script>
+    (function () {
+      /* 运行库来源；本地方案：把厂商 4 个 js 拷到 source/live2d-v3/js/ 后把 USE_LOCAL 改成 true */
+      var USE_LOCAL = false;
+      var LOCAL_BASE = '/live2d-v3/js/';
+      var CDN_BASE = 'https://cdn.jsdelivr.net/gh/gaewdfyy/live2d/v3/js/';
+      var BASE = USE_LOCAL ? LOCAL_BASE : CDN_BASE;
+
+      var LIBS = [
+        'pixi.min.js',
+        'live2dcubismcore.min.js',
+        'live2dcubismframework.js',
+        'live2dcubismpixi.js'
+      ];
+
+      /* 模型描述文件：仓库 v3 目录里唯一的模型 */
+      var MODEL3_URL = 'https://cdn.jsdelivr.net/gh/gaewdfyy/live2d/v3/model/Dimo/' +
+        encodeURIComponent('公皮（迪莫）.model3.json');
+
+      var app = null;
+      var model = null;
+
+      function hostLog(message) {
+        var box = document.getElementById('host-error');
+        if (box && box.textContent.indexOf(message) === -1) {
+          box.textContent += (box.textContent ? '\n' : '') + message;
+        }
+        if (window.console && console.log) console.log('[dimo] ' + message);
+      }
+      window.dimoLog = hostLog;
+
+      /* 逐个取回再执行：顺序可控，失败时能看到具体是哪个文件、什么状态码 */
+      async function loadScript(name) {
+        var url = BASE + name;
+        var res;
+        try {
+          res = await fetch(url, { cache: 'no-store' });
+        } catch (e) {
+          throw new Error(name + ' 请求失败：' + (e && e.message ? e.message : e));
+        }
+        if (!res.ok) throw new Error(name + ' HTTP ' + res.status + '（' + url + '）');
+        var code = await res.text();
+        try {
+          (0, eval)(code);
+        } catch (e) {
+          throw new Error(name + ' 执行报错：' + (e && e.message ? e.message : e));
+        }
+        return code.length;
+      }
+
+      function loadScriptTag(name, absoluteUrl) {
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = absoluteUrl || (BASE + name);
+          s.onload = function () { resolve(name); };
+          s.onerror = function () { reject(new Error(name + ' <script> 加载失败')); };
+          document.head.appendChild(s);
+        });
+      }
+
+      async function fetchText(url) {
+        var res = await fetch(url);
+        if (!res.ok) throw new Error('取配置失败 HTTP ' + res.status + '（' + url + '）');
+        return res.text();
+      }
+
+      async function fetchBuffer(url) {
+        var res = await fetch(url);
+        if (!res.ok) throw new Error('取 moc3 失败 HTTP ' + res.status + '（' + url + '）');
+        var buf = await res.arrayBuffer();
+        var head = new Uint8Array(buf.slice(0, 8));
+        var magic = String.fromCharCode(head[0], head[1], head[2], head[3]);
+        /* 魔数嗅探：真正的 moc3 前 4 字节是 MOC3；若拿到 HTML/JSON，说明 CDN 其实返回了错误页 */
+        if (magic !== 'MOC3') {
+          var text = '';
+          try { text = new TextDecoder('utf-8').decode(new Uint8Array(buf.slice(0, 160))); } catch (e) {}
+          throw new Error('moc3 内容不对：前 4 字节为 "' + magic + '"，长度 ' + buf.byteLength +
+            '，Content-Type=' + (res.headers.get('content-type') || '(无)') +
+            (magic.charAt(0) === '<' ? '（拿到的是 HTML/错误页，多半被 CDN 或跳转替换了）' : '') +
+            (text ? '，开头：' + text.replace(/\s+/g, ' ').slice(0, 80) : ''));
+        }
+        /* moc3 头部版本号：字节 4~7 是小端 32 位整数，例如 4 = 0x04000000 */
+        var moc3Version = new DataView(buf).getUint32(4, true);
+        hostLog('moc3 魔数 ✓ 长度 ' + buf.byteLength + ' 格式版本 v' + moc3Version);
+        return buf;
+      }
+
+      function loadTexture(url) {
+        /* jsDelivr 的贴图带 CORS 头，crossOrigin 必须设置，否则纹理是黑的 */
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = function () { resolve(PIXI.Texture.from(img)); };
+          img.onerror = function () { resolve(null); };
+          img.src = url;
+        });
+      }
+
+      function stageSize() {
+        return {
+          width: document.documentElement.clientWidth || 280,
+          height: document.documentElement.clientHeight || 360
+        };
+      }
+
+      /* 缩放系数：默认按"刚好填满"计算，可在地址栏用 ?scale=1.5 覆盖 */
+      function scaleFactor() {
+        var m = /[?&]scale=([0-9.]+)/.exec(window.location.search);
+        var v = m ? parseFloat(m[1]) : 1;
+        return (isFinite(v) && v > 0) ? v : 1;
+      }
+
+      function layout() {
+        if (!app || !model) return;
+        var size = stageSize();
+        app.renderer.resize(size.width, size.height);
+
+        /* 按模型自身像素尺寸换算：先求"刚好放进视口"的缩放，再乘用户系数 */
+        var info = model.canvasinfo || {};
+        var modelW = info.CanvasWidth || 1;
+        var modelH = info.CanvasHeight || 1;
+        var fit = Math.min(size.width / modelW, size.height / modelH);
+        var scale = fit * scaleFactor();
+
+        model.scale.set(scale, scale);
+        model.position.set(size.width / 2, size.height / 2);
+        if (model.masks && model.masks.resize) model.masks.resize(size.width, size.height);
+        hostLog('排版：视口 ' + size.width + '×' + size.height +
+          '，模型 ' + modelW + '×' + modelH +
+          '，缩放 ' + scale.toFixed(4) + (scaleFactor() !== 1 ? '（scale 参数 ' + scaleFactor() + '）' : ''));
+      }
+
+      async function buildModel() {
+        var model3 = JSON.parse(await fetchText(MODEL3_URL));
+        var refs = model3.FileReferences || {};
+        var baseUrl = MODEL3_URL.substring(0, MODEL3_URL.lastIndexOf('/') + 1);
+
+        if (!refs.Moc) throw new Error('model3.json 里没有 Moc 字段');
+
+        /* 1) moc3 */
+        var mocUrl = baseUrl + refs.Moc;
+        hostLog('moc3 地址：' + mocUrl);
+        var mocBuf = await fetchBuffer(mocUrl);
+        if (!Live2DCubismCore.Moc || typeof Live2DCubismCore.Moc.fromArrayBuffer !== 'function') {
+          throw new Error('Live2DCubismCore.Moc.fromArrayBuffer 不存在，核心库版本不匹配');
+        }
+        /* 让核心库把内部错误打到控制台，便于定位（不存在时忽略） */
+        try {
+          if (Live2DCubismCore.Logging && Live2DCubismCore.Logging.csmSetLogFunction) {
+            Live2DCubismCore.Logging.csmSetLogFunction(function (msg) { console.log('[cubism-core] ' + msg); });
+          }
+        } catch (e) {}
+        var moc = Live2DCubismCore.Moc.fromArrayBuffer(mocBuf);
+        if (!moc) {
+          /*
+           * 关键事实：迪莫的 moc3 是 v5 格式，而当前能公开 CDN 取到的核心库只有
+           * 仓库自带的 3.3.0（解析上限 v4）和仓库自带的 framework/pixi（也是 v3 时代）。
+           * 官方 Cubism 5 Web SDK 需要在 Live2D 官网登录、签 SDK 协议才能下载，
+           * 并不发布在公开 CDN 上——所以"自动换用 v5 核心库"这条路事实上不存在。
+           * 给出明确报错，让前端把它从角色列表里移除（由 v2 那个 blockCurrentCharacter 接住）。
+           */
+          var moc3Version = (mocBuf && mocBuf.byteLength >= 8) ? new DataView(mocBuf).getUint32(4, true) : '?';
+          hostLog('Core 3.3.0 解析失败（moc3 格式版本 v' + moc3Version + '）');
+          throw new Error('moc3 版本 v' + moc3Version + ' 超出本仓库核心库 3.3.0 的解析上限（v4）。' +
+            '官方 Cubism 5 Web SDK 需 Live2D 账号登录下载，公开 CDN 不可用；' +
+            '请在 Live2D 开发者后台下载 Cubism 5 Web SDK，把核心库的 live2dcubismcore.min.js 放到 source/live2d-v3/js/，' +
+            '并把宿主页里 V3_USE_LOCAL 改成 true（同源加载，避开 CDN 限制）。');
+        }
+
+        /* 2) 贴图 */
+        var textures = [];
+        var texList = refs.Textures || [];
+        for (var i = 0; i < texList.length; i++) {
+          var tex = await loadTexture(baseUrl + texList[i]);
+          if (!tex) throw new Error('贴图加载失败：' + texList[i]);
+          textures.push(tex);
+        }
+        if (!textures.length) throw new Error('model3.json 里没有 Textures');
+
+        /* 3) 物理（可选） */
+        var physicsJson = null;
+        if (refs.Physics) {
+          try { physicsJson = JSON.parse(await fetchText(baseUrl + refs.Physics)); } catch (e) { physicsJson = null; }
+        }
+
+        /* 4) 组装模型 */
+        var builder = new LIVE2DCUBISMPIXI.ModelBuilder()
+          .setMoc(moc)
+          .addAnimatorLayer('base', LIVE2DCUBISMFRAMEWORK.BuiltinAnimationBlenders.OVERRIDE, 1);
+        if (physicsJson) builder.setPhysics3Json(physicsJson);
+        for (var t = 0; t < textures.length; t++) builder.addTexture(t, textures[t]);
+        var built = builder.build();
+        if (!built) throw new Error('ModelBuilder.build() 返回空，模型无法创建');
+        return built;
+      }
+
+      function start() {
+        var size = stageSize();
+        app = new PIXI.Application({
+          width: size.width,
+          height: size.height,
+          transparent: true,
+          antialias: true,
+          autoStart: false
+        });
+        document.getElementById('stage').appendChild(app.view);
+
+        app.ticker.add(function (delta) {
+          if (!model) return;
+          model.update(delta);
+          if (model.masks && model.masks.update) model.masks.update(app.renderer);
+        });
+        window.addEventListener('resize', layout);
+      }
+
+      (async function boot() {
+        hostLog('开始加载运行库：' + BASE);
+        for (var i = 0; i < LIBS.length; i++) {
+          try {
+            var size = await loadScript(LIBS[i]);
+            hostLog('✓ ' + LIBS[i] + '（' + size + ' 字节）');
+          } catch (e) {
+            hostLog('✗ ' + (e && e.message ? e.message : e));
+          }
+        }
+
+        /* fetch+eval 若被 CSP 拦掉，退回 <script> 标签方式 */
+        if (!window.PIXI || !window.Live2DCubismCore || !window.LIVE2DCUBISMFRAMEWORK || !window.LIVE2DCUBISMPIXI) {
+          hostLog('部分全局对象缺失，改用 <script> 标签重新加载……');
+          for (var j = 0; j < LIBS.length; j++) {
+            try { await loadScriptTag(LIBS[j]); } catch (e) { hostLog('✗ ' + (e && e.message ? e.message : e)); }
+          }
+        }
+
+        hostLog('全局对象： PIXI=' + (window.PIXI ? 'ok' : '缺') +
+          ' CubismCore=' + (window.Live2DCubismCore ? 'ok' : '缺') +
+          ' Framework=' + (window.LIVE2DCUBISMFRAMEWORK ? 'ok' : '缺') +
+          ' CubismPixi=' + (window.LIVE2DCUBISMPIXI ? 'ok' : '缺'));
+
+        if (!window.PIXI || !window.Live2DCubismCore || !window.LIVE2DCUBISMFRAMEWORK || !window.LIVE2DCUBISMPIXI) {
+          hostLog('运行库没就绪，停止。可把厂商 js 拷到 source/live2d-v3/js/ 并把 USE_LOCAL 改成 true');
+          return;
+        }
+
+        try {
+          start();
+          hostLog('正在加载模型：' + MODEL3_URL);
+          model = await buildModel();
+          app.stage.addChild(model);
+          app.stage.addChild(model.masks);
+          layout();
+          app.start();
+          hostLog('✓ 模型已渲染' + (model.canvasinfo ? '（' + model.canvasinfo.CanvasWidth + '×' + model.canvasinfo.CanvasHeight + '）' : ''));
+        } catch (e) {
+          hostLog('模型加载失败：' + (e && e.message ? e.message : e));
+        }
+      })();
+    })();
+  </script>
+</body>
+</html>
