@@ -100,6 +100,9 @@ button { font-family: inherit; }
 .topbar {
   /* 抽离出网格流，让 .main 的内容从它下面滚过去 */
   position: absolute;
+  /* 绝对定位的子元素不参与自动排布，必须自己声明行号，
+     否则后面的 .main / .player 会整体上移一行，把播放栏挤没 */
+  grid-row: 1;
   top: 0;
   right: 0;
   left: 0;
@@ -161,6 +164,7 @@ button { font-family: inherit; }
 .icon-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
 .main {
+  grid-row: 2;
   overflow-y: auto;
   /* 顶栏是浮层，用内边距把内容让出来；滚动时内容会钻到毛玻璃下面 */
   padding: 56px 1rem 1.5rem;
@@ -407,6 +411,7 @@ button { font-family: inherit; }
 
 /* ------------------------------------------------------------------ 底部播放条 */
 .player {
+  grid-row: 3;
   display: grid;
   /* 左右各 1fr、中间固定宽度区间 → 控件永远在视口正中 */
   grid-template-columns: minmax(0, 1fr) minmax(300px, 460px) minmax(0, 1fr);
@@ -672,11 +677,11 @@ html[data-scheme="dark"] .s-cover { box-shadow: 0 24px 60px rgba(0, 0, 0, .5); }
 }
 
 .line {
-  margin: 0 0 1.3rem;
+  margin: 0 0 1.35rem;
   color: var(--on-surface-2);
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.5;
   opacity: .35;
   transform: scale(.97);
   transform-origin: left center;
@@ -740,7 +745,8 @@ html[data-scheme="dark"] .s-cover { box-shadow: 0 24px 60px rgba(0, 0, 0, .5); }
   .stage {
     grid-template-columns: 1fr;
     grid-template-rows: auto minmax(0, 1fr);
-    overflow-y: auto;
+    /* 外层不滚：歌词区自己滚，否则两层滚动会互相打架 */
+    overflow: hidden;
   }
 
   /* 手机大屏：只留一行「封面 + 歌名 + 艺人」，进度条和控制按钮全部隐藏 */
@@ -788,10 +794,11 @@ html[data-scheme="dark"] .s-cover { box-shadow: 0 24px 60px rgba(0, 0, 0, .5); }
   .s-seek,
   .s-ctl { display: none; }
 
-  .stage-right { overflow: visible; padding: .3rem 1.1rem 2rem; }
-  .lyrics { height: 58vh; padding: 32% 0; }
-  .line { font-size: 1.2rem; margin-bottom: 1rem; }
-  .line.is-active { transform: scale(1.05); }
+  /* 歌词填满剩余高度，别再写死 58vh，那样底下会空一截 */
+  .stage-right { overflow: hidden; padding: .2rem 1.1rem .8rem; }
+  .lyrics { height: 100%; padding: 26% 0; }
+  .line { font-size: 1.5rem; margin-bottom: 1.15rem; }
+  .line.is-active { transform: scale(1.06); }
 
   .hero h1 { font-size: 1.7rem; }
 
