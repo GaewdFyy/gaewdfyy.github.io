@@ -22,6 +22,7 @@
 
   var app = $('app');
   var input = $('q');
+  var goBtn = $('q-go');
   var clearBtn = $('q-clear');
   var hint = $('hint');
   var results = $('results');
@@ -115,11 +116,14 @@
     skeleton.hidden = true;
 
     meta.textContent = songs.length
-      ? '找到 ' + (data.total || songs.length) + ' 首，显示前 ' + songs.length + ' 首'
+      ? '找到 ' + (data.total || songs.length) + ' 首，显示前 ' + songs.length + ' 首' +
+        (data.abroad ? '（网易云降级结果）' : '')
       : '';
 
     empty.hidden = songs.length !== 0;
-    empty.textContent = '没搜到，换个关键词试试';
+    // Worker 会带上 reason/hint：区分「网易云降级」和「被限流」，
+    // 不要一律显示「没搜到」，那样根本没法排查
+    empty.textContent = data.hint || '没搜到，换个关键词试试';
 
     songs.forEach(function (song, i) {
       var li = document.createElement('li');
@@ -191,6 +195,7 @@
     hint.classList.remove('is-error');
     hint.textContent = '搜索中…';
     setSearching(true);
+    goBtn.disabled = true;
     skeleton.hidden = false;
     empty.hidden = true;
     list.innerHTML = '';
@@ -204,11 +209,13 @@
         return r.json();
       })
       .then(function (data) {
+        goBtn.disabled = false;
         if (data.error) throw new Error(data.error);
-        hint.textContent = '回车搜索';
+        hint.textContent = '回车或点「搜索」';
         renderSongs(data);
       })
       .catch(function (e) {
+        goBtn.disabled = false;
         skeleton.hidden = true;
         // 把实际请求的地址也打出来，404 时一眼能看出是哪个域名/路径不对
         fail('搜索失败：' + e.message + ' → ' + url);
@@ -662,21 +669,27 @@
   }
 
   /* ------------------------------------------------------------------ 事件 */
+  // 不自动搜索：打字过程中不发请求，只有回车或点「搜索」按钮才发。
+  // 每次搜索都要打网易云接口，随打随搜很容易把这台出口 IP 打上限流。
+  function runSearch() {
+    if (goBtn.disabled) return;
+    input.blur();
+    search(input.value);
+  }
+
   input.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      search(input.value);
-      input.blur();
+      runSearch();
     }
   });
 
-  var timer = null;
+  goBtn.addEventListener('click', runSearch);
+
   input.addEventListener('input', function () {
     clearBtn.hidden = !input.value;
-    clearTimeout(timer);
-    var v = input.value.trim();
-    if (!v) { setSearching(false); return; }
-    timer = setTimeout(function () { search(v); }, 500);
+    // 清空输入框只退回初始状态，不发请求
+    if (!input.value.trim()) setSearching(false);
   });
 
   clearBtn.addEventListener('click', function () {
