@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<title>音乐</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/css/music-page.css">
+<script>
+  (function () {
+    var s = null;
+    try { s = localStorage.getItem('music-scheme'); } catch (e) {}
+    document.documentElement.setAttribute(
+      'data-scheme',
+      s || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    );
+  })();
+</script>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <header class="topbar">
+    <a class="back" href="/" aria-label="返回博客">‹</a>
+    <span class="logo">音乐</span>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="theme" type="button" aria-label="切换深浅色">
+      <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+    </button>
+  </header>
+
+  <main class="main" id="main">
+
+    <section class="hero" id="hero">
+      <h1>想听什么</h1>
+      <p class="sub">搜网易云，搜到就能播</p>
+
+      <label class="search" for="q">
+        <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M9.5 3a6.5 6.5 0 0 1 5.11 10.52l4.18 4.19a1 1 0 0 1-1.41 1.41l-4.19-4.18A6.5 6.5 0 1 1 9.5 3zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/></svg>
+        <input id="q" type="search" placeholder="歌名 / 艺人 / 专辑" autocomplete="off" spellcheck="false">
+        <button class="search-clear" id="q-clear" type="button" aria-label="清空" hidden>
+          <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71 12 12.01l6.3 6.29-1.41 1.42L10.6 13.4l-6.3 6.32-1.42-1.42 6.31-6.3-6.3-6.3L4.3 4.3l6.3 6.3 6.29-6.3z"/></svg>
+        </button>
+      </label>
+
+      <p class="hint" id="hint">回车搜索</p>
+    </section>
+
+    <section class="results" id="results" hidden>
+      <p class="result-meta" id="meta"></p>
+      <div class="skeleton" id="skeleton" hidden><i></i><i></i><i></i><i></i><i></i></div>
+      <ol class="list" id="list"></ol>
+      <p class="empty" id="empty" hidden></p>
+    </section>
+
+  </main>
+
+  <footer class="player" id="player" hidden>
+    <div class="p-left">
+      <img class="p-cover" id="p-cover" alt width="46" height="46">
+      <div class="p-text">
+        <span id="p-title">未在播放</span>
+        <span id="p-artist"></span>
+      </div>
+    </div>
+
+    <div class="p-mid">
+      <div class="p-ctl">
+        <button class="icon-btn" id="dl" type="button" aria-label="下载 MP3" title="下载 MP3">
+          <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M11 3h2v9.17l3.59-3.58L18 10l-6 6-6-6 1.41-1.42L11 12.17V3zM5 19h14v2H5z"/></svg>
+        </button>
+        <button class="icon-btn" id="prev" type="button" aria-label="上一首">
+          <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M7 6v12h2V6H7zm3 6 8 6V6l-8 6z"/></svg>
+        </button>
+        <button class="play-btn" id="play" type="button" aria-label="播放">
+          <svg class="play" viewbox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12z"/></svg>
+          <svg class="pause" viewbox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <button class="icon-btn" id="next" type="button" aria-label="下一首">
+          <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M17 6v12h-2V6h2zM6 6v12l8-6-8-6z"/></svg>
+        </button>
+        <button class="icon-btn mode-btn" id="mode" type="button" data-mode="order" aria-label="顺序播放" title="顺序播放">
+          <svg class="ic-order" viewbox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/></svg>
+          <svg class="ic-one" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L8 6l4 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+        </button>
+      </div>
+      <div class="p-seek">
+        <span class="time" id="t-cur">00:00</span>
+        <input class="slider" id="seek" type="range" min="0" max="1000" value="0" aria-label="进度">
+        <span class="time" id="t-dur">00:00</span>
+      </div>
+    </div>
+
+    <div class="p-right">
+      <button class="icon-btn" id="open-stage" type="button" aria-label="大屏模式" title="大屏模式">
+        <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4V4zm10 0h6v6h-2V6h-4V4zM4 14h2v4h4v2H4v-6zm14 0h2v6h-6v-2h4v-4z"/></svg>
+      </button>
+      <input class="slider vol" id="vol" type="range" min="0" max="100" value="80" aria-label="音量">
+    </div>
+  </footer>
+
+</div>
+
+<!-- 大屏模式：左边播放，右边歌词 -->
+<div class="stage" id="stage" hidden>
+  <div class="stage-bg" id="stage-bg" aria-hidden="true"></div>
+  <button class="stage-close" id="stage-close" type="button" aria-label="退出大屏">×</button>
+
+  <div class="stage-left">
+    <img class="s-cover" id="s-cover" alt>
+    <div class="s-meta">
+      <h2 class="s-title" id="s-title"></h2>
+    <p class="s-artist" id="s-artist"></p>
+    </div>
+
+    <div class="s-seek">
+      <span class="time" id="s-cur">00:00</span>
+      <input class="slider" id="s-seek" type="range" min="0" max="1000" value="0" aria-label="进度">
+      <span class="time" id="s-dur">00:00</span>
+    </div>
+
+    <div class="s-ctl">
+      <button class="icon-btn" id="s-dl" type="button" aria-label="下载 MP3" title="下载 MP3">
+          <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M11 3h2v9.17l3.59-3.58L18 10l-6 6-6-6 1.41-1.42L11 12.17V3zM5 19h14v2H5z"/></svg>
+        </button>
+      <button class="icon-btn" id="s-prev" type="button" aria-label="上一首">
+        <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M7 6v12h2V6H7zm3 6 8 6V6l-8 6z"/></svg>
+      </button>
+      <button class="play-btn" id="s-play" type="button" aria-label="播放">
+        <svg class="play" viewbox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12z"/></svg>
+        <svg class="pause" viewbox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="s-next" type="button" aria-label="下一首">
+        <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M17 6v12h-2V6h2zM6 6v12l8-6-8-6z"/></svg>
+      </button>
+      <button class="icon-btn mode-btn" id="s-mode" type="button" data-mode="order" aria-label="顺序播放" title="顺序播放">
+          <svg class="ic-order" viewbox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/></svg>
+          <svg class="ic-one" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L8 6l4 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+        </button>
+    </div>
+  </div>
+
+  <div class="stage-right">
+    <div class="lyrics" id="lyrics">
+      <p class="lyrics-hint">播放后自动加载歌词</p>
+    </div>
+  </div>
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+  /* Worker 地址：部署 workers/netease-api 之后填这里
+   * 例：window.MUSIC_API = 'https://music-api.gaewdfyy.top'; */
+  window.MUSIC_API = 'https://music-api.gaewdfyy.top';
+
+  /* Worker 若设了 API_TOKEN，这里填同一个值，否则留空 */
+  window.MUSIC_TOKEN = '';
+</script>
+<script src="/js/music-page.js" defer></script>
+
+</body>
+</html>
