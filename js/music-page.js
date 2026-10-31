@@ -34,6 +34,9 @@
   var skeleton = $('skeleton');
   var list = $('list');
   var empty = $('empty');
+  var historyBox = $('history');
+  var historyItems = $('history-items');
+  var historyClear = $('history-clear');
 
   var gate = $('gate');
   var gateForm = $('gate-form');
@@ -351,6 +354,8 @@
         goBtn.disabled = false;
         if (data.error) throw new Error(data.error);
         hint.textContent = '回车，或点放大镜';
+        // 只有真搜出东西才记进历史，避免把错别字脏数据也存下来
+        if (data.songs && data.songs.length) rememberSearch(kw);
         renderSongs(data);
       })
       .catch(function (e) {
@@ -362,6 +367,60 @@
         empty.textContent = '搜索失败，看上面那行地址对不对';
       });
   }
+
+  /* ---------------------------------------------------------------- 搜索记录 */
+  var HISTORY_KEY = 'music-history';
+  var HISTORY_MAX = 8;
+
+  function loadHistory() {
+    try {
+      var arr = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      if (!Array.isArray(arr)) return [];
+      return arr.filter(function (x) { return typeof x === 'string' && x; });
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveHistory(arr) {
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+
+  function renderHistory() {
+    var arr = loadHistory();
+
+    historyItems.innerHTML = '';
+    arr.forEach(function (kw) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'history-item';
+      b.textContent = kw;
+      b.title = kw;
+      b.addEventListener('click', function () {
+        input.value = kw;
+        clearBtn.hidden = false;
+        search(kw);
+      });
+      historyItems.appendChild(b);
+    });
+
+    historyBox.hidden = !arr.length;
+  }
+
+  function rememberSearch(kw) {
+    kw = String(kw || '').trim();
+    if (!kw) return;
+    // 搜过的词提到最前，不产生重复
+    var arr = loadHistory().filter(function (x) { return x !== kw; });
+    arr.unshift(kw);
+    saveHistory(arr.slice(0, HISTORY_MAX));
+    renderHistory();
+  }
+
+  historyClear.addEventListener('click', function () {
+    saveHistory([]);
+    renderHistory();
+  });
 
   /* ------------------------------------------------------------------ 歌词 */
   function parseLrc(text) {
@@ -818,7 +877,9 @@
 
   /* ------------------------------------------------------------------ 大屏 */
   function openStage() {
-    if (current < 0) {
+    // 不能看 current 下标：换过一次搜索结果，正在播的那首不在新列表里，
+    // current 就会被对齐成 -1。真正的依据是 nowPlaying。
+    if (!nowPlaying) {
       toast('先选一首歌');
       return;
     }
@@ -1103,6 +1164,7 @@
   fill(seek, 0);
   fill(sSeek, 0);
   applyMode();
+  renderHistory();
 
   if (!API) {
     fail('先部署 Worker，再在 source/music/index.html 里填 window.MUSIC_API');

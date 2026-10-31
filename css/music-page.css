@@ -299,6 +299,59 @@ button { font-family: inherit; }
 .hint { margin: 1rem 0 0; color: var(--on-surface-2); font-size: .78rem; }
 .hint.is-error { color: var(--danger); }
 
+/* 搜索记录 */
+.history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  align-items: center;
+  justify-content: center;
+  width: min(620px, 92vw);
+  margin-top: .9rem;
+}
+
+.history[hidden] { display: none; }
+
+/* 让每颗 chip 直接参与外层的换行，而不是被包成一个整块 */
+.history-items { display: contents; }
+
+.history-item {
+  overflow: hidden;
+  max-width: 11em;
+  padding: .4rem .85rem;
+  border: 0;
+  border-radius: var(--r-full);
+  background: var(--surface-2);
+  color: var(--on-surface-2);
+  font: inherit;
+  font-size: .82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+
+.history-item:hover {
+  background: var(--surface-3);
+  color: var(--on-surface);
+}
+
+.history-clear {
+  padding: .4rem .5rem;
+  border: 0;
+  background: transparent;
+  color: var(--on-surface-2);
+  font: inherit;
+  font-size: .76rem;
+  opacity: .7;
+  cursor: pointer;
+}
+
+.history-clear:hover { color: var(--primary); opacity: 1; }
+
+/* 出结果后首页收起来了，记录也跟着收，别把列表顶下去 */
+.app.is-searching .history { display: none; }
+
 /* ------------------------------------------------------------------ 结果列表 */
 .results[hidden] { display: none; }
 
