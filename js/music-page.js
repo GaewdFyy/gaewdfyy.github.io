@@ -887,14 +887,37 @@
     b.addEventListener('click', toggleMode);
   });
 
-  /* 主题 */
-  $('theme').addEventListener('click', function () {
-    var next = document.documentElement.getAttribute('data-scheme') === 'dark' ? 'light' : 'dark';
+  /* 深浅色 */
+  // 默认跟着设备走（页面开着时改系统主题也会实时跟），手动切过就记住那一次。
+  var SCHEME_KEY = 'music-scheme';
+  var darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function savedScheme() {
+    var v = null;
+    try { v = localStorage.getItem(SCHEME_KEY); } catch (e) {}
+    return v === 'light' || v === 'dark' ? v : null;
+  }
+
+  function setScheme(next) {
     document.documentElement.setAttribute('data-scheme', next);
-    try { localStorage.setItem('music-scheme', next); } catch (e) {}
     // 深浅切换后同样的色相要重新生成对应的色阶
     setCoverTheme();
+  }
+
+  $('theme').addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-scheme') === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem(SCHEME_KEY, next); } catch (e) {}
+    setScheme(next);
   });
+
+  function followDevice() {
+    // 手动选过就不再插手，否则每次系统切换都会覆盖用户的选择
+    if (savedScheme()) return;
+    setScheme(darkMedia.matches ? 'dark' : 'light');
+  }
+
+  if (darkMedia.addEventListener) darkMedia.addEventListener('change', followDevice);
+  else if (darkMedia.addListener) darkMedia.addListener(followDevice);
 
   /* ------------------------------------------------------------------ 启动 */
   audio.volume = Number(vol.value) / 100;

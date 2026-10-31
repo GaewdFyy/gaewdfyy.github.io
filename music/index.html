@@ -12,10 +12,10 @@
   (function () {
     var s = null;
     try { s = localStorage.getItem('music-scheme'); } catch (e) {}
-    document.documentElement.setAttribute(
-      'data-scheme',
-      s || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    );
+    // 只有明确存过 light/dark 才算手动选择，其余一律跟着设备
+    var manual = s === 'light' || s === 'dark';
+    var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-scheme', manual ? s : dark ? 'dark' : 'light');
   })();
 </script>
 </head>
