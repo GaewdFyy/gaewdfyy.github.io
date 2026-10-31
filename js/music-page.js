@@ -1,18 +1,22 @@
-/* /music —— 搜索优先 + 封面 + 卡拉OK + 大屏模式
+/* /music —— 搜索优先 + 封面 + 歌词 + 大屏模式
  *
  * 数据全部走 Worker（workers/netease-api）：
+ *   /api/health        探口令
  *   /api/search?q=     搜索
  *   /api/lyric?id=     歌词
- *   /api/url?id=       302 到网易云直链，直接给 <audio src> 用
+ *   /api/url?id=       返回网易云直链 JSON，交给 <audio src>
  *
- * 逐字歌词（klyric）大部分歌没有，所以卡拉OK用「整行扫光」实现：
- * 按当前行到下一行的时间比例填充渐变，视觉上就是歌词跟着唱。
+ * Worker 若配了口令（PASSWORD / API_TOKEN），每个请求都要带 &k=口令，
+ * 口令存在 localStorage，第一次进来会弹口令门。
  */
 (function () {
   'use strict';
 
   var API = String(window.MUSIC_API || '').replace(/\/+$/, '');
-  var TOKEN = String(window.MUSIC_TOKEN || '');
+  // 口令存在浏览器里，其次才用页面里预置的
+  var TOKEN = '';
+  try { TOKEN = localStorage.getItem('music-pass') || ''; } catch (e) {}
+  if (!TOKEN) TOKEN = String(window.MUSIC_TOKEN || '');
 
   function tk() {
     return TOKEN ? '&k=' + encodeURIComponent(TOKEN) : '';
@@ -30,6 +34,138 @@
   var skeleton = $('skeleton');
   var list = $('list');
   var empty = $('empty');
+
+  var gate = $('gate');
+  var gateForm = $('gate-form');
+  var gateInput = $('gate-input');
+  var gateMsg = $('gate-msg');
+
+  /* ---------------------------------------------------------------- 口令门 */
+  // Worker 配了密码时，所有接口都要带 ?k=。这里先用 /api/health 探一下：
+  // 200 说明没设密码（或口令对），401 就把门挡上。
+  function healthStatus(pass) {
+    var u = API + '/api/health' + (pass ? '?k=' + encodeURIComponent(pass) : '');
+    return fetch(u).then(function (r) { return r.status; });
+  }
+
+  function showGate(msg) {
+    gateMsg.textContent = msg || '';
+    gate.hidden = false;
+    setTimeout(function () { gateInput.focus(); }, 30);
+  }
+
+  function savePass(p) {
+    TOKEN = p;
+    try {
+      if (p) localStorage.setItem('music-pass', p);
+      else localStorage.removeItem('music-pass');
+    } catch (e) {}
+  }
+
+  /** 口令失效：清掉本地值，重新要口令 */
+  function requirePass() {
+    savePass('');
+    promptPass(2);
+  }
+
+  /** 被挡下来的响应统一处理：401/403 就再要一次口令 */
+  function authGuard(r) {
+    if (r.status === 401 || r.status === 403) {
+      requirePass();
+      throw new Error('需要口令');
+    }
+    return r;
+  }
+
+  /** 用浏览器原生输入框问口令；取消返回 null */
+  function askPass(msg) {
+    try {
+      var v = window.prompt(msg);
+      return v == null ? null : String(v).trim();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** 拿口令去探一次，对了就存下来并关门 */
+  function unlockWith(pass) {
+    if (!pass) return Promise.resolve(false);
+    return healthStatus(pass).then(function (code) {
+      if (code !== 200) return false;
+      savePass(pass);
+      gate.hidden = true;
+      gateInput.value = '';
+      gateMsg.textContent = '';
+      return true;
+    });
+  }
+
+  var gateBusy = false;
+
+  /**
+   * 进页面直接在浏览器窗口里问口令。
+   * 输错再问一次；如果用户取消、或者浏览器把弹窗拦掉（返回 null），
+   * 就退回页面里的卡片，至少还有条路能进。
+   */
+  function promptPass(tries) {
+    if (gateBusy) return;
+    gateBusy = true;
+
+    var left = tries == null ? 2 : tries;
+    var first = true;
+
+    function next() {
+      var v = askPass(first ? '请输入口令' : '口令不对，再试一次');
+      first = false;
+
+      if (!v) {
+        gateBusy = false;
+        showGate('');
+        return;
+      }
+
+      unlockWith(v)
+        .then(function (ok) {
+          if (ok) { gateBusy = false; return; }
+          left -= 1;
+          if (left > 0) next();
+          else { gateBusy = false; showGate('口令不对'); }
+        })
+        .catch(function () { gateBusy = false; showGate('连不上 Worker'); });
+    }
+
+    next();
+  }
+
+  function checkGate() {
+    if (!API) return;
+    healthStatus(TOKEN)
+      .then(function (code) {
+        if (code === 200) {
+          gate.hidden = true;
+          return;
+        }
+        if (code === 401 || code === 403) {
+          savePass('');
+          promptPass(2); // 进页面就弹浏览器输入框
+          return;
+        }
+        showGate('连不上 Worker（HTTP ' + code + '）');
+      })
+      .catch(function () { showGate('连不上 Worker，检查网络或地址'); });
+  }
+
+  // 卡片是兜底：弹窗被拦或用户取消时才用得上
+  gateForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = gateInput.value.trim();
+    if (!v) return;
+    gateMsg.textContent = '验证中…';
+    unlockWith(v).then(function (ok) {
+      if (ok) return;
+      gateMsg.textContent = '口令不对';
+    }).catch(function () { gateMsg.textContent = '连不上 Worker'; });
+  });
 
   var audio = $('audio');
   var player = $('player');
@@ -54,6 +190,8 @@
   var songs = [];
   var current = -1;
   var currentId = null; // 当前音频对应的歌曲 id：列表换了也不会指错
+  var nowPlaying = null; // 正在播的那首歌的完整对象，清空搜索后也要能下载
+  var trackToken = 0;    // 连续切歌时用来丢弃过期的取址请求
   var rows = [];
   var lines = [];        // [{ t, text }]
   var activeLine = -1;
@@ -204,6 +342,7 @@
     var url = API + '/api/search?q=' + encodeURIComponent(kw) + '&limit=20' + tk();
 
     fetch(url)
+      .then(authGuard)
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
@@ -276,6 +415,7 @@
     activeLine = -1;
 
     fetch(API + '/api/lyric?id=' + encodeURIComponent(id) + tk())
+      .then(authGuard)
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (token !== lyricToken) return;
@@ -595,17 +735,45 @@
     });
   }
 
+  /**
+   * 取播放直链再交给 <audio>。
+   * Worker /api/url 现在回 JSON：直链一旦拿到，后续的分段/拖动就都由浏览器
+   * 直接跟网易云 CDN 谈，不再每次都穿过 Worker。
+   */
+  function startTrack(song, autoplay) {
+    var token = ++trackToken;
+
+    fetch(API + '/api/url?id=' + encodeURIComponent(song.id) + tk())
+      .then(authGuard)
+      .then(function (r) {
+        return r.json().then(function (d) {
+          if (!r.ok || !d.url) throw new Error(d.error || 'HTTP ' + r.status);
+          return d.url;
+        });
+      })
+      .then(function (u) {
+        if (token !== trackToken) return; // 已经切到别的歌了
+        audio.src = u;
+        audio.load();
+        if (autoplay) audio.play().catch(function () {});
+      })
+      .catch(function (e) {
+        if (token !== trackToken) return;
+        if (e.message === '需要口令') return; // 口令门已经弹出来了
+        toast('播放失败：' + e.message);
+      });
+  }
+
   function play(i) {
     var song = songs[i];
     if (!song) return;
 
     current = i;
     currentId = song.id;
+    nowPlaying = song;
     paint(song);
 
-    audio.src = API + '/api/url?id=' + encodeURIComponent(song.id) + tk();
-    audio.load();
-    audio.play().catch(function () {});
+    startTrack(song, true);
 
     seek.value = '0';
     sSeek.value = '0';
@@ -817,7 +985,9 @@
   }
 
   function downloadCurrent() {
-    var song = songs[indexOfCurrent()];
+    // 用 nowPlaying 而不是 songs[indexOfCurrent()]：
+    // 清空搜索会把 songs 清空，但当前这首还在放，照样该能下载
+    var song = nowPlaying;
     if (!song) {
       toast('先选一首歌再下载');
       return;
@@ -831,6 +1001,14 @@
     toast('正在准备下载…');
 
     fetch(API + '/api/url?id=' + encodeURIComponent(song.id) + tk())
+      .then(authGuard)
+      .then(function (r) {
+        return r.json().then(function (d) {
+          if (!r.ok || !d.url) throw new Error(d.error || 'HTTP ' + r.status);
+          return d.url;
+        });
+      })
+      .then(function (u) { return fetch(u); })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         var ct = r.headers.get('content-type') || '';
@@ -928,5 +1106,8 @@
 
   if (!API) {
     fail('先部署 Worker，再在 source/music/index.html 里填 window.MUSIC_API');
+  } else {
+    // Worker 若配了口令，这里会把门挡上
+    checkGate();
   }
 })();

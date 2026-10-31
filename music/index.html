@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>音乐</title>
 <link rel="icon" href="/favicon.svg">
-<link rel="stylesheet" href="/css/music-page.css">
+<link rel="stylesheet" href="/css/music-page.css?v=20261031">
 <script>
   (function () {
     var s = null;
@@ -156,15 +156,27 @@
 
 <audio id="audio" preload="metadata"></audio>
 
+<!-- 口令门：Worker 配了密码时才会出现（前端拿 /api/health 探一下） -->
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="gate-form">
+    <h2>需要口令</h2>
+    <p>这个页面只对拿到口令的人开放</p>
+    <input id="gate-input" type="password" placeholder="口令" autocomplete="current-password" spellcheck="false">
+    <button type="submit">进入</button>
+    <p class="gate-msg" id="gate-msg" role="status"></p>
+  </form>
+</div>
+
 <script>
   /* Worker 地址：部署 workers/netease-api 之后填这里
    * 例：window.MUSIC_API = 'https://music-api.gaewdfyy.top'; */
   window.MUSIC_API = 'https://music-api.gaewdfyy.top';
 
-  /* Worker 若设了 API_TOKEN，这里填同一个值，否则留空 */
+  /* 预置口令（可选）：留空即可，口令会存在浏览器里，由口令门负责输入 */
   window.MUSIC_TOKEN = '';
 </script>
-<script src="/js/music-page.js" defer></script>
+<!-- 改了 css/js 就顺手把 v= 改一下，否则浏览器/GitHub Pages 会继续用旧缓存 -->
+<script src="/js/music-page.js?v=20261031" defer></script>
 
 </body>
 </html>
