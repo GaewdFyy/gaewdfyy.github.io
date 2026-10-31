@@ -24,7 +24,9 @@
 <div class="app" id="app">
 
   <header class="topbar">
-    <a class="back" href="/" aria-label="返回博客">‹</a>
+    <span class="brand" aria-hidden="true">
+      <svg viewbox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+    </span>
     <span class="logo">音乐</span>
     <span class="spacer"></span>
     <button class="icon-btn" id="theme" type="button" aria-label="切换深浅色">
@@ -39,15 +41,16 @@
       <p class="sub">搜网易云，搜到就能播</p>
 
       <label class="search" for="q">
-        <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M9.5 3a6.5 6.5 0 0 1 5.11 10.52l4.18 4.19a1 1 0 0 1-1.41 1.41l-4.19-4.18A6.5 6.5 0 1 1 9.5 3zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/></svg>
         <input id="q" type="search" placeholder="歌名 / 艺人 / 专辑" autocomplete="off" spellcheck="false">
         <button class="search-clear" id="q-clear" type="button" aria-label="清空" hidden>
           <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71 12 12.01l6.3 6.29-1.41 1.42L10.6 13.4l-6.3 6.32-1.42-1.42 6.31-6.3-6.3-6.3L4.3 4.3l6.3 6.3 6.29-6.3z"/></svg>
         </button>
-        <button class="search-go" id="q-go" type="button" aria-label="搜索">搜索</button>
+        <button class="search-go" id="q-go" type="button" aria-label="搜索" title="搜索">
+          <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M9.5 3a6.5 6.5 0 0 1 5.11 10.52l4.18 4.19a1 1 0 0 1-1.41 1.41l-4.19-4.18A6.5 6.5 0 1 1 9.5 3zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/></svg>
+        </button>
       </label>
 
-      <p class="hint" id="hint">回车或点「搜索」</p>
+      <p class="hint" id="hint">回车，或点放大镜</p>
     </section>
 
     <section class="results" id="results" hidden>

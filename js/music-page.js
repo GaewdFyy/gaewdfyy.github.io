@@ -211,7 +211,7 @@
       .then(function (data) {
         goBtn.disabled = false;
         if (data.error) throw new Error(data.error);
-        hint.textContent = '回车或点「搜索」';
+        hint.textContent = '回车，或点放大镜';
         renderSongs(data);
       })
       .catch(function (e) {

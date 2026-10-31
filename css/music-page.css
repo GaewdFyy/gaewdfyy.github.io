@@ -103,19 +103,19 @@ button { font-family: inherit; }
   height: 56px;
 }
 
-.back {
+/* 左上角只是个装饰性音乐图标：不是链接，没有功能 */
+.brand {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--r-full);
-  color: var(--on-surface-2);
-  font-size: 1.3rem;
-  text-decoration: none;
+  background: var(--primary-container);
+  color: var(--on-primary-container);
 }
 
-.back:hover { background: var(--surface-2); color: var(--on-surface); }
+.brand svg { width: 19px; height: 19px; fill: currentColor; }
 
 .logo {
   color: var(--on-surface);
@@ -212,7 +212,7 @@ button { font-family: inherit; }
   height: 46px;
 }
 
-.search svg { flex: none; width: 20px; height: 20px; fill: var(--on-surface-2); }
+.search svg { flex: none; fill: var(--on-surface-2); }
 
 .search input {
   flex: 1;
@@ -248,26 +248,32 @@ button { font-family: inherit; }
 .search-clear[hidden] { display: none; }
 .search-clear svg { width: 14px; height: 14px; fill: currentColor; }
 
-/* 搜索要手动触发，所以按钮得明显一点：实心 primary 药丸 */
+/* 搜索改成图标按钮后，实心 primary 圆钮就是唯一的强调点 */
 .search-go {
+  display: inline-flex;
   flex: none;
-  height: 36px;
-  padding: 0 1.15rem;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   border: 0;
   border-radius: var(--r-full);
   background: var(--primary);
   color: var(--on-primary);
-  font: inherit;
-  font-size: .92rem;
-  font-weight: 600;
-  letter-spacing: .04em;
   cursor: pointer;
-  transition: box-shadow .2s ease, transform .15s ease, opacity .2s ease;
+  transition: box-shadow .2s ease, transform .15s ease, opacity .2s ease,
+    width .3s ease, height .3s ease;
 }
 
+.search-go svg { width: 21px; height: 21px; fill: currentColor; }
 .search-go:hover { box-shadow: 0 6px 16px rgba(74, 40, 24, .18); }
-.search-go:active { transform: scale(.96); }
+.search-go:active { transform: scale(.94); }
 .search-go:disabled { opacity: .45; cursor: default; box-shadow: none; transform: none; }
+
+/* 已经开始搜索后药丸会缩小到 46px，按钮得跟着收 */
+.app.is-searching .search-go { width: 36px; height: 36px; }
+.app.is-searching .search-go svg { width: 18px; height: 18px; }
 
 .hint { margin: 1rem 0 0; color: var(--on-surface-2); font-size: .78rem; }
 .hint.is-error { color: var(--danger); }
@@ -772,9 +778,12 @@ html[data-scheme="dark"] .s-cover { box-shadow: 0 24px 60px rgba(0, 0, 0, .5); }
 
   .hero h1 { font-size: 1.7rem; }
 
-  /* 窄屏里药丸按钮得收一点，不然输入框太窄 */
-  .search { gap: .45rem; padding: 0 .8rem 0 1rem; }
-  .search-go { height: 32px; padding: 0 .85rem; font-size: .85rem; }
+  /* 窄屏里药丸和按钮都收一点，不然输入框太窄 */
+  .search { gap: .45rem; padding: 0 .55rem 0 .95rem; }
+  .search-go { width: 38px; height: 38px; }
+  .search-go svg { width: 19px; height: 19px; }
+  .app.is-searching .search-go { width: 33px; height: 33px; }
+  .app.is-searching .search-go svg { width: 17px; height: 17px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
