@@ -780,6 +780,7 @@ function appendNavItem(list, tag, icon, count) {
   item.dataset.tag = tag;
   item.tabIndex = 0;
   item.setAttribute('role', 'button');
+  item.setAttribute('aria-label', tag);   // 折叠成图标栏后仍有可读名称
   item.setAttribute('aria-pressed', 'false');
   item.innerHTML = `${icon}<span class="nav-label">${tag}</span><span class="nav-count">${count}</span>`;
   item.addEventListener('click', () => { selectTag(tag); closeMobileDrawer(); });
