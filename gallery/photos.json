@@ -14,20 +14,6 @@
     "comment": "抓住秋天的尾巴。"
   },
   {
-    "src": "/gallery/thumbs/DSC9277-2.jpg",
-    "raw": "https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo15.jpg",
-    "title": "Golden Leaves, Endless",
-    "loc": "金叶未央",
-    "date": "2026-11-13",
-    "tags": [
-      "风景",
-      "冬天"
-    ],
-    "camera": "Nikon D3300",
-    "settings": "50mm · 1/80s · F5 · ISO560",
-    "comment": "路牌本来是指向某个具体的方向，但被秋叶包围后，似乎又不只是指向一条路。像是在指向一段未知的旅程，也像是秋天无声地邀请你去远方。"
-  },
-  {
     "src": "/gallery/thumbs/DSC9295_2026.11.27-17.40.51.webp",
     "raw": "https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo16.jpg",
     "title": "Autumn Shadows on the Painted Bridge",
@@ -40,6 +26,20 @@
     "camera": "Nikon D3300",
     "settings": "50mm · 1/1250s · F1.8 · ISO100",
     "comment": "秋水共长天一色。"
+  },
+  {
+    "src": "/gallery/thumbs/DSC9277-2.jpg",
+    "raw": "https://raw.githubusercontent.com/gaewdfyy/gallery/main/photo15.jpg",
+    "title": "Golden Leaves, Endless",
+    "loc": "金叶未央",
+    "date": "2026-11-13",
+    "tags": [
+      "风景",
+      "冬天"
+    ],
+    "camera": "Nikon D3300",
+    "settings": "50mm · 1/80s · F5 · ISO560",
+    "comment": "路牌本来是指向某个具体的方向，但被秋叶包围后，似乎又不只是指向一条路。像是在指向一段未知的旅程，也像是秋天无声地邀请你去远方。"
   },
   {
     "src": "/gallery/thumbs/DSC9308-2_2026.11.27-17.40.42.webp",
