@@ -26,6 +26,9 @@
       --outline-variant:   #3e2a1e;
       --t: 0.6s;
       --drawer-w: 260px;
+      --drawer-w-collapsed: 76px; /* 折叠后仅留 Logo 的窄条 */
+      --sidebar-header-h: 64px;   /* Sidebar Header 固定高度（折叠/展开一致） */
+      --sb-motion: 0.36s cubic-bezier(0.2, 0, 0, 1); /* 侧栏折叠/展开统一动效 */
       --header-h: 58px; /* 固定的顶栏高度 */
     }
 
@@ -98,9 +101,8 @@
     #backHome svg { width: 17px; height: 17px; opacity: 0.8; }
     #backHome .icon-label { font-size: 0.82rem; letter-spacing: 0.02em; white-space: nowrap; }
 
-    /* 桌面端隐藏抽屉呼出按钮，以及抽屉里的返回入口（顶栏已有按钮） */
+    /* 桌面端隐藏抽屉里的返回入口（顶栏已有按钮） */
     @media (min-width: 861px) {
-      #drawerToggle { display: none; }
       #backHomeDrawer { display: none; }
     }
 
@@ -113,25 +115,80 @@
       display: flex; flex-direction: column;
       background: var(--surface-variant);
       border-right: 1px solid var(--outline-variant);
-      overflow-y: auto; overflow-x: hidden;
-      transition: background var(--t) ease, border-color var(--t) ease;
+      overflow: hidden;
+      transition: width var(--sb-motion), background var(--t) ease, border-color var(--t) ease;
     }
-    .drawer::-webkit-scrollbar { display: none; }
+    /* 侧栏内容独立滚动，Sidebar Header 永远钉在顶部 */
+    .drawer-nav { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+    .drawer::-webkit-scrollbar, .drawer-nav::-webkit-scrollbar { display: none; }
 
-    .drawer-header { padding: 2rem 1.5rem 0.85rem; flex-shrink: 0; }
+    /* ── Sidebar Header（属于 Sidebar 本身，与全局 Top Toolbar 相互独立） ── */
+    .sidebar-header {
+      height: var(--sidebar-header-h); flex: 0 0 var(--sidebar-header-h);
+      display: flex; align-items: center; gap: 0.55rem;
+      padding: 0 0.85rem 0 0.95rem;
+      background: color-mix(in srgb, var(--surface) 45%, var(--surface-variant));
+      border-bottom: 1px solid var(--outline-variant);
+      position: relative; z-index: 2;
+      transition: padding var(--sb-motion), gap var(--sb-motion),
+                  background var(--t) ease, border-color var(--t) ease;
+    }
+
+    /* Logo：展开态静态展示；折叠态悬停/聚焦时交叉淡出为「展开」箭头 */
+    .sidebar-logo {
+      position: relative; flex-shrink: 0;
+      width: 36px; height: 36px; padding: 0;
+      display: grid; place-items: center;
+      border: none; border-radius: 12px; background: transparent;
+      color: var(--primary); cursor: default;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sidebar-logo img {
+      width: 26px; height: 26px; display: block; border-radius: 7px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      transition: opacity 0.2s ease, transform 0.25s ease;
+    }
+    .sidebar-logo .logo-hint {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; transform: scale(0.75);
+      transition: opacity 0.2s ease, transform 0.25s ease;
+    }
+    .sidebar-logo .logo-hint svg { width: 20px; height: 20px; }
+
+    .sidebar-collapse {
+      margin-left: auto; flex-shrink: 0;
+      width: 36px; height: 36px; padding: 0; border-radius: 50%;
+      display: grid; place-items: center;
+      border: none; background: transparent; cursor: pointer;
+      color: color-mix(in srgb, var(--on-surface) 70%, transparent);
+      transition: background 0.2s ease, color 0.2s ease,
+                  width var(--sb-motion), margin var(--sb-motion),
+                  opacity 0.18s ease, transform var(--sb-motion);
+    }
+    .sidebar-collapse:hover  { background: color-mix(in srgb, var(--on-surface) 10%, transparent); color: var(--on-surface); }
+    .sidebar-collapse:active { background: color-mix(in srgb, var(--on-surface) 16%, transparent); }
+    .sidebar-collapse svg { width: 20px; height: 20px; }
+
     .drawer-subtitle {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 400; font-size: 1.35rem; line-height: 1.2;
       color: var(--on-surface); opacity: 0.9;
       letter-spacing: 0.02em;
+      padding: 1.25rem 1.5rem 0.85rem;
+      transition: opacity 0.18s ease, visibility 0.18s;
     }
 
-    .drawer-divider { height: 1px; background: var(--outline-variant); margin: 0.6rem 1.25rem; transition: background var(--t) ease;}
+    .drawer-divider {
+      height: 1px; background: var(--outline-variant); margin: 0.6rem 1.25rem;
+      transition: background var(--t) ease, opacity 0.18s ease, visibility 0.18s,
+                  height var(--sb-motion), margin var(--sb-motion);
+    }
 
     .drawer-section-label {
       font-size: 0.58rem; letter-spacing: 0.2em;
       text-transform: uppercase; opacity: 0.45;
       padding: 0.9rem 1.5rem 0.35rem;
+      transition: opacity 0.18s ease, visibility 0.18s;
     }
 
     /* nav item (pill) */
@@ -140,7 +197,8 @@
       padding: 0.7rem 1rem 0.7rem 1.1rem;
       margin: 0.08rem 0.65rem;
       border-radius: 99px; cursor: pointer;
-      transition: background 0.18s, color 0.18s;
+      transition: background 0.18s, color 0.18s,
+                  padding var(--sb-motion), margin var(--sb-motion);
       user-select: none; position: relative;
     }
     .nav-item:hover { background: color-mix(in srgb, var(--on-surface) 8%, transparent); }
@@ -148,16 +206,17 @@
 
     .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.65; transition: opacity 0.18s; }
     .nav-item.active .nav-icon { opacity: 1; }
-    .nav-label { font-size: 0.84rem; flex: 1; }
+    .nav-label { font-size: 0.84rem; flex: 1; transition: opacity 0.18s ease, visibility 0.18s; }
     .nav-count {
       font-size: 0.65rem; opacity: 0.6;
       background: color-mix(in srgb, var(--on-surface) 8%, transparent);
       padding: 0.08rem 0.48rem; border-radius: 99px;
+      transition: opacity 0.18s ease, visibility 0.18s, background 0.18s;
     }
     .nav-item.active .nav-count { opacity: 0.8; background: color-mix(in srgb, var(--on-primary-container) 12%, transparent); }
 
     /* sub-list */
-    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.28s ease; }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.28s ease, opacity 0.18s ease, visibility 0.18s; }
     .nav-sub.open { max-height: 600px; }
 
     .nav-sub-item {
@@ -177,13 +236,81 @@
 
     /* ── Drawer Footer (版权署名) ───────────────────────────── */
     .drawer-footer {
-      margin-top: auto; /* 确保顶到最下方 */
-      padding: 2rem 1.5rem 1.5rem;
+      padding: 1.2rem 1.5rem 1.5rem;
       font-size: 0.68rem;
       letter-spacing: 0.05em;
       opacity: 0.35;
       text-align: center;
       flex-shrink: 0;
+      transition: opacity 0.18s ease, visibility 0.18s, padding var(--sb-motion), height var(--sb-motion);
+    }
+
+    /* ── 折叠态（桌面/宽屏）：只保留 Logo 的窄条 ────────────── */
+    @media (min-width: 861px) {
+      body[data-sidebar="collapsed"] .drawer { width: var(--drawer-w-collapsed); }
+      body[data-sidebar="collapsed"] .sidebar-header {
+        justify-content: center; gap: 0; padding: 0;
+      }
+      body[data-sidebar="collapsed"] .sidebar-collapse {
+        width: 0; margin-left: 0; opacity: 0;
+        transform: translateX(8px); pointer-events: none;
+      }
+      body[data-sidebar="collapsed"] .sidebar-logo {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      /* 悬停（鼠标设备）时 Logo 交叉淡出为展开箭头 */
+      @media (hover: hover) {
+        body[data-sidebar="collapsed"] .sidebar-logo:hover,
+        body[data-sidebar="collapsed"] .sidebar-header:hover .sidebar-logo {
+          background: color-mix(in srgb, var(--on-surface) 8%, transparent);
+        }
+        body[data-sidebar="collapsed"] .sidebar-logo:hover img,
+        body[data-sidebar="collapsed"] .sidebar-header:hover .sidebar-logo img {
+          opacity: 0; transform: scale(0.8) rotate(-10deg);
+        }
+        body[data-sidebar="collapsed"] .sidebar-logo:hover .logo-hint,
+        body[data-sidebar="collapsed"] .sidebar-header:hover .sidebar-logo .logo-hint {
+          opacity: 1; transform: none;
+        }
+      }
+      /* 键盘聚焦时同样呈现展开箭头 */
+      body[data-sidebar="collapsed"] .sidebar-logo:focus-visible {
+        background: color-mix(in srgb, var(--on-surface) 8%, transparent);
+      }
+      body[data-sidebar="collapsed"] .sidebar-logo:focus-visible img { opacity: 0; transform: scale(0.8); }
+      body[data-sidebar="collapsed"] .sidebar-logo:focus-visible .logo-hint { opacity: 1; transform: none; }
+
+      body[data-sidebar="collapsed"] .drawer-subtitle,
+      body[data-sidebar="collapsed"] .drawer-section-label {
+        opacity: 0; visibility: hidden;
+        height: 0; padding-top: 0; padding-bottom: 0; overflow: hidden;
+      }
+      body[data-sidebar="collapsed"] .drawer-divider {
+        opacity: 0; visibility: hidden;
+        height: 0; margin-top: 0; margin-bottom: 0;
+      }
+      /* 文字让出空间，图标才能居中（visibility 隐藏后仍占位，需收窄） */
+      body[data-sidebar="collapsed"] .nav-label {
+        flex: 0 0 0; width: 0; overflow: hidden;
+        opacity: 0; visibility: hidden;
+      }
+      body[data-sidebar="collapsed"] .nav-count {
+        display: none;
+      }
+      body[data-sidebar="collapsed"] .nav-sub {
+        opacity: 0; visibility: hidden; max-height: 0; pointer-events: none;
+      }
+      body[data-sidebar="collapsed"] .drawer-footer {
+        opacity: 0; visibility: hidden;
+        height: 0; padding-top: 0; padding-bottom: 0; overflow: hidden;
+      }
+      body[data-sidebar="collapsed"] .nav-item {
+        justify-content: center; gap: 0;
+        padding-left: 0; padding-right: 0;
+        margin-left: 0.55rem; margin-right: 0.55rem;
+      }
+      body[data-sidebar="collapsed"] .nav-icon { opacity: 0.75; }
     }
 
     /* ── Scrim (mobile) ─────────────────────────────────────── */
@@ -192,6 +319,46 @@
       background: rgba(0,0,0,0.5);
       opacity: 0; pointer-events: none; transition: opacity 0.28s ease;
     }
+
+    /* ── Sidebar Dock（移动端折叠态：侧栏只留 Logo 的悬浮入口，属于 Sidebar 而非顶栏） ── */
+    .sidebar-dock {
+      position: fixed; z-index: 297;
+      right: calc(16px + env(safe-area-inset-right));
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      width: 52px; height: 52px; padding: 0; border-radius: 50%;
+      display: none; align-items: center; justify-content: center;
+      border: 1px solid var(--outline-variant);
+      background: color-mix(in srgb, var(--surface-variant) 90%, transparent);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.24s ease, transform 0.24s ease,
+                  background 0.2s ease, border-color var(--t) ease;
+    }
+    .sidebar-dock img { width: 24px; height: 24px; border-radius: 7px; display: block; }
+    .sidebar-dock .dock-hint {
+      position: absolute; right: 3px; bottom: 3px;
+      width: 17px; height: 17px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--primary-container); color: var(--primary);
+      border: 1px solid var(--outline-variant);
+    }
+    .sidebar-dock .dock-hint svg { width: 10px; height: 10px; }
+    .sidebar-dock:hover  { background: color-mix(in srgb, var(--on-surface) 12%, var(--surface-variant)); }
+    .sidebar-dock:active { transform: scale(0.94); }
+
+    @media (max-width: 860px) { .sidebar-dock { display: flex; } }
+    body[data-drawer="open"] .sidebar-dock { opacity: 0; pointer-events: none; transform: scale(0.86); }
+
+    /* ── 键盘可访问性：统一焦点环 ───────────────────────────── */
+    .sidebar-logo:focus-visible,
+    .sidebar-collapse:focus-visible,
+    .sidebar-dock:focus-visible,
+    .nav-item:focus-visible,
+    .nav-sub-item:focus-visible {
+      outline: 2px solid var(--primary); outline-offset: 2px;
+    }
+    .nav-item:focus-visible { background: color-mix(in srgb, var(--on-surface) 10%, transparent); }
 
     /* ── Main scroll area ───────────────────────────────────── */
     .main { flex: 1; overflow-y: auto; overflow-x: hidden; min-width: 0; }
@@ -334,6 +501,9 @@
       .scrim { display: block; }
       .scrim.show { opacity: 1; pointer-events: all; }
 
+      /* 触摸端放大 Sidebar Header 内的点按热区 */
+      .sidebar-logo, .sidebar-collapse { width: 44px; height: 44px; }
+
       .gallery-wrap { padding: 1.8rem 1.25rem 4rem; }
       
       .detail-overlay { align-items: flex-end; }
@@ -374,18 +544,20 @@
     @media (max-width: 420px) {
       .grid-sizer, .gallery-item { width: 100%; margin-bottom: 10px; }
     }
+
+    /* ── 尊重「减少动态效果」偏好 ────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .drawer, .sidebar-header, .sidebar-logo, .sidebar-collapse, .sidebar-dock,
+      .nav-item, .nav-label, .nav-count, .drawer-subtitle, .drawer-section-label,
+      .drawer-divider, .drawer-footer, .nav-sub, .logo-hint, .sidebar-logo img {
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
 
 <header class="top-bar">
-  <button class="icon-btn" id="drawerToggle" aria-label="打开菜单">
-    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <line x1="3" y1="6" x2="21" y2="6"/>
-      <line x1="3" y1="12" x2="21" y2="12"/>
-      <line x1="3" y1="18" x2="21" y2="18"/>
-    </svg>
-  </button>
   <h1>GaewdFyy's Gallery</h1>
 
   <a class="icon-btn" id="backHome" href="/" title="返回主站" aria-label="返回主站">
@@ -403,23 +575,42 @@
 <div class="scrim" id="scrim"></div>
 
 <div class="shell">
-  <nav class="drawer" id="drawer">
-    <div class="drawer-header">
-      <div class="drawer-subtitle">摄影作品集</div>
+  <nav class="drawer" id="drawer" aria-label="图廊导航">
+    <!-- Sidebar Header：属于 Sidebar 自身，不属于全局 Top Toolbar -->
+    <div class="sidebar-header">
+      <!-- 展开态：展示 Logo；折叠态：悬停/聚焦时 Logo 交叉过渡为展开按钮 -->
+      <button class="sidebar-logo" id="sidebarLogo" type="button" aria-label="展开侧边栏" aria-expanded="true" aria-controls="drawer">
+        <img src="/gallery/icon.png" alt width="26" height="26">
+        <span class="logo-hint" aria-hidden="true">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 6 15 12 9 18"/>
+          </svg>
+        </span>
+      </button>
+      <!-- 展开态右侧：收起按钮 -->
+      <button class="sidebar-collapse" id="sidebarCollapse" type="button" aria-label="收起侧边栏" aria-expanded="true" aria-controls="drawer" title="收起侧边栏">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 6 9 12 15 18"/>
+        </svg>
+      </button>
     </div>
-    <div class="drawer-divider"></div>
 
-    <a class="nav-item" id="backHomeDrawer" href="/" title="返回主站">
-      <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      <span class="nav-label">返回主站</span>
-    </a>
+    <div class="drawer-nav">
+      <div class="drawer-subtitle">摄影作品集</div>
+      <div class="drawer-divider"></div>
 
-    <div class="drawer-section-label">图廊</div>
-    <div id="navList"></div>
-    
+      <a class="nav-item" id="backHomeDrawer" href="/" title="返回主站">
+        <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-label">返回主站</span>
+      </a>
+
+      <div class="drawer-section-label">图廊</div>
+      <div id="navList"></div>
+    </div>
+
     <div class="drawer-footer">
       © 2026 GaewdFyy. All rights reserved.
     </div>
@@ -437,6 +628,16 @@
     </div>
   </main>
 </div>
+
+<!-- 移动端折叠态：侧栏只留 Logo 的悬浮入口（不属于全局顶栏） -->
+<button class="sidebar-dock" id="sidebarDock" type="button" aria-label="打开图廊导航" aria-expanded="false" aria-controls="drawer">
+  <img src="/gallery/icon.png" alt width="24" height="24">
+  <span class="dock-hint" aria-hidden="true">
+    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 6 15 12 9 18"/>
+    </svg>
+  </span>
+</button>
 
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-backdrop" id="detailBackdrop"></div>
@@ -577,8 +778,18 @@ function appendNavItem(list, tag, icon, count) {
   const item = document.createElement('div');
   item.className = 'nav-item';
   item.dataset.tag = tag;
+  item.tabIndex = 0;
+  item.setAttribute('role', 'button');
+  item.setAttribute('aria-pressed', 'false');
   item.innerHTML = `${icon}<span class="nav-label">${tag}</span><span class="nav-count">${count}</span>`;
   item.addEventListener('click', () => { selectTag(tag); closeMobileDrawer(); });
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectTag(tag);
+      closeMobileDrawer();
+    }
+  });
 
   const sub = document.createElement('div');
   sub.className = 'nav-sub';
@@ -597,15 +808,27 @@ function rebuildSubItems(container, tag) {
     const row = document.createElement('div');
     row.className = 'nav-sub-item';
     row.dataset.key = key;
+    row.tabIndex = 0;
+    row.setAttribute('role', 'button');
     row.innerHTML = `<div class="nav-sub-dot"></div>${y} ${MONTHS_ZH[+m-1]}`;
     row.addEventListener('click', e => { e.stopPropagation(); scrollToGroup(key); closeMobileDrawer(); });
+    row.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        scrollToGroup(key);
+        closeMobileDrawer();
+      }
+    });
     container.appendChild(row);
   });
 }
 
 function syncNavActive() {
-  document.querySelectorAll('.nav-item').forEach(el =>
-    el.classList.toggle('active', el.dataset.tag === activeTag));
+  document.querySelectorAll('.nav-item').forEach(el => {
+    const on = el.dataset.tag === activeTag;
+    el.classList.toggle('active', on);
+    if (el.dataset.tag) el.setAttribute('aria-pressed', String(on));
+  });
   document.querySelectorAll('.nav-sub').forEach(el =>
     el.classList.toggle('open', el.dataset.tag === activeTag));
 }
@@ -618,8 +841,10 @@ function selectTag(tag) {
 
 /* ── Gallery Render ───────────────────────────────────────── */
 const galleryRoot = document.getElementById('galleryRoot');
+const masonryInstances = [];   // 侧栏折叠 / 窗口缩放后需要重新排版
 
 function renderGallery() {
+  masonryInstances.length = 0;
   galleryRoot.innerHTML = '';
   let anyVisible = false;
 
@@ -665,12 +890,12 @@ function renderGallery() {
     galleryRoot.appendChild(section);
 
     imagesLoaded(grid, () => {
-      new Masonry(grid, {
+      masonryInstances.push(new Masonry(grid, {
         itemSelector: '.gallery-item',
         columnWidth:  '.grid-sizer',
         gutter:       '.gutter-sizer',
         percentPosition: true,
-      });
+      }));
       updateSubActive();
       updateScrollObserver(); // 移动端滚动聚焦重新绑定
     });
@@ -758,15 +983,142 @@ function updateSubActive() {
 document.getElementById('main').addEventListener('scroll', updateSubActive, { passive: true });
 window.addEventListener('scroll', updateSubActive, { passive: true });
 
-/* ── Mobile Drawer ────────────────────────────────────────── */
-const drawer = document.getElementById('drawer');
-const scrim  = document.getElementById('scrim');
+/* ── Sidebar：Sidebar Header 折叠/展开 + 移动端抽屉 ────────── */
+const drawer     = document.getElementById('drawer');
+const scrim      = document.getElementById('scrim');
+const sbLogo     = document.getElementById('sidebarLogo');
+const sbCollapse = document.getElementById('sidebarCollapse');
+const sbDock     = document.getElementById('sidebarDock');
+const SIDEBAR_KEY = 'gallery-sidebar-collapsed';
+const isMobile    = () => window.innerWidth <= 860;
 
-function openMobileDrawer()  { drawer.classList.add('open');    scrim.classList.add('show'); }
-function closeMobileDrawer() { drawer.classList.remove('open'); scrim.classList.remove('show'); }
+/* 折叠/展开按钮的焦点与读屏状态随断点/状态同步 */
+function syncSidebarA11y() {
+  if (isMobile()) {
+    sbLogo.tabIndex = -1;
+    sbLogo.setAttribute('aria-hidden', 'true');
+    sbLogo.setAttribute('aria-expanded', 'true');
+    sbCollapse.tabIndex = 0;
+    sbCollapse.removeAttribute('aria-hidden');
+    sbCollapse.setAttribute('aria-label', '关闭导航');
+    sbCollapse.setAttribute('aria-expanded', String(drawer.classList.contains('open')));
+    return;
+  }
+  const collapsed = document.body.dataset.sidebar === 'collapsed';
+  sbLogo.tabIndex = collapsed ? 0 : -1;
+  sbLogo.setAttribute('aria-label', '展开侧边栏');
+  sbLogo.setAttribute('aria-expanded', String(!collapsed));
+  if (collapsed) sbLogo.removeAttribute('aria-hidden');
+  else sbLogo.setAttribute('aria-hidden', 'true');
 
-document.getElementById('drawerToggle').addEventListener('click', openMobileDrawer);
+  sbCollapse.tabIndex = collapsed ? -1 : 0;
+  sbCollapse.setAttribute('aria-label', '收起侧边栏');
+  sbCollapse.setAttribute('aria-expanded', String(!collapsed));
+  if (collapsed) sbCollapse.setAttribute('aria-hidden', 'true');
+  else sbCollapse.removeAttribute('aria-hidden');
+}
+
+/* 桌面端：折叠 / 展开（记住偏好） */
+function setSidebarCollapsed(collapsed) {
+  document.body.dataset.sidebar = collapsed ? 'collapsed' : 'expanded';
+  if (collapsed) localStorage.setItem(SIDEBAR_KEY, '1');
+  else localStorage.removeItem(SIDEBAR_KEY);
+  syncSidebarA11y();
+}
+
+/* 移动端：侧栏抽屉开 / 合 */
+function setDrawerOpen(open) {
+  if (!isMobile()) return;
+  drawer.classList.toggle('open', open);
+  scrim.classList.toggle('show', open);
+  document.body.dataset.drawer = open ? 'open' : 'closed';
+  drawer.inert = !open;               // 关闭时移出焦点顺序
+  sbDock.setAttribute('aria-expanded', String(open));
+  syncSidebarA11y();
+}
+
+function openMobileDrawer() {
+  setDrawerOpen(true);
+  sbCollapse.focus({ preventScroll: true });
+}
+
+function closeMobileDrawer() {
+  const wasOpen = drawer.classList.contains('open');
+  setDrawerOpen(false);
+  if (wasOpen && drawer.contains(document.activeElement)) sbDock.focus({ preventScroll: true });
+}
+
+/* 交互：收起按钮在桌面折叠侧栏，在移动端关闭抽屉 */
+sbCollapse.addEventListener('click', () => {
+  if (isMobile()) { closeMobileDrawer(); return; }
+  setSidebarCollapsed(true);
+  sbLogo.focus({ preventScroll: true });   // 键盘焦点留在侧栏内
+});
+
+/* 折叠态下 Logo 即「展开」按钮（悬停已有交叉淡入提示） */
+sbLogo.addEventListener('click', () => {
+  if (isMobile() || document.body.dataset.sidebar !== 'collapsed') return;
+  setSidebarCollapsed(false);
+  sbCollapse.focus({ preventScroll: true });
+});
+
+/* 移动端折叠态的 Logo 悬浮入口 */
+sbDock.addEventListener('click', openMobileDrawer);
 scrim.addEventListener('click', closeMobileDrawer);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && isMobile() && drawer.classList.contains('open')) closeMobileDrawer();
+});
+
+/* 断点切换时清理/恢复各自的侧栏状态 */
+let wasMobile = isMobile();
+window.addEventListener('resize', () => {
+  const nowMobile = isMobile();
+  if (nowMobile === wasMobile) return;
+  wasMobile = nowMobile;
+  if (nowMobile) {
+    // 进入移动端：抽屉默认关闭，折叠偏好保留在 localStorage
+    drawer.classList.remove('open');
+    scrim.classList.remove('show');
+    document.body.dataset.drawer = 'closed';
+    drawer.inert = true;
+    document.body.dataset.sidebar = 'expanded';
+    syncSidebarA11y();
+  } else {
+    // 回到桌面端：恢复折叠偏好
+    drawer.classList.remove('open');
+    scrim.classList.remove('show');
+    document.body.dataset.drawer = 'closed';
+    drawer.inert = false;
+    setSidebarCollapsed(localStorage.getItem(SIDEBAR_KEY) === '1');
+  }
+}, { passive: true });
+
+/* Masonry 重排：侧栏折叠动画结束、窗口缩放后调用 */
+function relayoutGallery() {
+  masonryInstances.forEach((msn) => { try { msn.layout(); } catch (e) {} });
+}
+let relayoutTimer = null;
+function scheduleRelayout(delay = 120) {
+  clearTimeout(relayoutTimer);
+  relayoutTimer = setTimeout(relayoutGallery, delay);
+}
+drawer.addEventListener('transitionend', (e) => {
+  if (e.propertyName === 'width' && !isMobile()) scheduleRelayout(0);
+});
+window.addEventListener('resize', () => scheduleRelayout(), { passive: true });
+
+/* 初始化 */
+if (isMobile()) {
+  document.body.dataset.drawer = 'closed';
+  document.body.dataset.sidebar = 'expanded';
+  drawer.inert = true;
+} else {
+  document.body.dataset.drawer = 'closed';
+  drawer.inert = false;
+  setSidebarCollapsed(localStorage.getItem(SIDEBAR_KEY) === '1');
+}
+syncSidebarA11y();
 
 /* ── Detail Overlay ───────────────────────────────────────── */
 const overlay   = document.getElementById('detailOverlay');
