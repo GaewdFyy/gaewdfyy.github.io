@@ -29,7 +29,7 @@
       --drawer-w-collapsed: 76px; /* 折叠后仅留 Logo 的窄条 */
       --sidebar-header-h: 64px;   /* Sidebar Header 固定高度（折叠/展开一致） */
       --sb-motion: 0.36s cubic-bezier(0.2, 0, 0, 1); /* 侧栏折叠/展开统一动效 */
-      --header-h: 58px; /* 固定的顶栏高度 */
+      --header-h: 64px; /* 主内容区顶栏高度（与 Sidebar Header 对齐） */
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,23 +41,35 @@
       font-family: 'Outfit', sans-serif;
       font-weight: 300;
       display: flex; flex-direction: column;
-      padding-top: var(--header-h); /* 为固定顶栏留出空间 */
       transition: background var(--t) ease, color var(--t) ease;
-      overflow: hidden;         /* shell handles scroll on desktop */
+      overflow: hidden;         /* .main 自己负责滚动 */
     }
 
-    /* ── Header (全平台强力置顶) ──────────────────────────────────── */
+    /* ── Top Toolbar：只属于主内容区，不再横跨侧边栏 ─────────────── */
     .top-bar {
-      display: flex;
-      position: fixed; top: 0; left: 0; right: 0;
-      height: var(--header-h);
-      z-index: 300;
-      align-items: center; justify-content: flex-end; gap: 0.35rem;
-      padding: 0 1.25rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      flex: 0 0 var(--header-h); height: var(--header-h);
+      padding: 0 1.15rem 0 1.25rem;
       background: var(--surface-variant);
       border-bottom: 1px solid var(--outline-variant);
+      position: relative; z-index: 5;
       transition: background var(--t) ease, border-color var(--t) ease;
     }
+
+    /* 当前页标题（全部 / 风景 / 冬天 …，随筛选切换） */
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400; font-size: 1.32rem; line-height: 1.1;
+      color: var(--primary); letter-spacing: 0.01em;
+      flex: 1 1 auto; min-width: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* 主内容列：顶栏 + 可滚动区域 */
+    .content { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+
+    /* 手机端才在顶栏提供侧栏展开按钮 */
+    #drawerToggle { display: none; }
 
     /* 顶栏“返回主站”是链接，跟按钮保持一致 */
     a.icon-btn { text-decoration: none; }
@@ -66,14 +78,16 @@
     /* 抽屉里的“返回主站”也是链接 */
     a.nav-item { color: inherit; text-decoration: none; }
 
-    /* 手机端顶栏不塞这个按钮，改走抽屉入口 */
+    /* 手机端：顶栏放侧栏展开按钮，「返回主站」走抽屉入口 */
     @media (max-width: 860px) {
       #backHome { display: none; }
+      #drawerToggle { display: flex; }
     }
 
-    /* 窄屏：按钮别把两侧挤走 */
+    /* 窄屏：按钮别把标题挤走 */
     @media (max-width: 480px) {
-      .top-bar { gap: 0.2rem; padding: 0 0.75rem; }
+      .top-bar { gap: 0.3rem; padding: 0 0.6rem; }
+      .page-title { font-size: 1.12rem; }
     }
     .icon-btn {
       width: 40px; height: 40px; border-radius: 50%;
@@ -320,44 +334,9 @@
       opacity: 0; pointer-events: none; transition: opacity 0.28s ease;
     }
 
-    /* ── Sidebar Dock（移动端折叠态：侧栏只留 Logo 的悬浮入口，属于 Sidebar 而非顶栏） ── */
-    .sidebar-dock {
-      position: fixed; z-index: 297;
-      right: calc(16px + env(safe-area-inset-right));
-      bottom: calc(16px + env(safe-area-inset-bottom));
-      width: 52px; height: 52px; padding: 0; border-radius: 50%;
-      display: none; align-items: center; justify-content: center;
-      border: 1px solid var(--outline-variant);
-      background: color-mix(in srgb, var(--surface-variant) 90%, transparent);
-      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
-      cursor: pointer; -webkit-tap-highlight-color: transparent;
-      transition: opacity 0.24s ease, transform 0.24s ease,
-                  background 0.2s ease, border-color var(--t) ease;
-    }
-    .sidebar-dock .dock-logo {
-      width: 26px; height: 26px; display: block;
-      color: color-mix(in srgb, var(--on-surface) 90%, transparent);
-      transition: color var(--t) ease;
-    }
-    .sidebar-dock .dock-hint {
-      position: absolute; right: 3px; bottom: 3px;
-      width: 17px; height: 17px; border-radius: 50%;
-      display: grid; place-items: center;
-      background: var(--primary-container); color: var(--primary);
-      border: 1px solid var(--outline-variant);
-    }
-    .sidebar-dock .dock-hint svg { width: 10px; height: 10px; }
-    .sidebar-dock:hover  { background: color-mix(in srgb, var(--on-surface) 12%, var(--surface-variant)); }
-    .sidebar-dock:active { transform: scale(0.94); }
-
-    @media (max-width: 860px) { .sidebar-dock { display: flex; } }
-    body[data-drawer="open"] .sidebar-dock { opacity: 0; pointer-events: none; transform: scale(0.86); }
-
     /* ── 键盘可访问性：统一焦点环 ───────────────────────────── */
     .sidebar-logo:focus-visible,
     .sidebar-collapse:focus-visible,
-    .sidebar-dock:focus-visible,
     .nav-item:focus-visible,
     .nav-sub-item:focus-visible {
       outline: 2px solid var(--primary); outline-offset: 2px;
@@ -365,11 +344,11 @@
     .nav-item:focus-visible { background: color-mix(in srgb, var(--on-surface) 10%, transparent); }
 
     /* ── Main scroll area ───────────────────────────────────── */
-    .main { flex: 1; overflow-y: auto; overflow-x: hidden; min-width: 0; }
+    .main { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; min-width: 0; }
 
     /* ── Gallery ────────────────────────────────────────────── */
     .gallery-wrap { padding: 2.5rem 2.5rem 5rem; }
-    .month-group { margin-bottom: 0.5rem; }
+    .month-group { margin-bottom: 0.5rem; scroll-margin-top: 16px; }
     .month-group.empty { display: none; }
     .month-heading {
       font-family: 'Cormorant Garamond', serif;
@@ -487,16 +466,13 @@
       .grid-sizer, .gallery-item { width: calc(33.333% - 11px); }
     }
     @media (max-width: 860px) {
-      body { overflow: auto; height: auto; } /* 允许移动端原生滚动，fixed header 依然生效 */
-      .shell { overflow: visible; }
-      .main  { overflow: visible; }
-
-      /* drawer 弹出层定位基于固定的顶栏高度 */
+      /* drawer 弹出层：从窗口顶部开始，覆盖整屏高度（不叠在顶栏下面） */
       .drawer {
-        position: fixed; top: var(--header-h); left: 0; bottom: 0; z-index: 299;
+        position: fixed; top: 0; left: 0; bottom: 0; z-index: 299;
+        height: 100%;
         transform: translateX(calc(-1 * var(--drawer-w) - 8px));
         transition: transform 0.3s cubic-bezier(0.2,0,0,1), background var(--t) ease;
-        box-shadow: none; border-right: none;
+        box-shadow: none; border-right: 1px solid var(--outline-variant);
       }
       .drawer.open {
         transform: translateX(0);
@@ -554,7 +530,7 @@
 
     /* ── 尊重「减少动态效果」偏好 ────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      .drawer, .sidebar-header, .sidebar-logo, .sidebar-collapse, .sidebar-dock,
+      .drawer, .sidebar-header, .sidebar-logo, .sidebar-collapse,
       .nav-item, .nav-label, .nav-count, .sidebar-titles, .sidebar-title, .sidebar-subtitle,
       .drawer-section-label, .drawer-footer, .nav-sub,
       .logo-hint, .logo-mark {
@@ -564,19 +540,6 @@
   </style>
 </head>
 <body>
-
-<header class="top-bar">
-  <a class="icon-btn" id="backHome" href="/" title="返回主站" aria-label="返回主站">
-    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-    <span class="icon-label">返回主站</span>
-  </a>
-
-  <button class="icon-btn" id="themeToggle" aria-label="切换主题">
-    </button>
-</header>
 
 <div class="scrim" id="scrim"></div>
 
@@ -628,30 +591,43 @@
     </div>
   </nav>
 
-  <main class="main" id="main">
-    <div class="gallery-wrap">
-      <div id="galleryRoot"></div>
-      <div class="empty-state" id="emptyState">
-        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+  <div class="content">
+    <!-- Top Toolbar：只属于主内容区（不横跨侧边栏），标题显示当前筛选页 -->
+    <header class="top-bar">
+      <button class="icon-btn" id="drawerToggle" type="button" aria-label="打开导航" aria-controls="drawer" aria-expanded="false" title="打开导航">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
-        <p>该分类暂无作品</p>
-      </div>
-    </div>
-  </main>
-</div>
+      </button>
 
-<!-- 移动端折叠态：侧栏只留 Logo 的悬浮入口（不属于全局顶栏） -->
-<button class="sidebar-dock" id="sidebarDock" type="button" aria-label="打开图廊导航" aria-expanded="false" aria-controls="drawer">
-  <svg class="dock-logo" viewbox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M9,14H19L15.55,9.5l-2.3,3l-1.55-2L9,14ZM8,18q-0.82,0-1.41-0.59T6,16V4Q6,3.17 6.59,2.59T8,2H20q0.83,0 1.41,0.59T22,4V16q0,0.82-0.59,1.41T20,18H8Zm0-2H20V4H8V16ZM4,22q-0.82,0-1.41-0.59T2,20V6H4V20H18v2H4ZM8,4V16V4Z"/>
-  </svg>
-  <span class="dock-hint" aria-hidden="true">
-    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="9 6 15 12 9 18"/>
-    </svg>
-  </span>
-</button>
+      <h1 class="page-title" id="pageTitle">全部</h1>
+
+      <a class="icon-btn" id="backHome" href="/" title="返回主站" aria-label="返回主站">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="icon-label">返回主站</span>
+      </a>
+
+      <button class="icon-btn" id="themeToggle" aria-label="切换主题"></button>
+    </header>
+
+    <main class="main" id="main">
+      <div class="gallery-wrap">
+        <div id="galleryRoot"></div>
+        <div class="empty-state" id="emptyState">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <p>该分类暂无作品</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
 
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-backdrop" id="detailBackdrop"></div>
@@ -766,6 +742,14 @@ PHOTOS.forEach(p => {
 /* ── State ────────────────────────────────────────────────── */
 let activeTag = '全部';
 
+/* ── 页面标题（顶栏显示当前筛选页，如 全部 / 风景 / 冬天） ────── */
+const pageTitleEl = document.getElementById('pageTitle');
+const SITE_TITLE  = "GaewdFyy's Gallery";
+function updatePageTitle() {
+  pageTitleEl.textContent = activeTag;
+  document.title = activeTag === '全部' ? SITE_TITLE : `${activeTag} · ${SITE_TITLE}`;
+}
+
 /* ── Nav Build ────────────────────────────────────────────── */
 const ICON_ALL = `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
   <rect x="3" y="3" width="7" height="7" rx="1.5"/>
@@ -852,14 +836,13 @@ function selectTag(tag) {
   activeTag = tag;
   syncNavActive();
   renderGallery();
+  updatePageTitle();
 }
 
 /* ── Gallery Render ───────────────────────────────────────── */
 const galleryRoot = document.getElementById('galleryRoot');
-const masonryInstances = [];   // 侧栏折叠 / 窗口缩放后需要重新排版
 
 function renderGallery() {
-  masonryInstances.length = 0;
   galleryRoot.innerHTML = '';
   let anyVisible = false;
 
@@ -905,12 +888,12 @@ function renderGallery() {
     galleryRoot.appendChild(section);
 
     imagesLoaded(grid, () => {
-      masonryInstances.push(new Masonry(grid, {
+      new Masonry(grid, {
         itemSelector: '.gallery-item',
         columnWidth:  '.grid-sizer',
         gutter:       '.gutter-sizer',
         percentPosition: true,
-      }));
+      });
       updateSubActive();
       updateScrollObserver(); // 移动端滚动聚焦重新绑定
     });
@@ -967,28 +950,18 @@ window.addEventListener('resize', updateScrollObserver, { passive: true });
 function scrollToGroup(key) {
   const el = document.getElementById(anchor(key));
   if (!el) return;
-  const main = document.getElementById('main');
-  const isMobile = window.innerWidth <= 860;
-  if (isMobile) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else {
-    main.scrollTo({ top: el.offsetTop - 20, behavior: 'smooth' });
-  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function updateSubActive() {
-  const isMobile = window.innerWidth <= 860;
-  const scrollTop = isMobile
-    ? (document.documentElement.scrollTop || document.body.scrollTop)
-    : document.getElementById('main').scrollTop;
-
-  const threshold = scrollTop + 100;
+  const main = document.getElementById('main');
+  const threshold = main.getBoundingClientRect().top + 100;
   const sections  = [...document.querySelectorAll('.month-group')];
   if (!sections.length) return;
 
   let activeKey = sections[0].id.replace('grp-', '');
   sections.forEach(s => {
-    if (s.offsetTop <= threshold) activeKey = s.id.replace('grp-', '');
+    if (s.getBoundingClientRect().top <= threshold) activeKey = s.id.replace('grp-', '');
   });
 
   document.querySelectorAll('.nav-sub-item').forEach(el =>
@@ -1003,7 +976,7 @@ const drawer     = document.getElementById('drawer');
 const scrim      = document.getElementById('scrim');
 const sbLogo     = document.getElementById('sidebarLogo');
 const sbCollapse = document.getElementById('sidebarCollapse');
-const sbDock     = document.getElementById('sidebarDock');
+const drawerToggle = document.getElementById('drawerToggle');
 const SIDEBAR_KEY = 'gallery-sidebar-collapsed';
 const isMobile    = () => window.innerWidth <= 860;
 
@@ -1048,7 +1021,7 @@ function setDrawerOpen(open) {
   scrim.classList.toggle('show', open);
   document.body.dataset.drawer = open ? 'open' : 'closed';
   drawer.inert = !open;               // 关闭时移出焦点顺序
-  sbDock.setAttribute('aria-expanded', String(open));
+  drawerToggle.setAttribute('aria-expanded', String(open));
   syncSidebarA11y();
 }
 
@@ -1060,7 +1033,7 @@ function openMobileDrawer() {
 function closeMobileDrawer() {
   const wasOpen = drawer.classList.contains('open');
   setDrawerOpen(false);
-  if (wasOpen && drawer.contains(document.activeElement)) sbDock.focus({ preventScroll: true });
+  if (wasOpen && drawer.contains(document.activeElement)) drawerToggle.focus({ preventScroll: true });
 }
 
 /* 交互：收起按钮在桌面折叠侧栏，在移动端关闭抽屉 */
@@ -1077,8 +1050,11 @@ sbLogo.addEventListener('click', () => {
   sbCollapse.focus({ preventScroll: true });
 });
 
-/* 移动端折叠态的 Logo 悬浮入口 */
-sbDock.addEventListener('click', openMobileDrawer);
+/* 移动端：顶栏的侧栏展开按钮 */
+drawerToggle.addEventListener('click', () => {
+  if (drawer.classList.contains('open')) closeMobileDrawer();
+  else openMobileDrawer();
+});
 scrim.addEventListener('click', closeMobileDrawer);
 
 document.addEventListener('keydown', (e) => {
@@ -1110,11 +1086,26 @@ window.addEventListener('resize', () => {
 }, { passive: true });
 
 /* Masonry 重排：侧栏折叠动画结束、窗口缩放后调用 */
+const mainEl = document.getElementById('main');
+let lastMainWidth = mainEl.clientWidth;   // 只有宽度真的变化才重排，避免首屏多余计算
 function relayoutGallery() {
-  masonryInstances.forEach((msn) => { try { msn.layout(); } catch (e) {} });
+  // Masonry 的列宽在实例创建时测量，宽度变化后仅 layout() 不会重新分列，需重建实例
+  document.querySelectorAll('.grid').forEach((grid) => {
+    const old = (window.Masonry && window.Masonry.data) ? window.Masonry.data(grid) : null;
+    if (!old) return;
+    old.destroy();
+    new window.Masonry(grid, {
+      itemSelector: '.gallery-item',
+      columnWidth:  '.grid-sizer',
+      gutter:       '.gutter-sizer',
+      percentPosition: true,
+    });
+  });
 }
 let relayoutTimer = null;
-function scheduleRelayout(delay = 120) {
+function scheduleRelayout(delay = 150) {
+  if (Math.abs(mainEl.clientWidth - lastMainWidth) < 2) return;
+  lastMainWidth = mainEl.clientWidth;
   clearTimeout(relayoutTimer);
   relayoutTimer = setTimeout(relayoutGallery, delay);
 }
@@ -1212,6 +1203,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(
 /* ── Init ─────────────────────────────────────────────────── */
 buildNav();
 renderGallery();
+updatePageTitle();
 </script>
 </body>
 </html>
