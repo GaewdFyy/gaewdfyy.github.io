@@ -672,7 +672,8 @@ const prefersDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 let isDarkMode = localStorage.getItem('md3-theme') 
   ? localStorage.getItem('md3-theme') === 'dark' 
   : prefersDarkQuery.matches;
-let currentBaseColor = [249, 202, 163];
+const DEFAULT_BASE_COLOR = [249, 202, 163];   // 取色失败时的兜底色
+let currentBaseColor = [...DEFAULT_BASE_COLOR];
 
 const themeToggleBtn = document.getElementById('themeToggle');
 
@@ -716,8 +717,68 @@ prefersDarkQuery.addEventListener('change', (e) => {
   }
 });
 
+/* ── 首屏动态主题：用「最新上传」的照片取色 ─────────────────
+   打开详情时仍然随图变色，这里只负责首屏的基准色。
+   ──────────────────────────────────────────────────────────── */
+const THEME_BASE_KEY = 'gallery-theme-base';
+
+/* 缩略取样：绘制到 80×80 画布后取平均色（详情弹窗与首屏共用） */
+function averageColorOf(source, w = 80, h = 80) {
+  return createImageBitmap(source, { resizeWidth: w, resizeHeight: h, resizeQuality: 'low' })
+    .then((bitmap) => {
+      const oc  = new OffscreenCanvas(w, h);
+      const ctx = oc.getContext('2d');
+      ctx.drawImage(bitmap, 0, 0);
+      bitmap.close();
+      const data = ctx.getImageData(0, 0, w, h).data;
+      let r = 0, g = 0, b = 0, count = 0;
+      for (let i = 0; i < data.length; i += 16) {
+        if (data[i + 3] < 128) continue;
+        r += data[i]; g += data[i + 1]; b += data[i + 2];
+        count++;
+      }
+      return count ? [Math.round(r / count), Math.round(g / count), Math.round(b / count)] : null;
+    });
+}
+
+/* 最新上传 = gallery.yml 里最后加入的那一条（构建时写入 added 序号） */
+function latestUploadedPhoto() {
+  if (!PHOTOS.length) return null;
+  const scored = PHOTOS.filter((p) => Number.isFinite(p.added));
+  if (!scored.length) return PHOTOS[0];
+  return scored.reduce((a, b) => (b.added > a.added ? b : a));
+}
+
+async function applyThemeFromLatestUpload() {
+  const photo = latestUploadedPhoto();
+  if (!photo) return;
+  if (colorCache.has(photo.src)) { applyTheme(...colorCache.get(photo.src)); return; }
+  try {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.decoding = 'async';
+    img.src = photo.src;
+    if (img.decode) await img.decode();
+    else await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+    const color = await averageColorOf(img);
+    if (!color) return;
+    colorCache.set(photo.src, color);
+    applyTheme(...color);
+    try { localStorage.setItem(THEME_BASE_KEY, JSON.stringify(color)); } catch (e) {}
+  } catch (e) {
+    console.warn('[gallery] 首屏取色失败，保持默认色板：', e);
+  }
+}
+
+/* 上次算好的基准色先顶上，避免首屏先闪一下默认色 */
+try {
+  const saved = JSON.parse(localStorage.getItem(THEME_BASE_KEY) || 'null');
+  if (Array.isArray(saved) && saved.length === 3) currentBaseColor = saved;
+} catch (e) {}
+
 updateThemeIcon();
 applyTheme(...currentBaseColor);
+applyThemeFromLatestUpload();
 
 /* ── Date / group helpers ─────────────────────────────────── */
 const MONTHS_ZH = ['一月','二月','三月','四月','五月','六月',
@@ -1161,24 +1222,8 @@ function openDetail(p, thumbImg) {
     return;
   }
 
-  createImageBitmap(thumbImg, {
-    resizeWidth: 80, resizeHeight: 80, resizeQuality: 'low',
-  }).then(bitmap => {
-    const oc  = new OffscreenCanvas(80, 80);
-    const ctx = oc.getContext('2d');
-    ctx.drawImage(bitmap, 0, 0);
-    bitmap.close();
-
-    const data = ctx.getImageData(0, 0, 80, 80).data;
-    let r = 0, g = 0, b = 0, count = 0;
-    for (let i = 0; i < data.length; i += 16) {
-      const a = data[i + 3];
-      if (a < 128) continue;
-      r += data[i]; g += data[i+1]; b += data[i+2];
-      count++;
-    }
-    if (!count) return;
-    const color = [Math.round(r/count), Math.round(g/count), Math.round(b/count)];
+  averageColorOf(thumbImg).then((color) => {
+    if (!color) return;
     colorCache.set(key, color);
     if (pendingLoad === key) applyTheme(...color);
   }).catch(() => {});
