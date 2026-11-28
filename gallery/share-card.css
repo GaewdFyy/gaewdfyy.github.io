@@ -1,0 +1,540 @@
+/* ══════════════════════════════════════════════════════════════
+   图廊 · 照片分享卡片
+   ──────────────────────────────────────────────────────────────
+   全部样式都收敛在 .share-card 命名空间下，不修改图廊原有样式。
+   ══════════════════════════════════════════════════════════════ */
+
+.share-card {
+  position: fixed;
+  inset: 0;
+  z-index: 620;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* [hidden] 需要显式覆盖上面的 display:flex */
+.share-card[hidden] { display: none; }
+/* 内部元素同样：避免 display:flex 之类的声明盖掉 [hidden] */
+.share-card [hidden] { display: none !important; }
+
+/* ── 遮罩：暗化 + 轻微模糊背景页面 ─────────────────────────── */
+.share-card__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 7, 6, 0.62);
+  -webkit-backdrop-filter: blur(14px) saturate(0.85);
+  backdrop-filter: blur(14px) saturate(0.85);
+  opacity: 0;
+  transition: opacity 0.34s ease;
+}
+.share-card.is-open .share-card__scrim { opacity: 1; }
+
+/* ── 弹窗本体 ─────────────────────────────────────────────── */
+.share-card__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1080px, 100%);
+  height: min(90dvh, 800px);
+  background: var(--surface);
+  color: var(--on-surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 20px;
+  box-shadow: 0 40px 110px rgba(0, 0, 0, 0.62);
+  overflow: hidden;
+  outline: none;
+  opacity: 0;
+  transform: translateY(16px) scale(0.975);
+  transition: opacity 0.3s ease,
+              transform 0.44s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.4s ease, border-color 0.4s ease;
+}
+.share-card.is-open .share-card__dialog { opacity: 1; transform: none; }
+
+/* ── 顶部 ─────────────────────────────────────────────────── */
+.share-card__head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.05rem 1.15rem 0.7rem 1.5rem;
+}
+.share-card__title {
+  flex: 1 1 auto;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 1.28rem;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--on-surface);
+}
+.share-card__close {
+  flex: 0 0 auto;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: none; border-radius: 50%;
+  background: color-mix(in srgb, var(--on-surface) 8%, transparent);
+  color: var(--on-surface);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.share-card__close:hover { background: color-mix(in srgb, var(--on-surface) 18%, transparent); }
+.share-card__close:active { transform: scale(0.94); }
+.share-card__close svg { width: 16px; height: 16px; }
+
+/* 「调整」开关 */
+.share-card__adjust {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.36rem 0.72rem;
+  border-radius: 99px;
+  border: 1px solid var(--outline-variant);
+  background: transparent;
+  color: color-mix(in srgb, var(--on-surface) 70%, transparent);
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.share-card__adjust svg { width: 14px; height: 14px; }
+.share-card__adjust:hover {
+  border-color: var(--outline);
+  color: var(--on-surface);
+}
+.share-card__adjust.is-active {
+  background: var(--primary-container);
+  border-color: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+/* ── 预览区 ───────────────────────────────────────────────── */
+.share-card__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.share-card__stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+}
+/* 尺寸由 JS 按 16:9 计算，保证预览不拉伸、导出比例不受影响 */
+.share-card__frame {
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: 6px;
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  background: #16110e;
+}
+.share-card__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── 调整面板 ─────────────────────────────────────────────── */
+.share-card__panel {
+  flex: 0 0 auto;
+  width: 332px;
+  max-width: 44%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.1rem 1.25rem 0;
+  border-left: 1px solid var(--outline-variant);
+  --panel-bg: color-mix(in srgb, var(--surface) 94%, #000);
+  background: var(--panel-bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline) transparent;
+}
+.share-card__panel::-webkit-scrollbar { width: 6px; }
+.share-card__panel::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 3px;
+}
+
+.share-card__group { padding-top: 0.7rem; }
+.share-card__group + .share-card__group {
+  margin-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 70%, transparent);
+}
+.share-card__group-title {
+  margin-bottom: 0.6rem;
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-surface) 42%, transparent);
+}
+
+/* 文本字段 */
+.share-card__field {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.38rem;
+}
+.share-card__field > span {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--on-surface) 58%, transparent);
+}
+.share-card__field input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.42rem 0.55rem;
+  border-radius: 7px;
+  border: 1px solid var(--outline-variant);
+  background: color-mix(in srgb, var(--on-surface) 6%, transparent);
+  color: var(--on-surface);
+  font-family: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.share-card__field input::placeholder {
+  color: color-mix(in srgb, var(--on-surface) 26%, transparent);
+}
+.share-card__field input:hover { border-color: var(--outline); }
+.share-card__field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+.share-card__field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0.55rem;
+}
+.share-card__field-grid .share-card__field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.18rem;
+  margin-bottom: 0.5rem;
+}
+.share-card__field-grid .share-card__field > span {
+  width: auto;
+  font-size: 0.62rem;
+}
+
+.share-card__hint {
+  margin-top: 0.3rem;
+  font-size: 0.62rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--on-surface) 44%, transparent);
+}
+
+/* 滑块 */
+.share-card__range { margin-bottom: 0.5rem; }
+.share-card__range-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.15rem;
+}
+.share-card__range-head span {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--on-surface) 62%, transparent);
+}
+.share-card__range-head output {
+  font-size: 0.64rem;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--on-surface) 78%, transparent);
+}
+.share-card__range input[type="range"] {
+  display: block;
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* 底部「恢复默认」常驻面板底部，滚动时也可见 */
+.share-card__panel-foot {
+  position: sticky;
+  bottom: 0;
+  margin-top: 0.35rem;
+  padding: 0.6rem 0 0.85rem;
+  background: linear-gradient(to bottom, transparent, var(--panel-bg) 34%);
+}
+.share-card__reset {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--outline-variant);
+  background: transparent;
+  color: color-mix(in srgb, var(--on-surface) 60%, transparent);
+  font-family: inherit;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.share-card__reset:hover {
+  border-color: var(--outline);
+  color: var(--on-surface);
+  background: color-mix(in srgb, var(--on-surface) 6%, transparent);
+}
+
+/* ── 加载 / 错误层 ────────────────────────────────────────── */
+.share-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(18, 13, 10, 0.9);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.34s ease, visibility 0.34s;
+}
+.share-card__overlay[data-state="ready"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.share-card__loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  color: rgba(240, 232, 224, 0.82);
+}
+.share-card__spinner {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-top-color: var(--primary);
+  animation: sc-spin 0.9s linear infinite;
+}
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+
+.share-card__status {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+.share-card__progress {
+  width: 168px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+.share-card__progress span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.24s ease;
+}
+
+/* ── 错误态 ───────────────────────────────────────────────── */
+.share-card__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 380px;
+  color: rgba(240, 232, 224, 0.9);
+}
+.share-card__error-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: #f3ebe0;
+}
+.share-card__error-msg {
+  font-size: 0.76rem;
+  line-height: 1.7;
+  color: rgba(240, 232, 224, 0.62);
+}
+.share-card__error-url {
+  margin-top: 0.15rem;
+  max-width: 100%;
+  font-size: 0.62rem;
+  line-height: 1.5;
+  word-break: break-all;
+  color: rgba(240, 232, 224, 0.34);
+}
+.share-card__retry {
+  margin-top: 0.7rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+  color: #f3ebe0;
+  font-family: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.share-card__retry:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
+
+/* ── 底部 ─────────────────────────────────────────────────── */
+.share-card__foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1.5rem 1.15rem;
+}
+.share-card__size {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-surface) 48%, transparent);
+}
+.share-card__size select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0.42rem 1.75rem 0.42rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-variant);
+  color: var(--on-surface);
+  font-family: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.share-card__size select:hover { border-color: var(--outline); }
+/* 自绘下拉箭头，跟随主题色 */
+.share-card__select { position: relative; display: inline-flex; align-items: center; }
+.share-card__chevron {
+  position: absolute;
+  right: 0.6rem;
+  width: 11px; height: 11px;
+  pointer-events: none;
+  opacity: 0.55;
+  color: var(--on-surface);
+}
+.share-card__download {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.62rem 1.3rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-family: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+.share-card__download svg { width: 15px; height: 15px; }
+.share-card__download:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--primary) 86%, #fff);
+}
+.share-card__download:disabled { opacity: 0.45; cursor: default; }
+.share-card__download[data-busy="true"] { opacity: 0.75; }
+
+/* ── 焦点环 ───────────────────────────────────────────────── */
+.share-card__close:focus-visible,
+.share-card__retry:focus-visible,
+.share-card__download:focus-visible,
+.share-card__adjust:focus-visible,
+.share-card__reset:focus-visible,
+.share-card__field input:focus-visible,
+.share-card__size select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.share-card__field input:focus-visible { outline-offset: 0; }
+
+/* ── 移动端：居中浮层，贴着内容高度，避免大片空档 ─────────── */
+@media (max-width: 720px) {
+  .share-card { padding: 1rem; }
+  .share-card__dialog {
+    width: 100%;
+    height: auto;
+    max-height: 94dvh;
+    border-radius: 18px;
+    justify-content: flex-start;
+  }
+  .share-card__head { padding: 0.95rem 0.8rem 0.5rem 1.15rem; }
+  .share-card__title { font-size: 1.16rem; }
+  .share-card__body { flex: 0 0 auto; flex-direction: column; }
+  .share-card__stage { height: auto; padding: 0.55rem 0.9rem 0.3rem; }
+  .share-card__foot {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding: 0.85rem 1.1rem 1rem;
+  }
+  .share-card__size { font-size: 0.6rem; }
+  .share-card__download { flex: 1 1 auto; padding: 0.68rem 1rem; }
+
+  /* 面板在手机上改为预览下方的一栏，占满剩余高度 */
+  .share-card__panel {
+    width: auto;
+    max-width: none;
+    padding: 0.2rem 1.1rem 0;
+    border-left: 0;
+    border-top: 1px solid var(--outline-variant);
+  }
+  .share-card[data-panel="open"] .share-card__dialog {
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+  }
+  .share-card[data-panel="open"] .share-card__body {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .share-card[data-panel="open"] .share-card__panel {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
+/* 极矮的横屏（如手机横放）：改为占满高度、按高度缩放预览 */
+@media (max-height: 520px) {
+  .share-card { padding: 0.5rem; }
+  .share-card__dialog {
+    height: calc(100dvh - 1rem);
+    max-height: none;
+    justify-content: flex-start;
+  }
+  .share-card__body { flex: 1 1 auto; min-height: 0; flex-direction: row; }
+  .share-card__stage { height: 100%; padding: 0 1rem; }
+  .share-card__panel { width: 288px; max-width: 46%; }
+  .share-card[data-panel="open"] .share-card__dialog { height: calc(100dvh - 1rem); }
+  .share-card__head { padding: 0.6rem 0.9rem 0.35rem 1rem; }
+  .share-card__foot { padding: 0.5rem 1rem 0.6rem; }
+}
+
+/* ── 尊重「减少动态效果」偏好 ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .share-card__scrim,
+  .share-card__dialog,
+  .share-card__overlay,
+  .share-card__progress span,
+  .share-card__spinner { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

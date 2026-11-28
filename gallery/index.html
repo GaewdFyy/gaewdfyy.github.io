@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+  <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GaewdFyy's Gallery</title>
@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+  <!-- 照片分享卡片（独立样式，仅作用于 .share-card 内） -->
+  <link rel="stylesheet" href="./share-card.css">
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
   <style>
@@ -443,14 +445,32 @@
     .param-key { font-size: 0.62rem; text-transform: uppercase; opacity: 0.5; }
     .param-val  { font-size: 0.8rem; }
     .detail-comment { font-size: 0.83rem; line-height: 1.78; opacity: 0.8; border-left: 2px solid var(--primary); padding-left: 0.85rem; margin-bottom: 2.5rem; }
+    /* 详情页底部操作区：分享 + 获取高清原图 并排 */
+    .detail-actions {
+      margin-top: auto;
+      display: flex; align-items: stretch; gap: 0.5rem;
+    }
     .btn-raw {
-      margin-top: auto; display: flex; align-items: center; justify-content: center;
+      flex: 1 1 auto; display: flex; align-items: center; justify-content: center;
       padding: 0.75rem; border-radius: 8px;
       background: var(--primary-container); color: var(--on-primary-container);
       text-decoration: none; font-size: 0.72rem; letter-spacing: 0.1em;
       text-transform: uppercase; border: 1px solid var(--outline); transition: all 0.2s ease;
     }
     .btn-raw:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-2px); }
+    /* 「分享」：次要操作，描边样式，置于「获取高清原图」左侧 */
+    .btn-share {
+      flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center;
+      gap: 0.38rem; padding: 0.75rem 0.9rem; border-radius: 8px;
+      background: transparent; color: var(--primary);
+      border: 1px solid var(--outline);
+      font-family: inherit; font-size: 0.72rem; letter-spacing: 0.1em;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .btn-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-share:hover { background: var(--primary-container); color: var(--on-primary-container); transform: translateY(-2px); }
+    .btn-share:active { transform: translateY(0); }
+    .btn-share:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
     .detail-close {
       position: absolute; top: 0.9rem; right: 0.9rem; z-index: 10;
       width: 34px; height: 34px; border-radius: 50%;
@@ -641,7 +661,19 @@
       <div class="detail-tag-row" id="detailTagRow"></div>
       <div class="detail-params" id="detailParams"></div>
       <p class="detail-comment" id="detailComment"></p>
-      <a href="#" id="btnRaw" target="_blank" class="btn-raw">获取高清原图 ↗</a>
+      <div class="detail-actions">
+        <button class="btn-share" id="btnShare" type="button" aria-haspopup="dialog" title="生成分享卡片">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.7" y1="10.6" x2="15.3" y2="6.4"/>
+            <line x1="8.7" y1="13.4" x2="15.3" y2="17.6"/>
+          </svg>
+          <span>分享</span>
+        </button>
+        <a href="#" id="btnRaw" target="_blank" class="btn-raw">获取高清原图 ↗</a>
+      </div>
     </div>
   </div>
 </div>
@@ -649,6 +681,7 @@
 <script type="module">
 import { argbFromRgb, themeFromSourceColor, hexFromArgb }
   from 'https://esm.sh/@material/material-color-utilities@0.3.0';
+import { initShareCard } from './share-card.js';
 
 /* ── 照片数据 ────────────────────────────────────────────────
    数据来源：source/_data/gallery.yml
@@ -1196,8 +1229,14 @@ const overlay   = document.getElementById('detailOverlay');
 const detailImg = document.getElementById('detailImg');
 const btnRaw    = document.getElementById('btnRaw');
 let pendingLoad = null;
+let currentPhoto = null;   // 当前详情页照片，供分享卡片取用
+
+/* ── 分享卡片（独立模块，与「获取高清原图」互不影响） ───────── */
+const shareCard = initShareCard({ getPhoto: () => currentPhoto });
+document.getElementById('btnShare').addEventListener('click', () => shareCard.open());
 
 function openDetail(p, thumbImg) {
+  currentPhoto = p;
   document.getElementById('detailTitle').textContent   = p.title   || '无题';
   document.getElementById('detailLoc').textContent     = p.loc     || '';
   document.getElementById('detailDate').textContent    = p.date    || '';
@@ -1243,7 +1282,11 @@ const closeDetail = () => {
 };
 document.getElementById('detailClose').onclick    = closeDetail;
 document.getElementById('detailBackdrop').onclick = closeDetail;
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (shareCard.isOpen()) return;   // 分享弹窗打开时，ESC 只关分享弹窗
+  closeDetail();
+});
 
 /* ── Init ─────────────────────────────────────────────────── */
 buildNav();
